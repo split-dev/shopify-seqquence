@@ -1,0 +1,47 @@
+// --------------------------------------------------
+// Type
+
+// $font-family-base: "Silka", sans-serif !important;
+
+// $headings-font-family: "Cormorant Infant", sans-serif !important;
+
+// --------------------------------------------------
+// Colors
+
+$primary: #618E44;
+$secondary: #6E245F;;
+$body-color: #F8F7F7;
+$dark: #000;
+$light: #fff;
+$light-grey: #A69E9A;
+$gray: #999793;
+$text: #635D5B;
+
+// --------------------------------------------------
+// Links
+$link-color: $secondary;
+$link-hover-color: $primary;
+$link-hover-decoration: none;
+
+// --------------------------------------------------
+// Buttons
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 1054px,
+  xl: 1372px,
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 1024px,
+  xl: 1342px,
+);
+
+
+
+
+
