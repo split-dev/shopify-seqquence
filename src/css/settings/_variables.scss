@@ -1,9 +1,13 @@
 // --------------------------------------------------
 // Type
 
-// $font-family-base: "Silka", sans-serif !important;
+$font-family-base: "SpaceGrotesk", sans-serif !important;
 
-// $headings-font-family: "Cormorant Infant", sans-serif !important;
+// $headings-font-family: "SpaceGrotesk", sans-serif !important;
+
+* {
+  font-family: $font-family-base;
+}
 
 // --------------------------------------------------
 // Colors
@@ -40,8 +44,3 @@ $container-max-widths: (
   lg: 1024px,
   xl: 1342px,
 );
-
-
-
-
-

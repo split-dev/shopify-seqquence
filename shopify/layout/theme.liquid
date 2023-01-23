@@ -234,6 +234,9 @@
       document.documentElement.classList.add('shopify-design-mode');
     }
     </script>
+
+    {{ 'fonts.css' | asset_url | stylesheet_tag }}
+    {{ 'bundle.css' | asset_url | stylesheet_tag }} 
   </head>
 
   <body class="gradient">
@@ -290,5 +293,7 @@
     {%- if settings.predictive_search_enabled -%}
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    <script src="{{ 'bundle.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>
