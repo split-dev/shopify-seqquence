@@ -1,159 +1,188 @@
-.text-56px {
-  @include text-48px;
+// .text-56px {
+//   @include text-48px;
 
-  @include media-breakpoint-up(sm) {
-    @include text-56px;
-  }
-}
-.text-52px {
-  @include text-32px;
+//   @include media-breakpoint-up(sm) {
+//     @include text-56px;
+//   }
+// }
 
-  @include media-breakpoint-up(sm) {
-    @include text-52px;
-  }
-}
+// .text-52px {
+//   @include text-32px;
 
-.text-44px {
-  @include text-44px;
+//   @include media-breakpoint-up(sm) {
+//     @include text-52px;
+//   }
+// }
 
-  @include media-breakpoint-up(sm) {
-    @include text-26px;
-  }
-}
-.text-40px-all {
-  @include text-40px;
-}
-.text-40px {
-  @include text-24px;
+// .text-44px {
+//   @include text-44px;
 
-  @include media-breakpoint-up(sm) {
-    @include text-40px;
-  }
-}
-.text-32px {
-  @include text-24px;
+//   @include media-breakpoint-up(sm) {
+//     @include text-26px;
+//   }
+// }
 
-  @include media-breakpoint-up(sm) {
-    @include text-32px;
-  }
-}
-.text-32px-all {
-  @include text-32px;
-}
-.text-28px-all {
-  @include text-28px;
-}
-.text-26px-all {
-  @include text-26px;
-}
-.text-24px-all {
-  @include text-24px;
-}
-.text-22px-all {
-  @include text-22px;
-}
-.text-21px-all {
-  @include text-21px;
-}
-.text-20px-all {
-  @include text-20px;
-}
-.text-20px {
-  @include text-18px;
+// .text-40px-all {
+//   @include text-40px;
+// }
 
-  @include media-breakpoint-up(sm) {
-    @include text-20px;
-  }
-}
-.text-18px-all {
-  @include text-18px;
-}
-.text-18px {
-  @include text-16px;
+// .text-40px {
+//   @include text-24px;
 
-  @include media-breakpoint-up(sm) {
-    @include text-18px;
-  }
-}
+//   @include media-breakpoint-up(sm) {
+//     @include text-40px;
+//   }
+// }
+
+// .text-32px {
+//   @include text-24px;
+
+//   @include media-breakpoint-up(sm) {
+//     @include text-32px;
+//   }
+// }
+
+// .text-32px-all {
+//   @include text-32px;
+// }
+
+// .text-28px-all {
+//   @include text-28px;
+// }
+
+// .text-26px-all {
+//   @include text-26px;
+// }
+
+// .text-24px-all {
+//   @include text-24px;
+// }
+
+// .text-22px-all {
+//   @include text-22px;
+// }
+
+// .text-21px-all {
+//   @include text-21px;
+// }
+
+// .text-20px-all {
+//   @include text-20px;
+// }
+
+// .text-20px {
+//   @include text-18px;
+
+//   @include media-breakpoint-up(sm) {
+//     @include text-20px;
+//   }
+// }
+
+// .text-18px-all {
+//   @include text-18px;
+// }
+
+// .text-18px {
+//   @include text-16px;
+
+//   @include media-breakpoint-up(sm) {
+//     @include text-18px;
+//   }
+// }
+
 .text-16px-all {
   @include text-16px;
 }
-.text-16px {
-  @include text-14px;
 
-  @include media-breakpoint-up(sm) {
-    @include text-16px;
-  }
-}
-.text-14px-all {
-  @include text-14px;
+// .text-16px {
+//   @include text-14px;
+
+//   @include media-breakpoint-up(sm) {
+//     @include text-16px;
+//   }
+// }
+
+// .text-14px-all {
+//   @include text-14px;
+// }
+
+// .text-14px {
+//   @include text-14px;
+// }
+
+// .text-12px {
+//   @include text-12px;
+// }
+
+// .text-11px {
+//   @include text-11px;
+// }
+
+.font-weight-light {
+  font-weight: 300 !important;
 }
 
-.text-14px {
-  @include text-14px;
-}
-.text-12px {
-  @include text-12px;
-}
-.text-11px {
-  @include text-11px;
-}
 .font-weight-normal {
   font-weight: 400 !important;
 }
+
 .font-weight-medium {
   font-weight: 500 !important;
 }
+
 .font-weight-semibold {
   font-weight: 600 !important;
 }
+
 .font-weight-bold {
   font-weight: 700 !important;
 }
 
-.font-carm {
-  font-family: $headings-font-family;
-}
+// .font-carm {
+//   font-family: $headings-font-family;
+// }
 
-.text-text {
-  color: $text;
-}
+// .text-text {
+//   color: $text;
+// }
 
-.font-header,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: $headings-font-family;
-  color: $gray;
-}
+// .font-header,
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6 {
+//   font-family: $headings-font-family;
+//   color: $gray;
+// }
 
-h2 {
-  letter-spacing: normal;
-  font-weight: 500;
-  text-transform: none !important;
-  font-size: 48px;
-  line-height: 58px;
+// h2 {
+//   letter-spacing: normal;
+//   font-weight: 500;
+//   text-transform: none !important;
+//   font-size: 48px;
+//   line-height: 58px;
 
-  @include media-breakpoint-up(sm) {
-    font-size: 48px;
-    line-height: 58px;
-  }
-}
-h3 {
-  @include text-24px;
+//   @include media-breakpoint-up(sm) {
+//     font-size: 48px;
+//     line-height: 58px;
+//   }
+// }
 
-  @include media-breakpoint-up(sm) {
-    @include text-32px;
-  }
-}
-h4 {
-  font-weight: 600;
-  @include text-18px;
+// h3 {
+//   @include text-24px;
 
-  @include media-breakpoint-up(sm) {
-    @include text-20px;
-  }
-}
+//   @include media-breakpoint-up(sm) {
+//     @include text-32px;
+//   }
+// }
+
+// h4 {
+//   font-weight: 600;
+//   @include text-18px;
+
+//   @include media-breakpoint-up(sm) {
+//     @include text-20px;
+//   }
+// }

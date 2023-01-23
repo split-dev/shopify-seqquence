@@ -1,8 +1,85 @@
 // ==========================================================================
 // ## SHOPIFY STATIC SECTION: FOOTER
 // ==========================================================================
+#shopify-section-footer {
+    background: rgba(56, 47, 65, 0.2);
+}
 
 .footer {
-    border: 1px solid red;
-    background: rgba(56, 47, 65, 0.2);
+    padding: 65px 0;
+
+    @include media-breakpoint-down(sm) {
+        padding: 32px;
+    }
+
+    input {
+        background: rgba(56, 47, 65, 0.2);
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+        align-items: baseline;
+        gap: 100px;
+
+
+        @include media-breakpoint-down(sm) {
+            display: block;
+        }
+    }
+
+    &-block {
+        text-align: left;
+
+        &__heading {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        &__details-content {
+            @include media-breakpoint-down(sm) {
+                margin-bottom: 40px;
+            }
+
+            li {
+                display: block !important;
+                margin-bottom: 6px;
+            }
+        }
+    }
+
+    .field {
+        &::after {
+            border-radius: 2px !important;
+        }
+
+        &__input {
+            width: 340px;
+            height: 44px;
+            border-radius: 2px !important;
+            padding: 12px 16px;
+
+            @include media-breakpoint-down(sm) {
+                width: 100%;
+            }
+        }
+
+        &__label {
+            font-size: 16px;
+            line-height: 20px;
+            color: $light;
+
+        }
+    }
+
+    .newsletter-form__field-wrapper {
+        max-width: none;
+    }
+}
+
+.field__input:focus~.field__label,
+.field__input:not(:placeholder-shown)~.field__label {
+    top: -2px;
+    left: 16px;
 }

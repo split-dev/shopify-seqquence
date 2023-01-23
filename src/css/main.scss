@@ -28,6 +28,7 @@
 //
 
 @import './mixins/type';
+@import './settings/type';
 
 /// - GENERIC
 /// Reset............A level playing field using @necolas’s Normalize.
@@ -54,6 +55,8 @@
 ///
 /// Header..............Shopify static section.
 /// Footer..............Shopify static section.
+/// 
+
 ///
 @import './sections/header';
 @import './sections/footer';
