@@ -4,6 +4,7 @@
   // not via @extend to disable it's rules using .d-block, .d-inline-block classes
   @extend .justify-content-center, .align-items-center;
 }
+
 .bg-center {
   background-size: cover;
   background-position: center center;
@@ -32,7 +33,20 @@
 .bg-muted {
   background-color: $text-muted;
 }
+
 .fit-cover {
   object-fit: cover;
   @extend .w-100, .h-100;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.letter-spacing-1 {
+  letter-spacing: 0.1em;
+}
+
+.letter-spacing-2 {
+  letter-spacing: 0.2em;
 }

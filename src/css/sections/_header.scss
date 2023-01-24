@@ -1,3 +1,101 @@
 // ==========================================================================
 // ## SHOPIFY STATIC SECTION: HEADER
 // ==========================================================================
+
+.header {
+    grid-template-columns: auto 1fr auto;
+    padding: 36px 90px 32px 56px;
+    gap: 61px;
+
+    @include media-breakpoint-down(sm) {
+        padding: 10px 25px 15px;
+    }
+
+    h1 {
+        text-align: center;
+
+    }
+
+    &__logo {
+        text-decoration: none !important;
+        border: none;
+    }
+
+    &__inline-menu {
+        margin-left: auto !important;
+        margin-right: 0;
+    }
+
+    &__menu-item {
+        color: $text;
+    }
+
+    .list-menu {
+        gap: 60px;
+    }
+
+    &__icon {
+        margin-left: 10px;
+    }
+
+    &__icons {
+        a {
+            text-decoration: none !important;
+        }
+
+        .cart {
+            margin-left: 5px;
+        }
+
+        svg {
+            width: 32px;
+            height: 32px;
+            margin-right: 16px;
+        }
+
+        .cart-count-bubble {
+            color: $dark;
+            background: $light;
+        }
+
+        @include media-breakpoint-down(sm) {
+            .text {
+                display: none;
+            }
+
+            svg {
+                width: 25px;
+                height: 25px;
+                margin-right: 0;
+            }
+        }
+    }
+
+    .icon-hamburger {
+        height: 24px;
+        width: 24px;
+    }
+
+    .menu-drawer {
+        width: 100%;
+        height: auto !important;
+        backdrop-filter: blur(5px);
+        background: rgba(56, 47, 65, 0.2);
+        // backdrop-filter: blur(20px);
+        &__navigation {
+            padding: 12px 28px;
+        }
+
+        &__menu li {
+            margin: 0 !important;
+        }
+
+        &__menu-item {
+            padding: 12px;
+        }
+
+        &__utility-links {
+            padding: 0;
+        }
+    }
+}

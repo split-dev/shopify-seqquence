@@ -18,6 +18,10 @@
 //   font-size: 40px;
 //   line-height: 48px;
 // }
+@mixin text-36px {  
+  font-size: 36px;
+  line-height: 46px;
+}
 // @mixin text-35px {
 //   font-size: 35px;
 //   line-height: 44px;
@@ -46,17 +50,17 @@
 //   font-size: 21px;
 //   line-height: 25px;
 // }
-// @mixin text-20px {
-//   font-size: 20px;
-//   line-height: 26px;
-// }
-// @mixin text-18px {
-//   font-size: 18px;
-//   line-height: 28px;
-// }
+@mixin text-20px {
+  font-size: 20px;
+  line-height: 26px;
+}
+@mixin text-18px {
+  font-size: 18px;
+  line-height: 23px;
+}
 @mixin text-16px {
-  font-size: 16px !important;
-  line-height: 20px !important;
+  font-size: 16px;
+  line-height: 20px;
 }
 // @mixin text-14px {
 //   font-size: 14px;

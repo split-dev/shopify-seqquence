@@ -6,10 +6,10 @@
 }
 
 .footer {
-    padding: 65px 0;
+    padding: 35px 0 65px;
 
     @include media-breakpoint-down(sm) {
-        padding: 32px;
+        padding: 28px 32px;
     }
 
     input {
@@ -26,6 +26,10 @@
 
         @include media-breakpoint-down(sm) {
             display: block;
+        }
+
+        .link {
+            padding: 5px 0 !important;
         }
     }
 

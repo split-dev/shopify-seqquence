@@ -34,6 +34,14 @@
 //   }
 // }
 
+.text-36px {
+  @include text-20px;
+
+  @include media-breakpoint-up(sm) {
+    @include text-36px; 
+  }
+}
+
 // .text-32px {
 //   @include text-24px;
 
@@ -82,13 +90,13 @@
 //   @include text-18px;
 // }
 
-// .text-18px {
-//   @include text-16px;
+.text-18px {
+  @include text-16px;
 
-//   @include media-breakpoint-up(sm) {
-//     @include text-18px;
-//   }
-// }
+  @include media-breakpoint-up(sm) {
+    @include text-18px;
+  }
+}
 
 .text-16px-all {
   @include text-16px;
@@ -142,9 +150,9 @@
 //   font-family: $headings-font-family;
 // }
 
-// .text-text {
-//   color: $text;
-// }
+.text-accent {
+  color: $primary;
+}
 
 // .font-header,
 // h1,
