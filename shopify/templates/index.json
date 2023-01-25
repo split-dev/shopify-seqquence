@@ -1,28 +1,21 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "486f2d66-fd75-49cb-bc18-b7410ffd7570": {
+      "type": "hero",
       "blocks": {
-        "heading": {
+        "template--17682282578225__486f2d66-fd75-49cb-bc18-b7410ffd7570-16745676437ec3fc6d-0": {
           "type": "heading",
           "settings": {
-            "heading": "Image banner",
-            "heading_size": "h0"
+            "heading": "Create your custom AI Art",
+            "accent_text": "T-shirt"
           }
         },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "Give customers details about the banner image(s) or content on the template.",
-            "text_style": "body"
-          }
-        },
-        "button": {
+        "template--17682282578225__486f2d66-fd75-49cb-bc18-b7410ffd7570-16745676437ec3fc6d-2": {
           "type": "buttons",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify:\/\/collections\/all",
-            "button_style_secondary_1": true,
+            "button_label_1": "Button label",
+            "button_link_1": "",
+            "button_style_secondary_1": false,
             "button_label_2": "",
             "button_link_2": "",
             "button_style_secondary_2": false
@@ -30,22 +23,17 @@
         }
       },
       "block_order": [
-        "heading",
-        "text",
-        "button"
+        "template--17682282578225__486f2d66-fd75-49cb-bc18-b7410ffd7570-16745676437ec3fc6d-0",
+        "template--17682282578225__486f2d66-fd75-49cb-bc18-b7410ffd7570-16745676437ec3fc6d-2"
       ],
       "settings": {
-        "image": "{{ shop.brand.cover_image }}",
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "adapt_height_first_image": false,
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
+        "image": "shopify:\/\/shop_images\/flying_products_promo_f29e091f-5010-48c8-8397-07e39b8667ba.png",
+        "image_overlay_opacity": 0,
+        "image_height": "medium",
+        "adapt_height_first_image": true,
+        "desktop_content_position": "middle-center",
         "desktop_content_alignment": "center",
-        "color_scheme": "background-1",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "mobile_content_alignment": "center"
       }
     },
     "featured_collection": {
@@ -77,7 +65,7 @@
     }
   },
   "order": [
-    "image_banner",
+    "486f2d66-fd75-49cb-bc18-b7410ffd7570",
     "featured_collection"
   ]
 }

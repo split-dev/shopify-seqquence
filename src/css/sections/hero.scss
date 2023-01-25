@@ -1,0 +1,16 @@
+// ==========================================================================
+// ## SHOPIFY STATIC SECTION: HERO
+// ==========================================================================
+
+.hero {
+    border: 1px solid red;
+
+    &__heading {
+        border: 1px solid blue;
+        font-size: 124px;
+line-height: 168px;
+        &-accent {
+            color: $primary;
+        }
+    }
+}

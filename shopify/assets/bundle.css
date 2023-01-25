@@ -5513,3 +5513,17 @@ h3 {
   top: -2px;
   left: 16px;
 }
+
+.hero {
+  border: 1px solid red;
+}
+
+.hero__heading {
+  border: 1px solid blue;
+  font-size: 124px;
+  line-height: 168px;
+}
+
+.hero__heading-accent {
+  color: #CCEC06;
+}
