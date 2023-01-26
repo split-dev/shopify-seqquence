@@ -10,25 +10,27 @@
             "accent_text": "T-shirt"
           }
         },
-        "template--17682282578225__486f2d66-fd75-49cb-bc18-b7410ffd7570-16745676437ec3fc6d-2": {
-          "type": "buttons",
+        "a08bebad-5ae5-4f09-afc1-cbc2f88be885": {
+          "type": "form",
           "settings": {
-            "button_label_1": "Button label",
-            "button_link_1": "",
-            "button_style_secondary_1": false,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "form_placeholder": "Raccoon on a horse in outer space ...",
+            "button_text": "Create"
+          }
+        },
+        "38bad702-e83d-4a64-9100-be582b11d73d": {
+          "type": "text-bottom",
+          "settings": {
+            "text_bottom": "or get inspired by our best sellers"
           }
         }
       },
       "block_order": [
         "template--17682282578225__486f2d66-fd75-49cb-bc18-b7410ffd7570-16745676437ec3fc6d-0",
-        "template--17682282578225__486f2d66-fd75-49cb-bc18-b7410ffd7570-16745676437ec3fc6d-2"
+        "a08bebad-5ae5-4f09-afc1-cbc2f88be885",
+        "38bad702-e83d-4a64-9100-be582b11d73d"
       ],
       "settings": {
         "image": "shopify:\/\/shop_images\/flying_products_promo_f29e091f-5010-48c8-8397-07e39b8667ba.png",
-        "image_overlay_opacity": 0,
         "image_height": "medium",
         "adapt_height_first_image": true,
         "desktop_content_position": "middle-center",

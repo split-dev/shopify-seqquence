@@ -21,9 +21,9 @@
     }
   }
   {%- endstyle -%}
-{%- endif -%}
+{%- endif -%} 
 
-<div id="Banner-{{ section.id }}" class="banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.adapt_height_first_image and section.settings.image != blank %} banner--adapt{% endif %} banner--desktop-transparent">
+<div id="Banner-{{ section.id }}" class="hero container-fluid banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.adapt_height_first_image and section.settings.image != blank %} banner--adapt{% endif %} banner--desktop-transparent">
   {%- if section.settings.image != blank -%}
     <div class="banner__media media{% if section.settings.image == blank %} placeholder{% endif %}">
       {%-liquid
@@ -46,26 +46,70 @@
     </div>
   {%- endif -%}
 
-  <div class="banner__content banner__content--{{ section.settings.desktop_content_position }} page-width">
+  <div class="container banner__content banner__content--{{ section.settings.desktop_content_position }} page-width">
     <div class="banner__box content-container content-container--full-width-mobile">
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'heading' -%}
-            <h2 class="banner__heading font-weight-bold" {{ block.shopify_attributes }}>
+            <h2 class="banner__heading font-weight-bold letter-spacing-1" {{ block.shopify_attributes }}>
               {{ block.settings.heading | escape }} <span class="banner__heading-accent">{{ block.settings.accent_text | escape }}</span>
             </h2>
-          {%- when 'buttons' -%}
-            <div class="banner__buttons{% if block.settings.button_label_1 != blank and block.settings.button_label_2 != blank %} banner__buttons--multiple{% endif %}" {{ block.shopify_attributes }}>
-              {%- if block.settings.button_label_1 != blank -%}
-                <a{% if block.settings.button_link_1 == blank %} role="link" aria-disabled="true"{% else %} href="{{ block.settings.button_link_1 }}"{% endif %} class="button{% if block.settings.button_style_secondary_1 %} button--secondary{% else %} button--primary{% endif %}">{{ block.settings.button_label_1 | escape }}</a>
-              {%- endif -%}
-              {%- if block.settings.button_label_2 != blank -%}
-                <a{% if block.settings.button_link_2 == blank %} role="link" aria-disabled="true"{% else %} href="{{ block.settings.button_link_2 }}"{% endif %} class="button{% if block.settings.button_style_secondary_2 %} button--secondary{% else %} button--primary{% endif %}">{{ block.settings.button_label_2 | escape }}</a>
-              {%- endif -%}
+          {%- when 'form' -%}
+            <div class="banner__form" {{ block.shopify_attributes }}>
+              {%- form 'customer' -%}
+                <input type="hidden">
+                <div class="banner__field-wrapper">
+                  <div class="banner__field field">
+                    <input
+                      id="NewsletterForm--{{ section.id }}"
+                      type="email"
+                      name="contact[email]"
+                      class="banner__input field__input color-text-white text-20px-all"
+                      value="{{ form.email }}"
+                      aria-required="true"
+                      autocorrect="off"
+                      autocapitalize="off"
+                      autocomplete="email"
+                      {% if form.errors %}
+                        autofocus
+                        aria-invalid="true"
+                        aria-describedby="ContactFooter-error"
+                      {% elsif form.posted_successfully? %}
+                        aria-describedby="ContactFooter-success"
+                      {% endif %}
+                      placeholder="{{ block.settings.form_placeholder | escape }}"
+                      required
+                    >
+                    <span class="banner__icon-search">{% render 'icon-search' %}</span>
+                    <label class="banner__label field__label color-text-white text-20px font-weight-bold">
+                      {{ block.settings.form_placeholder | escape }}
+                    </label>
+                    <button type="submit" class="banner__button field__button color-text-white text-20px-all font-weight-bold" name="commit" id="Subscribe" aria-label="{{ 'newsletter.button_label' | t }}">
+                      {% render 'icon-magic-wand' %}
+                      {{ block.settings.button_text | escape }}
+                    </button>
+                  </div>
+                  {%- if form.errors -%}
+                    <small class="newsletter-form__message form__message" id="ContactFooter-error">{% render 'icon-error' %}{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</small>
+                  {%- endif -%}
+                </div>
+                {%- if form.posted_successfully? -%}
+                  <h3 class="newsletter-form__message newsletter-form__message--success form__message" id="ContactFooter-success" tabindex="-1" autofocus>{% render 'icon-success' %}{{ 'newsletter.success' | t }}</h3>
+                {%- endif -%}
+              {%- endform -%}
             </div>
+
         {%- endcase -%}
       {%- endfor -%}
     </div>
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'text-bottom' -%}
+            <p class="banner__text-bottom text-36px color-text-white font-weight-bold" {{ block.shopify_attributes }}>
+              {{ block.settings.text_bottom | escape }}
+            </p>
+        {%- endcase -%}
+      {%- endfor -%}
   </div>
 </div>
 
@@ -217,45 +261,34 @@
       ]
     },
     {
-      "type": "buttons",
-      "name": "t:sections.image-banner.blocks.buttons.name",
+      "type": "form",
+      "name": "Form",
       "limit": 1,
       "settings": [
         {
           "type": "text",
-          "id": "button_label_1",
-          "default": "Button label",
-          "label": "t:sections.image-banner.blocks.buttons.settings.button_label_1.label",
-          "info": "t:sections.image-banner.blocks.buttons.settings.button_label_1.info"
-        },
-        {
-          "type": "url",
-          "id": "button_link_1",
-          "label": "t:sections.image-banner.blocks.buttons.settings.button_link_1.label"
-        },
-        {
-          "type": "checkbox",
-          "id": "button_style_secondary_1",
-          "default": false,
-          "label": "t:sections.image-banner.blocks.buttons.settings.button_style_secondary_1.label"
+          "id": "form_placeholder",
+          "default": "Placeholder",
+          "label": "Form placeholder"
         },
         {
           "type": "text",
-          "id": "button_label_2",
-          "default": "Button label",
-          "label": "t:sections.image-banner.blocks.buttons.settings.button_label_2.label",
-          "info": "t:sections.image-banner.blocks.buttons.settings.button_label_2.info"
-        },
+          "id": "button_text",
+          "default": "Button text",
+          "label": "Button text"
+        }
+      ]
+    },
+    {
+      "type": "text-bottom",
+      "name": "Text bottom",
+      "limit": 1,
+      "settings": [
         {
-          "type": "url",
-          "id": "button_link_2",
-          "label": "t:sections.image-banner.blocks.buttons.settings.button_link_2.label"
-        },
-        {
-          "type": "checkbox",
-          "id": "button_style_secondary_2",
-          "default": false,
-          "label": "t:sections.image-banner.blocks.buttons.settings.button_style_secondary_2.label"
+          "type": "text",
+          "id": "text_bottom",
+          "default": "Text bottom",
+          "label": "Text"
         }
       ]
     }

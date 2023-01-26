@@ -38,7 +38,7 @@
   @include text-20px;
 
   @include media-breakpoint-up(sm) {
-    @include text-36px; 
+    @include text-36px;
   }
 }
 
@@ -74,17 +74,17 @@
 //   @include text-21px;
 // }
 
-// .text-20px-all {
-//   @include text-20px;
-// }
+.text-20px-all {
+  @include text-20px;
+}
 
-// .text-20px {
-//   @include text-18px;
+.text-20px {
+  @include text-16px;
 
-//   @include media-breakpoint-up(sm) {
-//     @include text-20px;
-//   }
-// }
+  @include media-breakpoint-up(sm) {
+    @include text-20px;
+  }
+}
 
 // .text-18px-all {
 //   @include text-18px;
@@ -146,13 +146,13 @@
   font-weight: 700 !important;
 }
 
+.color-text-white {
+  color: $light !important;
+}
+
 // .font-carm {
 //   font-family: $headings-font-family;
 // }
-
-.text-accent {
-  color: $primary;
-}
 
 // .font-header,
 // h1,
