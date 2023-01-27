@@ -5043,6 +5043,10 @@ a.text-dark:hover, a.text-dark:focus {
   color: #fff !important;
 }
 
+.color-text-accent {
+  color: #CCEC06;
+}
+
 html {
   box-sizing: border-box;
   -webkit-text-size-adjust: 100%;
@@ -5721,4 +5725,21 @@ h3 {
 .hero .field__input:focus ~ .field__label,
 .hero .field__input:not(:placeholder-shown) ~ .field__label {
   top: 10px !important;
+}
+
+.home-collection {
+  position: relative;
+  top: -60px;
+}
+
+@media (max-width: 1371.98px) {
+  .home-collection {
+    top: -30px;
+  }
+}
+
+@media (max-width: 1053.98px) {
+  .home-collection {
+    top: 20px;
+  }
 }
