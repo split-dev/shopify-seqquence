@@ -87,6 +87,7 @@
         width: 100%;
         height: auto !important;
         backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         background: rgba(56, 47, 65, 0.2);
 
         &__navigation {

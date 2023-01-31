@@ -5436,6 +5436,7 @@ h3 {
   width: 100%;
   height: auto !important;
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   background: rgba(56, 47, 65, 0.2);
 }
 
@@ -5651,6 +5652,7 @@ h3 {
   height: 96px !important;
   border-radius: 2px;
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   background: rgba(56, 47, 65, 0.2);
 }
 
@@ -5839,6 +5841,7 @@ h3 {
   right: 100px;
   background: rgba(56, 47, 65, 0.2);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: 2px;
   display: flex;
   align-items: center;
