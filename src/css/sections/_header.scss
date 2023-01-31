@@ -7,13 +7,16 @@
     padding: 36px 90px 32px 56px;
     gap: 61px;
 
+    background: rgba(56, 47, 65, 0.2);
+
     @include media-breakpoint-down(sm) {
         padding: 10px 25px 15px;
     }
 
     h1 {
         text-align: center;
-
+        position: relative;
+        top: -5px;
     }
 
     &__logo {
@@ -32,6 +35,7 @@
 
     .list-menu {
         gap: 60px;
+
         @media screen and (max-width: 1050px) {
             gap: 25px;
         }
@@ -82,11 +86,11 @@
     .menu-drawer {
         width: 100%;
         height: auto !important;
-        backdrop-filter: blur(5px);
+        backdrop-filter: blur(20px);
         background: rgba(56, 47, 65, 0.2);
-        // backdrop-filter: blur(20px);
+
         &__navigation {
-            padding: 12px 28px;
+            padding: 12px 15px;
         }
 
         &__menu li {

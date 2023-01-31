@@ -229,9 +229,14 @@
     transition: transform var(--duration-long) ease;
   }
 
+  .card:hover .media > img:first-child:only-child,
+  .card-wrapper .media > img:first-child:only-child {
+    transform: scale(0.95);
+  }
+
   .card:hover .media.media--hover-effect > img:first-child:only-child,
   .card-wrapper:hover .media.media--hover-effect > img:first-child:only-child {
-    transform: scale(1.03);
+    transform: scale(1.00);
   }
 
   .card-wrapper:hover
@@ -240,10 +245,14 @@
     opacity: 0;
   }
 
+  .card-wrapper .media.media--hover-effect > img + img {
+    transform: scale(0.95);
+  }
+
   .card-wrapper:hover .media.media--hover-effect > img + img {
     opacity: 1;
     transition: transform var(--duration-long) ease;
-    transform: scale(1.03);
+    transform: scale(1.00);
   }
 
   .underline-links-hover:hover a {

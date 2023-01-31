@@ -299,9 +299,9 @@
     order: 2;
   }
 
-  .banner:not(.banner--mobile-bottom) .field__input {
+  /* .banner:not(.banner--mobile-bottom) .field__input {
     background-color: transparent;
-  }
+  } */
 }
 
 .banner__box {

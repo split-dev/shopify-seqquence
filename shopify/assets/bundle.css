@@ -5354,6 +5354,7 @@ h3 {
   grid-template-columns: auto 1fr auto;
   padding: 36px 90px 32px 56px;
   gap: 61px;
+  background: rgba(56, 47, 65, 0.2);
 }
 
 @media (max-width: 767.98px) {
@@ -5364,6 +5365,8 @@ h3 {
 
 .header h1 {
   text-align: center;
+  position: relative;
+  top: -5px;
 }
 
 .header__logo {
@@ -5432,12 +5435,12 @@ h3 {
 .header .menu-drawer {
   width: 100%;
   height: auto !important;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(20px);
   background: rgba(56, 47, 65, 0.2);
 }
 
 .header .menu-drawer__navigation {
-  padding: 12px 28px;
+  padding: 12px 15px;
 }
 
 .header .menu-drawer__menu li {
@@ -5583,6 +5586,12 @@ h3 {
 
 .hero .banner__media {
   background: none;
+}
+
+@media (max-width: 1053.98px) {
+  .hero .banner__media {
+    height: 60%;
+  }
 }
 
 .hero .banner__heading {
@@ -5731,6 +5740,10 @@ h3 {
 .hero .field__input:focus ~ .field__label,
 .hero .field__input:not(:placeholder-shown) ~ .field__label {
   top: 10px !important;
+}
+
+.grecaptcha-badge {
+  z-index: 10;
 }
 
 .home-collection {

@@ -37,6 +37,10 @@
 
         &__media {
             background: none;
+
+            @include media-breakpoint-down(md) {
+                height: 60%;
+            }
         }
 
         &__heading {
@@ -175,4 +179,8 @@
     .field__input:not(:placeholder-shown)~.field__label {
         top: 10px !important;
     }
+}
+
+.grecaptcha-badge {
+    z-index: 10;
 }
