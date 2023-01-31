@@ -6,9 +6,29 @@
         "padding_top": 28,
         "padding_bottom": 28
       }
+    },
+    "a7d2ba8d-8dd7-4199-98bf-66fddc8af4e7": {
+      "type": "search",
+      "settings": {
+        "form_placeholder": "Panda jumping",
+        "button_text": "Create",
+        "search_title": "Brought you by  the prompt:",
+        "search_description": "Space panda, in the style of Pixar animation, very detailed, movie shot, studio quality, 8k render; weekly shonen jump issueby ‘zootopia’, ‘luca’, ‘zootopia’ etc, blockbuster, high detail; high quality film still; poster"
+      }
+    },
+    "4ef8d3d1-9809-4a6b-9668-f061c165358c": {
+      "type": "search-1",
+      "settings": {
+        "form_placeholder": "Panda jumping",
+        "button_text": "Create",
+        "search_title": "Brought you by  the prompt:",
+        "search_description": "Space panda, in the style of Pixar animation, very detailed, movie shot, studio quality, 8k render; weekly shonen jump issueby ‘zootopia’, ‘luca’, ‘zootopia’ etc, blockbuster, high detail; high quality film still; poster"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "a7d2ba8d-8dd7-4199-98bf-66fddc8af4e7",
+    "4ef8d3d1-9809-4a6b-9668-f061c165358c"
   ]
 }
