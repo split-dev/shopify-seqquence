@@ -5722,3 +5722,114 @@ h3 {
 .hero .field__input:not(:placeholder-shown) ~ .field__label {
   top: 10px !important;
 }
+
+.template-search .main-page-title {
+  display: none;
+}
+
+.template-search .search__wrapper {
+  max-width: 1370px;
+  margin: 0 auto;
+  padding: 50px 20px;
+  position: relative;
+  transition: all 0.5s;
+}
+
+@media (max-width: 1371.98px) {
+  .template-search .search__wrapper {
+    margin-left: auto;
+    padding: 50px 0px 50px 20px;
+  }
+}
+
+.template-search .search__header {
+  margin: 20px 0px 30px 0px;
+}
+
+.template-search .search__header h2 {
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 33px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 767.98px) {
+  .template-search .search__header h2 {
+    font-size: 20px;
+    line-height: 26px;
+  }
+}
+
+.template-search .search__header p {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: #928A9B;
+}
+
+.template-search .search .swiper__append {
+  position: absolute;
+  top: 50%;
+  right: 100px;
+  background: rgba(56, 47, 65, 0.2);
+  backdrop-filter: blur(20px);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  transform: translateY(-50%);
+}
+
+@media (max-width: 767.98px) {
+  .template-search .search .swiper__append {
+    right: 20px;
+    top: 80%;
+  }
+}
+
+.template-search .search .swiper__append button {
+  padding: 16px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 26px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 767.98px) {
+  .template-search .search .swiper__append button {
+    max-width: 176px;
+    text-align: left;
+  }
+}
+
+.template-search .search .swiper__append button svg {
+  margin-left: 24px;
+}
+
+.template-search .search .swiper-slide img {
+  max-width: 80%;
+}
+
+@media (max-width: 767.98px) {
+  .template-search .search .swiper-slide img {
+    max-width: 100%;
+  }
+}
+
+.template-search .search .swiper-slide:nth-child(3) {
+  opacity: 0.2;
+}
+
+.template-search .search .swiper-slide:nth-child(3).active {
+  opacity: 1;
+}
+
+.template-search .search .swiper-button-next {
+  display: block !important;
+}

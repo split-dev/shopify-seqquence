@@ -1,3 +1,96 @@
 // ==========================================================================
 // ## SHOPIFY STATIC SECTION: MAIN SEARCH
 // ==========================================================================
+
+
+.template-search {
+  .main-page-title {
+    display: none;
+  }
+  .search {
+    &__wrapper {
+      max-width: 1370px;
+      margin: 0 auto;
+      padding: 50px 20px;
+      position: relative;
+      transition: all .5s;
+      @include media-breakpoint-down(lg) {
+        margin-left: auto;
+        padding: 50px 0px 50px 20px;
+      }
+    }
+    &__header {
+      margin: 20px 0px 30px 0px;
+      & h2 {
+        font-weight: 700;
+        font-size: 26px;
+        line-height: 33px;
+        color: $text;
+        margin-bottom: 10px;
+        @include media-breakpoint-down(sm) {
+          font-size: 20px;
+          line-height: 26px;
+        }
+      }
+      & p {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        color: #928A9B;
+      }
+    }
+    .swiper__append {
+      position: absolute;
+      top: 50%;
+      right: 100px;
+      background: rgba(56, 47, 65, 0.2);
+      backdrop-filter: blur(20px);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      transform: translateY(-50%);
+      @include media-breakpoint-down(sm) {
+        right: 20px;
+        top: 80%;
+      }
+      & button {
+        padding: 16px;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 26px;
+        color: $text;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        @include media-breakpoint-down(sm) {
+          max-width: 176px;
+          text-align: left;
+        }
+        & svg {
+          margin-left: 24px;
+        }
+      }
+    }
+    .swiper-slide {
+      & img {
+        max-width: 80%;
+        @include media-breakpoint-down(sm) {
+          max-width: 100%;
+        }
+      }
+      &:nth-child(3) {
+        opacity: .2;
+      }
+      &:nth-child(3).active {
+        opacity: 1;
+      }
+    }
+    .swiper-button-next {
+      display: block!important;
+    }
+  }
+
+}

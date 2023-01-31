@@ -7,6 +7,7 @@
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
@@ -30,6 +31,8 @@
     {% render 'meta-tags' %}
 
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
     {{ content_for_header }}
 
     {%- liquid
@@ -239,7 +242,7 @@
     {{ 'bundle.css' | asset_url | stylesheet_tag }} 
   </head>
 
-  <body class="gradient">
+  <body class="gradient template-{{ request.page_type }} template-{{ template.suffix }}">
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ "accessibility.skip_to_text" | t }}
     </a>
