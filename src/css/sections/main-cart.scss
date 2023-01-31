@@ -1,3 +1,46 @@
 // ==========================================================================
 // ## SHOPIFY STATIC SECTION: MAIN CART
 // ==========================================================================
+
+
+.template-cart {
+  .cart__header {
+    & h1 {
+      font-weight: 700;
+      font-size: 36px;
+      line-height: 46px;
+      color: $text;
+    }
+  }
+  .caption-with-letter-spacing {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .cart__items {
+    border: none;
+    & th {
+      border: none;
+    }
+    .cart-items {
+      border-collapse: separate;
+      border-spacing: 0 1em;
+    }
+    .cart-item {
+      background: rgba(56, 47, 65, 0.2);
+      padding: 30px;
+      &__media {
+        padding-left: 20px;
+      }
+      &__image-container {
+        background-color: transparent;
+        border: none;
+        & img {
+          min-width: 245px;
+        }
+      }
+    }
+  }
+}
