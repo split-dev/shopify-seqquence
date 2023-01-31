@@ -32,6 +32,9 @@
 
     .list-menu {
         gap: 60px;
+        @media screen and (max-width: 1050px) {
+            gap: 25px;
+        }
     }
 
     &__icon {

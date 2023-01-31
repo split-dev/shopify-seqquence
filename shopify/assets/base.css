@@ -1132,10 +1132,10 @@ summary::-webkit-details-marker {
     max-width: calc(33.33% - var(--grid-desktop-horizontal-spacing) * 2 / 3);
   }
 
-  .grid--2-col-desktop .grid__item {
+  /* .grid--2-col-desktop .grid__item {
     width: calc(50% - var(--grid-desktop-horizontal-spacing) / 2);
     max-width: calc(50% - var(--grid-desktop-horizontal-spacing) / 2);
-  }
+  } */
 }
 
 @media screen and (min-width: 990px) {

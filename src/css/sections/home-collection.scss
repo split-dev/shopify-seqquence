@@ -12,5 +12,33 @@
 
     @include media-breakpoint-down(md) {
         top: 20px;
+        // border: 1px solid blue;
+
+    }
+
+    @include media-breakpoint-down(xs) {
+        .grid__item {
+            // border: 1px solid red;
+        }
+    }
+
+    .grid--2-col-desktop .grid__item {
+        width: calc(50% - var(--grid-desktop-horizontal-spacing) / 2);
+        max-width: calc(50% - var(--grid-desktop-horizontal-spacing) / 2);
+
+        @include media-breakpoint-down(xs) {
+            width: 100%;
+            max-width: 100%;
+
+            &:nth-child(4),
+            &:nth-child(5),
+            &:nth-child(6),
+            &:nth-child(7),
+            &:nth-child(8),
+            &:nth-child(9),
+            &:nth-child(10) {
+                display: none;
+            }
+        }
     }
 }
