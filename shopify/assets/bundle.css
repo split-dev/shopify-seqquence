@@ -5764,3 +5764,13 @@ h3 {
     display: none;
   }
 }
+
+.product {
+  margin-bottom: 335px !important;
+}
+
+@media (max-width: 1053.98px) {
+  .product {
+    margin-bottom: 87px !important;
+  }
+}

@@ -44,7 +44,7 @@
         "collection": "frontpage",
         "products_to_show": 10,
         "columns_desktop": 2,
-        "show_view_all": true,
+        "show_view_all": false,
         "view_all_style": "solid",
         "image_ratio": "adapt",
         "show_secondary_image": false,

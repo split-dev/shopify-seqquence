@@ -1,3 +1,10 @@
 // ==========================================================================
 // ## SHOPIFY STATIC SECTION: MAIN PRODUCT
 // ==========================================================================
+.product {
+    margin-bottom: 335px !important;
+
+    @include media-breakpoint-down(md) {
+        margin-bottom: 87px !important;
+    }
+}
