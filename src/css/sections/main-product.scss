@@ -1,10 +1,210 @@
 // ==========================================================================
 // ## SHOPIFY STATIC SECTION: MAIN PRODUCT
 // ==========================================================================
-.product {
-    margin-bottom: 335px !important;
+.container-fluid .product {
+    max-width: 1470px;
+    margin: 105px auto 335px !important;
 
     @include media-breakpoint-down(md) {
-        margin-bottom: 87px !important;
+        margin: 25px auto 87px !important;
+    }
+
+    &__media-wrapper {
+        border: 1px solid red;
+    }
+
+    &__info-wrapper {
+        border: 1px solid blue;
+        padding: 0 0 0 88px !important;
+    }
+
+    &__title {
+        margin-bottom: 24px !important;
+
+        @include media-breakpoint-down(md) {
+            margin-bottom: 12px !important;
+        }
+    }
+
+    .price {
+        margin-bottom: 48px;
+
+        @include media-breakpoint-down(md) {
+            margin-bottom: 25px;
+        }
+
+        &-item {
+            &--sale {
+                margin-right: 16px;
+            }
+
+            &--regular {
+                position: relative;
+                top: -10px;
+                margin-right: 40px;
+            }
+        }
+
+        &__badge-sale {
+            border-radius: 2px;
+            padding: 2px 16px;
+            margin-bottom: 0;
+        }
+    }
+
+    &__description {
+        margin-bottom: 48px;
+
+        @include media-breakpoint-down(md) {
+            margin-bottom: 32px;
+        }
+
+        &-title {
+            margin-bottom: 8px;
+        }
+    }
+
+    &-form__input {
+        margin-bottom: 48px;
+
+        @include media-breakpoint-down(md) {
+            margin-bottom: 32px;
+        }
+
+        .form {
+            &__label {
+                margin-bottom: 16px;
+            }
+
+            &__select {
+                color: $light;
+                // width: 44px;
+                // height: 44px;
+                font-size: 16px;
+                line-height: 20px;
+                padding: 12px 15px;
+                margin: 0 16px 0 0;
+                border-radius: 2px;
+                border: 1px solid $grey;
+            }
+        }
+
+        input[type='radio']:checked+label {
+            background-color: $primary;
+            color: $body-color;
+        }
+
+        .quantity {
+            width: 152px;
+            height: 44px;
+            color: $light;
+
+            &:after {
+                border-radius: 2px;
+                border: 1px solid $grey;
+                box-shadow: none;
+            }
+
+            &__button svg {
+                width: 32px;
+                height: 32px;
+            }
+        }
+    }
+
+    &-form {
+        &__buttons {
+            max-width: 512px;
+            margin-bottom: 80px;
+
+            @include media-breakpoint-down(md) {
+                margin-bottom: 40px;
+            }
+        }
+
+        &__submit {
+            background: rgba(56, 47, 65, 0.2);
+            border: 1px solid $primary;
+            box-shadow: 0px 0px 16px rgba(204, 236, 6, 0.4);
+            border-radius: 2px;
+            padding: 11px 0;
+            margin-bottom: 24px;
+
+            &::after {
+                content: none;
+            }
+
+            @include media-breakpoint-down(md) {
+                margin-bottom: 16px;
+            }
+
+            span {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+        }
+    }
+
+    .shopify-payment-button {
+        &__button {
+            .size--large {
+                background: $secondary !important;
+                padding: 18px 0 !important;
+                max-height: none !important;
+                border-radius: 2px;
+
+                span {
+                    display: none !important;
+                }
+
+                &::before {
+                    content: '';
+                    position: static;
+                    display: block;
+                    width: 40px;
+                    height: 40px;
+                    margin-right: 16px;
+                    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='41' height='40' fill='none'%3E%3Cmask id='a' width='41' height='40' x='0' y='0' maskUnits='userSpaceOnUse' style='mask-type:alpha'%3E%3Cpath fill='%23D9D9D9' d='M.5 0h40v40H.5z'/%3E%3C/mask%3E%3Cg mask='url(%23a)'%3E%3Cpath fill='%23fff' d='m32.292 14-1.834-4.208-4.291-1.917 4.291-1.833L32.292 2l1.833 4.042 4.25 1.833-4.25 1.917L32.292 14Zm0 23.958-1.834-4.041-4.291-1.875 4.291-1.875 1.834-4.209 1.833 4.209 4.25 1.875-4.25 1.875-1.833 4.041ZM14.792 32l-3.834-8.25-8.375-3.792 8.375-3.75 3.834-8.25 3.833 8.25 8.333 3.75-8.333 3.792L14.792 32Zm0-6.458 1.833-3.834 3.917-1.75-3.917-1.708-1.833-3.833-1.834 3.833-3.916 1.708 3.916 1.75 1.834 3.834Z'/%3E%3C/g%3E%3C/svg%3E");
+                    z-index: 1;
+                }
+
+                &::after {
+                    content: "Buy now";
+                    position: static;
+                    display: block;
+                    font-weight: 700;
+                    font-size: 20px;
+                    line-height: 26px;
+                    color: $light;
+                    z-index: 1;
+                }
+            }
+        }
+
+        &__more-options {
+            text-transform: capitalize;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 20px;
+            text-decoration-line: underline;
+            color: $grey;
+        }
+    }
+
+    &__accordion {
+        max-width: 512px;
+        border-top: 1px solid $grey;
+        border-bottom: 1px solid $grey;
+
+        summary {
+            padding: 22px 12px;
+        }
+
+        svg {
+            top: calc(50% - 20px);
+            height: 40px !important;
+            width: 40px;
+        }
     }
 }

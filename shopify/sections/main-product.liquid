@@ -1,6 +1,6 @@
 <section
   id="MainProduct-{{ section.id }}"
-  class="page-width section-{{ section.id }}-padding"
+  class="container-fluid section-{{ section.id }}-padding"
   data-section="{{ section.id }}"
 >
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
@@ -304,7 +304,7 @@
               </p>
             {%- when 'title' -%}
               <div class="product__title" {{ block.shopify_attributes }}>
-                <h1>{{ product.title | escape }}</h1>
+                <h1 class="text-36px-24px font-weight-bold">{{ product.title | escape }}</h1>
                 <a href="{{ product.url }}" class="product__title">
                   <h2 class="h1">
                     {{ product.title | escape }}
@@ -315,6 +315,7 @@
               <div class="no-js-hidden" id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
                 {%- render 'price', product: product, use_variant: true, show_badges: true, price_class: 'price--large' -%}
               </div>
+              {% comment %}
               {%- if shop.taxes_included or shop.shipping_policy.body != blank -%}
                 <div class="product__tax caption rte">
                   {%- if shop.taxes_included -%}
@@ -325,6 +326,7 @@
                   {%- endif -%}
                 </div>
               {%- endif -%}
+
               <div {{ block.shopify_attributes }}>
                 {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
                 {%- form 'product', product, id: product_form_installment_id, class: 'installment caption-large' -%}
@@ -332,12 +334,21 @@
                   {{ form | payment_terms }}
                 {%- endform -%}
               </div>
+              {% endcomment %}
+
             {%- when 'description' -%}
-              {%- if product.description != blank -%}
-                <div class="product__description rte quick-add-hidden">
-                  {{ product.description }}
-                </div>
-              {%- endif -%}
+              <div class="product__description">
+                {%- if  block.settings.description_title != blank -%}
+                  <div  class="product__description-title text-20px-all color-text-white font-weight-bold">
+                    {{ block.settings.description_title }}
+                    </div>
+                {%- endif -%}
+                {%- if product.description != blank -%}
+                  <div class="color-grey text-16px-all product__description-text quick-add-hidden">
+                    {{ product.description }}
+                  </div>
+                {%- endif -%}
+              </div>
             {%- when 'custom_liquid' -%}
               {{ block.settings.custom_liquid }}
             {%- when 'collapsible_tab' -%}
@@ -346,13 +357,13 @@
                   <summary>
                     <div class="summary__title">
                       {% render 'icon-accordion', icon: block.settings.icon %}
-                      <h2 class="h4 accordion__title">
+                      <h2 class="h4 accordion__title color-text-white text-20px-all font-weight-bold">
                         {{ block.settings.heading | default: block.settings.page.title }}
                       </h2>
                     </div>
-                    {% render 'icon-caret' %}
+                    {% render 'icon-caret-new' %}
                   </summary>
-                  <div class="accordion__content rte" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
+                  <div class="accordion__content color-grey text-16px-all" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
                     {{ block.settings.content }}
                     {{ block.settings.page.content }}
                   </div>
@@ -363,7 +374,7 @@
                 class="product-form__input product-form__quantity{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form__quantity-top{% endif %}"
                 {{ block.shopify_attributes }}
               >
-                <label class="form__label" for="Quantity-{{ section.id }}">
+                <label class="form__label text-20px-all color-text-white font-weight-bold" for="Quantity-{{ section.id }}">
                   {{ 'products.product.quantity.label' | t }}
                 </label>
 
@@ -372,10 +383,10 @@
                     <span class="visually-hidden">
                       {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
                     </span>
-                    {% render 'icon-minus' %}
+                    {% render 'icon-minus-new' %}
                   </button>
                   <input
-                    class="quantity__input"
+                    class="quantity__input text-16px-all font-weight-bold color-text-white"
                     type="number"
                     name="quantity"
                     id="Quantity-{{ section.id }}"
@@ -387,7 +398,7 @@
                     <span class="visually-hidden">
                       {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
                     </span>
-                    {% render 'icon-plus' %}
+                    {% render 'icon-plus-new' %}
                   </button>
                 </quantity-input>
               </div>
@@ -462,7 +473,7 @@
                   >
                     {%- for option in product.options_with_values -%}
                       <fieldset class="js product-form__input">
-                        <legend class="form__label">{{ option.name }}</legend>
+                        <legend class="form__label text-20px-all color-text-white font-weight-bold">{{ option.name }}</legend>
                         {%- for value in option.values -%}
                           <input
                             type="radio"
@@ -474,7 +485,7 @@
                               checked
                             {% endif %}
                           >
-                          <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
+                          <label class="form__select" for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
                             {{ value }}
                           </label>
                         {%- endfor -%}
@@ -593,8 +604,9 @@
                           disabled
                         {% endif %}
                       >
-                        <span>
+                        <span class="color-text-white text-20px-all font-weight-bold">
                           {%- if product.selected_or_first_available_variant.available -%}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none"><mask id="a" width="40" height="40" x="0" y="0" maskUnits="userSpaceOnUse" style="mask-type:alpha"><path fill="#D9D9D9" d="M0 0h40v40H0z"/></mask><g mask="url(#a)"><path fill="#fff" d="M19.083 14.625V9.583h-5.041V6.958h5.041V1.917h2.625v5.041h5.042v2.625h-5.042v5.042h-2.625Zm-7.041 21.75a2.963 2.963 0 0 1-2.146-.875A2.86 2.86 0 0 1 9 33.375c0-.833.299-1.549.896-2.146s1.313-.896 2.146-.896a2.86 2.86 0 0 1 2.125.896c.583.597.875 1.313.875 2.146s-.292 1.542-.875 2.125a2.893 2.893 0 0 1-2.125.875Zm16.541 0a2.96 2.96 0 0 1-2.145-.875 2.86 2.86 0 0 1-.896-2.125c0-.833.299-1.549.896-2.146s1.312-.896 2.145-.896 1.549.299 2.146.896.896 1.313.896 2.146a2.86 2.86 0 0 1-.896 2.125 2.963 2.963 0 0 1-2.146.875Zm-16.541-8.417c-1.167 0-2.035-.479-2.604-1.437-.57-.959-.563-1.938.02-2.938l2.417-4.458L5.792 6.167h-3.25V3.542h4.916l7 14.916h11.875l6.417-11.5L35 8.208l-6.292 11.375c-.25.473-.597.841-1.041 1.105-.445.263-.959.395-1.542.395H13.833l-2.375 4.209h20.167v2.666H12.042Z"/></g></svg>
                             {{ 'products.product.add_to_cart' | t }}
                           {%- else -%}
                             {{ 'products.product.sold_out' | t }}
@@ -1240,7 +1252,14 @@
     {
       "type": "description",
       "name": "t:sections.main-product.blocks.description.name",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "description_title",
+          "label": "Description title"
+        }
+      ]
     },
     {
       "type": "share",

@@ -42,6 +42,14 @@
   }
 }
 
+.text-36px-24px {
+  @include text-24px;
+
+  @include media-breakpoint-up(sm) {
+    @include text-36px;
+  }
+}
+
 // .text-32px {
 //   @include text-24px;
 
@@ -62,9 +70,9 @@
 //   @include text-26px;
 // }
 
-// .text-24px-all {
-//   @include text-24px;
-// }
+.text-24px-all {
+  @include text-24px;
+}
 
 // .text-22px-all {
 //   @include text-22px;
@@ -146,8 +154,16 @@
   font-weight: 700 !important;
 }
 
+.color-text {
+  color: $dark;
+}
+
 .color-text-white {
   color: $light !important;
+}
+
+.color-grey {
+  color: $grey;
 }
 
 .color-text-accent {
