@@ -1,3 +1,191 @@
 // ==========================================================================
 // ## SHOPIFY STATIC SECTION: MAIN CART
 // ==========================================================================
+
+.template-cart {
+  .cart__header {
+    & h1 { 
+      font-weight: 700;
+      font-size: 36px;
+      line-height: 46px;
+      color: $text;
+    }
+  }
+  .caption-with-letter-spacing {
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    &:first-child {
+      padding-left: 48px!important;
+      @include media-breakpoint-down(sm) {
+        padding-left: 20px!important;
+      }
+    }
+    &:last-child {
+      padding-right: 48px!important;
+    }
+    &:nth-child(2) {
+      @include media-breakpoint-down(sm) {
+        padding-right: 20px!important;
+      }
+    }
+  }
+  .cart__items {
+    border: none;
+    padding-bottom: 0px;
+    & th {
+      border: none;
+    }
+    .cart-items {
+      border-collapse: separate;
+      border-spacing: 0 1em;
+      thead tr {
+        @include media-breakpoint-down(sm) {
+          border: none;
+          margin-bottom: 0px;
+        }
+      }
+    }
+    .cart-item {
+      background: rgba(56, 47, 65, 0.2);
+      @media (max-width: 749px) {
+        display: flex;
+        flex-direction: column;
+      }
+      &__media {
+        padding-left: 20px;
+        @include media-breakpoint-down(sm) {
+          padding-top: 2rem;
+          padding-left: 2rem;
+        }
+      }
+      &__details {
+        & a {
+          font-weight: 700;
+          font-size: 20px;
+          line-height: 26px;
+          color: $text;
+          padding-bottom: 16px;
+        }
+        .product-option {
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 20px;
+          color: $grey;
+          padding-bottom: 16px;
+          &:last-child {
+            padding-bottom: 0px;
+          }
+          & dd {
+            color: $text;
+          }
+        }
+      }
+      &__image-container {
+        background-color: transparent;
+        border: none;
+        & img {
+          min-width: 245px;
+          @media (max-width: 900px) {
+            min-width: 110px;
+          }
+        }
+      }
+      .quantity__input {
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 20px;
+        color: $text;
+      }
+      .quantity__button {
+        & svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
+      &__totals {
+        padding-right: 48px;
+        @include media-breakpoint-down(sm) {
+          position: absolute;
+          right: 0px;
+          padding-top: 2rem!important;
+        }
+      }
+      &__price-wrapper {
+        .price {
+          font-weight: 700;
+          font-size: 16px;
+          line-height: 20px;
+          text-align: right;
+          color: $text;
+        }
+      }
+    } 
+    .cart-item > td + td {
+      padding-bottom: 4rem;
+      @include media-breakpoint-down(sm) {
+        padding: 0rem 2rem 2rem 2rem;
+      }
+    }
+  }
+  .cart__footer {
+    .cart__blocks {
+      width: 52rem;
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+      }
+    }
+    .totals__subtotal {
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 26px;
+      color: $text;
+      &-value {
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 31px;
+        color: $primary;
+      }
+    }
+    .tax-note {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 20px;
+      color: $grey;
+    }
+    .cart__ctas {
+      margin-bottom: 20px;
+      & button {
+        max-width: 100%;
+        background: rgba(56, 47, 65, 0.2);
+        border: 1px solid $primary;
+        box-shadow: 0px 0px 16px rgba(204, 236, 6, 0.4);
+        border-radius: 2px;
+        padding: 12px 0px;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 26px;
+        text-transform: capitalize;
+        color: $text;
+        &:hover {
+          box-shadow: 0px 0px 16px rgba(215, 248, 2, 0.8);
+        }
+        &::after,
+        &::before {
+          display: none;
+        }
+        & svg {
+          margin-right: 16px;
+        }
+      }
+    }
+    .cart__dynamic-checkout-buttons {
+      margin: 0 0 0 auto;
+    }
+  }
+}
+.grecaptcha-badge {
+  z-index: 20;
+}
