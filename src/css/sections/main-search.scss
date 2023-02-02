@@ -21,6 +21,9 @@
     }
     &__header {
       margin: 20px 0px 30px 0px;
+      @include media-breakpoint-down(sm) {
+        padding: 0px 20px 0px 0px;
+      }
       & h2 {
         font-weight: 700;
         font-size: 26px;
@@ -36,7 +39,7 @@
         font-weight: 400;
         font-size: 16px;
         line-height: 20px;
-        color: #928A9B;
+        color: $grey;
       }
     }
     .swiper__append {
@@ -83,6 +86,9 @@
       }
       &:nth-child(3) {
         opacity: .2;
+        @include media-breakpoint-down(sm) {
+          opacity: 1;
+        }
       }
       &:nth-child(3).active {
         opacity: 1;
@@ -90,6 +96,26 @@
     }
     .swiper-button-next {
       display: block!important;
+    }
+    .banner__content {
+      padding: 0px!important;
+    }
+    .banner__input {
+      @include media-breakpoint-down(sm) {
+        height: 70px!important;
+        padding: 33px 16px 23px 64px;
+        font-size: 16px;
+      }
+    }
+    .banner__icon-search {
+      @include media-breakpoint-down(sm) {
+        top: 25px;
+      }
+    }
+    .banner__label {
+      @include media-breakpoint-down(sm) {
+        top: 28px;
+      }
     }
   }
 

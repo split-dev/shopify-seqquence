@@ -1,0 +1,17 @@
+// ==========================================================================
+// ## SHOPIFY STATIC SECTION: HELP
+// ==========================================================================
+
+.template-help {
+  .page-width--narrow {
+    max-width: 784px;
+    margin: 0 auto 0 0;
+    padding: 100px 100px;
+    & h2 {
+      font-weight: 700;
+      font-size: 36px;
+      line-height: 46px;
+      color: $text;
+    }
+  }
+}
