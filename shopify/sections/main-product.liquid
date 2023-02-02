@@ -1,6 +1,6 @@
 <section
   id="MainProduct-{{ section.id }}"
-  class="container-fluid section-{{ section.id }}-padding"
+  class="product-wrapper container-fluid section-{{ section.id }}-padding"
   data-section="{{ section.id }}"
 >
   {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
@@ -111,7 +111,7 @@
               name="previous"
               aria-label="{{ 'general.slider.previous_slide' | t }}"
             >
-              {% render 'icon-caret' %}
+              {% render 'icon-caret-new' %}
             </button>
             <div class="slider-counter caption">
               <span class="slider-counter--current">1</span>
@@ -599,7 +599,7 @@
                       <button
                         type="submit"
                         name="add"
-                        class="product-form__submit button button--full-width {% if block.settings.show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+                        class="btn btn--secondary product-form__submit button button--full-width {% if block.settings.show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
                         {% if product.selected_or_first_available_variant.available == false %}
                           disabled
                         {% endif %}

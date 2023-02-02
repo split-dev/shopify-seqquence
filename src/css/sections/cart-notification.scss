@@ -1,0 +1,16 @@
+// ==========================================================================
+// ## SHOPIFY STATIC SECTION: CART-NOTIFICATION
+// ==========================================================================
+.cart-notification {
+    background: $dark;
+    border-radius: 2px !important;
+    box-shadow: 0px 0px 16px rgba(204, 236, 6, 0.4) !important;
+
+    .btn {
+        height: 56px;
+    }
+
+    .button-label {
+        text-transform: capitalize;
+    }
+}

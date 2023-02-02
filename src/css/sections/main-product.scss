@@ -1,7 +1,15 @@
 // ==========================================================================
 // ## SHOPIFY STATIC SECTION: MAIN PRODUCT
 // ==========================================================================
+.product-wrapper {
+    @include media-breakpoint-down(md) {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
 .container-fluid .product {
+
     max-width: 1470px;
     margin: 105px auto 335px !important;
 
@@ -10,12 +18,26 @@
     }
 
     &__media-wrapper {
-        border: 1px solid red;
+        // border: 1px solid red;
+
+        @include media-breakpoint-down(md) {
+            margin-bottom: 45px;
+            padding-left: 15px !important;
+            padding-right: 15px;
+        }
+
+        .global-media-settings {
+            border: none !important;
+        }
     }
 
     &__info-wrapper {
-        border: 1px solid blue;
+        // border: 1px solid blue;
         padding: 0 0 0 88px !important;
+
+        @include media-breakpoint-down(md) {
+            padding: 0 !important;
+        }
     }
 
     &__title {
@@ -23,6 +45,8 @@
 
         @include media-breakpoint-down(md) {
             margin-bottom: 12px !important;
+            padding-left: 15px;
+            padding-right: 15px;
         }
     }
 
@@ -31,6 +55,8 @@
 
         @include media-breakpoint-down(md) {
             margin-bottom: 25px;
+            padding-left: 15px;
+            padding-right: 15px;
         }
 
         &-item {
@@ -57,6 +83,8 @@
 
         @include media-breakpoint-down(md) {
             margin-bottom: 32px;
+            padding-left: 15px;
+            padding-right: 15px;
         }
 
         &-title {
@@ -69,6 +97,8 @@
 
         @include media-breakpoint-down(md) {
             margin-bottom: 32px;
+            padding-left: 15px !important;
+            padding-right: 15px !important;
         }
 
         .form {
@@ -92,6 +122,42 @@
         input[type='radio']:checked+label {
             background-color: $primary;
             color: $body-color;
+        }
+
+        input[value=Black]+label {
+            position: relative;
+            padding: 12px 15px 12px 56px;
+
+            &:before {
+                content: '';
+                display: block;
+                width: 24px;
+                height: 24px;
+                background: $body-color;
+                border-radius: 2px;
+                z-index: 1;
+                position: absolute;
+                top: 10px;
+                left: 16px;
+            }
+        }
+
+        input[value=White]+label {
+            position: relative;
+            padding: 12px 15px 12px 56px;
+
+            &:before {
+                content: '';
+                display: block;
+                width: 24px;
+                height: 24px;
+                background: $light;
+                border-radius: 2px;
+                z-index: 1;
+                position: absolute;
+                top: 10px;
+                left: 16px;
+            }
         }
 
         .quantity {
@@ -119,16 +185,19 @@
 
             @include media-breakpoint-down(md) {
                 margin-bottom: 40px;
+                padding-left: 15px;
+                padding-right: 15px;
             }
         }
 
         &__submit {
-            background: rgba(56, 47, 65, 0.2);
-            border: 1px solid $primary;
-            box-shadow: 0px 0px 16px rgba(204, 236, 6, 0.4);
-            border-radius: 2px;
-            padding: 11px 0;
+            // background: rgba(56, 47, 65, 0.2);
+            // border: 1px solid $primary;
+            // box-shadow: 0px 0px 16px rgba(204, 236, 6, 0.4);
+            // border-radius: 2px;
+            // padding: 11px 0;
             margin-bottom: 24px;
+            // height: 64px;
 
             &::after {
                 content: none;
@@ -153,9 +222,21 @@
                 padding: 18px 0 !important;
                 max-height: none !important;
                 border-radius: 2px;
+                padding: 11px 0 !important;
+
+                height: 64px;
+
+                @include media-breakpoint-down(md) {
+                    height: 54px;
+                    padding: 6px 0 !important;
+                }
 
                 span {
                     display: none !important;
+                }
+
+                &:hover {
+                    background: rgba(5, 0, 255, 0.6) !important;
                 }
 
                 &::before {
@@ -189,6 +270,7 @@
             line-height: 20px;
             text-decoration-line: underline;
             color: $grey;
+            margin-top: 25px;
         }
     }
 
@@ -198,7 +280,7 @@
         border-bottom: 1px solid $grey;
 
         summary {
-            padding: 22px 12px;
+            padding: 22px 12px !important;
         }
 
         svg {

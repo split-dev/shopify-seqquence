@@ -11,17 +11,24 @@
 
     @include media-breakpoint-down(sm) {
         padding: 10px 25px 15px;
+        height: 64px;
     }
 
     h1 {
-        text-align: center;
         position: relative;
-        top: -5px;
+        top: -4px;
+        left: 8px;
+        letter-spacing: 0;
     }
 
     &__logo {
         text-decoration: none !important;
         border: none;
+        text-align: center;
+        position: relative;
+        top: 3px;
+        left: 13px;
+        letter-spacing: 0;
     }
 
     &__inline-menu {
