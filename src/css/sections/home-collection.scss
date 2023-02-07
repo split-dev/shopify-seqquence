@@ -12,14 +12,11 @@
 
     @include media-breakpoint-down(md) {
         top: 20px;
-        // border: 1px solid blue;
 
     }
 
-    @include media-breakpoint-down(xs) {
-        .grid__item {
-            // border: 1px solid red;
-        }
+    .page-width-desktop {
+        max-width: 1180px;
     }
 
     .grid--2-col-desktop .grid__item {
