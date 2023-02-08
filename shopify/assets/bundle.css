@@ -5427,6 +5427,7 @@ h3 {
 }
 
 .header h1 {
+  text-align: center;
   position: relative;
   top: -4px;
   left: 8px;
@@ -5483,6 +5484,12 @@ h3 {
 .header__icons .cart-count-bubble {
   color: #000;
   background: #fff;
+}
+
+@media (max-width: 767px) {
+  .header__icons .cart-count-bubble {
+    left: 1.5rem;
+  }
 }
 
 @media (max-width: 767.98px) {
@@ -5832,6 +5839,10 @@ h3 {
   .home-collection {
     top: 20px;
   }
+}
+
+.home-collection .page-width-desktop {
+  max-width: 1180px;
 }
 
 .home-collection .grid--2-col-desktop .grid__item {
