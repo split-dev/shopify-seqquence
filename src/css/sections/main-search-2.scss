@@ -7,7 +7,7 @@
   .main-page-title {
     display: none;
   }
-  .search {
+  .search2 {
     &__wrapper {
       padding: 50px 0px 50px 20px;
       position: relative;
@@ -38,7 +38,7 @@
         color: $grey;
       }
     }
-    .swiper__append {
+    .swiper__append2 {
       position: absolute;
       top: 50%;
       right: 100px;
@@ -96,7 +96,7 @@
         opacity: 1;
       }
     }
-    .swiper-button-next {
+    .swiper2-button-next {
       display: block!important;
     }
     .banner__content {
