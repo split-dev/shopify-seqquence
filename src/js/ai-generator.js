@@ -29,8 +29,9 @@
             
             if (slide) {
                 slide.querySelector('IMG').setAttribute('src', imagesResult[key]);
+                slide.querySelector('A').setAttribute('href', `/products/t-shirt-mockup?key=${key}`);
             } else {
-                document.getElementById('search-swiper').swiper.appendSlide(`<div class="swiper-slide"><img src="${imagesResult[key]}" /></div>`);
+                document.getElementById('search-swiper').swiper.appendSlide(`<div class="swiper-slide"><a href="/products/t-shirt-mockup?key=${key}" target="_blank"><img src="${imagesResult[key]}" /></a></div>`);
             }
         });
 
@@ -39,7 +40,7 @@
 
     const waitImagesResult = async (ids, initialTimeout) => {
         let imagesResponse;
-        let timeout = initialTimeout || 30000;
+        let timeout = initialTimeout || 20000;
         let loadedImages = 0;
 
         for (let i = 0; i < REQUESTS_LIMIT; i += 1) {
@@ -64,7 +65,7 @@
                 loadedImages = imagesResponse.length;
             }
 
-            console.log('pending images...');
+            console.log(`pending images...next ping in ${timeout/1000} seconds`);
 
             await sleep(timeout);
             timeout = 1000;
