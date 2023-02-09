@@ -248,15 +248,9 @@
       </header-drawer>
     {%- endif -%}
 
-      {%- if request.page_type == 'index' -%}
-        <h1 class="">
-      {%- endif -%}
-          <a href="{{ routes.root_url }}" class="header__logo text-36px color-text-accent font-weight-bold"> 
-            {{ shop.name }}
-          </a>
-      {%- if request.page_type == 'index' -%}
-        </h1>
-      {%- endif -%}
+    <a href="{{ routes.root_url }}" class="header__logo color-text-accent font-weight-bold"> 
+      {{ shop.name }}
+    </a>
 
     {%- if section.settings.menu != blank -%}
         <nav class="header__inline-menu">
