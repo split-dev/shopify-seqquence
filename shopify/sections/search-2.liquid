@@ -1,80 +1,34 @@
 
 
-<div class="search2 hero">
+<div class="search hero js-search-view">
   <div class="container banner__content banner__content--{{ section.settings.desktop_content_position }} page-width">
-    {% if section.settings.form_placeholder != blank %}
-      <div class="banner__box content-container content-container--full-width-mobile">
-        <div class="banner__form" {{ block.shopify_attributes }}>
-          {%- form 'customer' -%}
-            <input type="hidden">
-            <div class="banner__field-wrapper">
-              <div class="banner__field field">
-                <input
-                  id="NewsletterForm--{{ section.id }}"
-                  type="email"
-                  name="contact[email]"
-                  class="banner__input field__input color-text-white text-20px-all"
-                  value="{{ form.email }}"
-                  aria-required="true"
-                  autocorrect="off"
-                  autocapitalize="off"
-                  autocomplete="email"
-                  {% if form.errors %}
-                    autofocus
-                    aria-invalid="true"
-                    aria-describedby="ContactFooter-error"
-                  {% elsif form.posted_successfully? %}
-                    aria-describedby="ContactFooter-success"
-                  {% endif %}
-                  placeholder="{{ section.settings.form_placeholder | escape }}"
-                  required
-                >
-                <span class="banner__icon-search">{% render 'icon-search' %}</span>
-                <label class="banner__label field__label color-text-white text-20px font-weight-bold">
-                  {{ section.settings.form_placeholder | escape }}
-                </label>
-                <button type="submit" class="banner__button field__button color-text-white text-20px-all font-weight-bold" name="commit" id="Subscribe" aria-label="{{ 'newsletter.button_label' | t }}">
-                  {% render 'icon-magic-wand' %}
-                  {{ section.settings.button_text | escape }}
-                </button>
-              </div>
-              {%- if form.errors -%}
-                <small class="newsletter-form__message form__message" id="ContactFooter-error">{% render 'icon-error' %}{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</small>
-              {%- endif -%}
-            </div>
-            {%- if form.posted_successfully? -%}
-              <h3 class="newsletter-form__message newsletter-form__message--success form__message" id="ContactFooter-success" tabindex="-1" autofocus>{% render 'icon-success' %}{{ 'newsletter.success' | t }}</h3>
-            {%- endif -%}
-          {%- endform -%}
-        </div>
-      </div>
-    {% endif %}
-
-        <div class="search2__wrapper">
-          <div class="search2__header">
+        <div class="search__wrapper">
+          <div class="search__header">
             {% if section.settings.search_title != blank %}
               <h2>{{ section.settings.search_title }}</h2>
             {% endif %}
             {% if section.settings.search_description != blank %}
-              <p>{{ section.settings.search_description }}</p>
+              <p class="js-search-prompt">{{ section.settings.search_description }}</p>
             {% endif %}
           </div>
-          <div class="swiper swiper2">
-            <div class="swiper2-wrapper swiper-wrapper">
+          <div class="swiper js-search-swiper">
+            <div class="swiper-wrapper swiper-wrapper">
               {% for product in collections.all.products limit:3 %}            
-                <div class="swiper2-slide swiper-slide">
+                <div class="swiper-slide swiper-slide">
                   <a href="{{ product.url }}" target="_blank">
                     <img src="{{ product.featured_image | img_url: 'grande' }}" />
                   </a>
                 </div>
               {% endfor %}
             </div>
-            <div class="swiper__append2">        
-              <button type="button" class="append-2-slides">Create More 
+            <div class="swiper__append">        
+              <button type="button" class="append-2-slides js-generate-more">Create More 
                 {% render 'create-more-icon' %}
               </button>
             </div>
           </div>
+
+          {% comment %} @todo: add functionaity! {% endcomment %}
           {% if section.settings.show_more %}
             <div class="show-more">
               <button class="show-more__btn btn btn--secondary">
@@ -86,54 +40,6 @@
         </div>
   </div>
 </div>
-
-<script>
-
-  const swiperAppend2 = document.querySelector('.swiper__append2');
-  const swiperSlide33 = document.querySelectorAll('.swiper-slide');
-  
-  const swiper2 = new Swiper('.swiper2', {
-    slidesPerView: 2.5,
-    spaceBetween: 30,
-    watchOverflow: true,
-    breakpoints: {
-      767: {
-        slidesPerView: 2.5
-      },
-      320: {
-        slidesPerView: 1.2,
-      }
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-  });
-
-  const mediaQuery2 = window.matchMedia('(max-width: 768px)');
-
-  document.querySelector('.swiper__append2').addEventListener('click', function (e) {
-    e.preventDefault();
-
-    swiperSlide33.forEach((elem) => {
-      elem.classList.add('show');
-    })
-    
-    swiper2.params.centeredSlides = true;
-    swiper2.params.loop = true;
-
-    if (mediaQuery2.matches) {
-      swiper2.params.slidesPerView = 1.5;
-    }
-    swiper2.update();
-    swiper2.appendSlide([
-      '<div class="swiper-slide" style="opacity: 1;"><img src="{{ 't-shirt mockup.png' | asset_url }}" /></div>',
-      '<div class="swiper-slide" style="opacity: 1;"><img src="{{ 't-shirt mockup.png' | asset_url }}" /></div>'
-      ]);
-    
-  });
-</script>
-
 
 {% schema %}
 {

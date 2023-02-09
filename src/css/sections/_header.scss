@@ -15,6 +15,7 @@
     }
 
     h1 {
+        text-align: center;
         position: relative;
         top: -4px;
         left: 8px;
@@ -70,6 +71,10 @@
         .cart-count-bubble {
             color: $dark;
             background: $light;
+
+            @media (max-width: 767px) {
+                left: 1.5rem;
+            }
         }
 
         @include media-breakpoint-down(sm) {

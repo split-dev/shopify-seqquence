@@ -1,122 +1,76 @@
-
-
-<div class="search hero">
+<div class="search hero js-search-view">
   <div class="container banner__content banner__content--{{ section.settings.desktop_content_position }} page-width">
-      <div class="banner__box content-container content-container--full-width-mobile">
-        <div class="banner__form" {{ block.shopify_attributes }}>
+    <div class="banner__box content-container content-container--full-width-mobile">
+      <div class="banner__form" {{ block.shopify_attributes }}>
         <form action="/pages/search" type="POST" id="aiSearch">
-            <div class="banner__field-wrapper">
-              <div class="banner__field field">
-                <input
-                  id="NewsletterForm--{{ section.id }}"
+          <div class="banner__field-wrapper">
+            <div class="banner__field field">
+              <input
+                id="NewsletterForm--{{ section.id }}"
                 type="text"
                 name="search"
-                  class="banner__input field__input color-text-white text-20px-all"
+                class="banner__input field__input color-text-white text-20px-all"
                 value=""
-                  aria-required="true"
-                  autocorrect="off"
-                  autocapitalize="off"
+                aria-required="true"
+                autocorrect="off"
+                autocapitalize="off"
                 autocomplete="search"
                 placeholder="{{ block.settings.form_placeholder | escape }}"
-                  required
-                >
-                <span class="banner__icon-search">{% render 'icon-search' %}</span>
-                <label class="banner__label field__label color-text-white text-20px font-weight-bold">
+                required
+              >
+              <span class="banner__icon-search">{% render 'icon-search' %}</span>
+              <label class="banner__label field__label color-text-white text-20px font-weight-bold">
                 {{ block.settings.form_placeholder | escape }}
-                </label>
+              </label>
               <button type="submit" class="btn btn--primary banner__button field__button" id="SearchSubmit">
-                  {% render 'icon-magic-wand' %}
+                {% render 'icon-magic-wand' %}
                 {{ block.settings.button_text | escape }}
-                </button>
-              </div>
+              </button>
             </div>
+          </div>
         </form> 
+      </div>
+    </div>
+
+    <div class="search__wrapper">
+      <div class="search__header">
+        {% if section.settings.search_title != blank %}
+          <h2>{{ section.settings.search_title }}</h2>
+        {% endif %}
+        {% if section.settings.search_description != blank %}
+          <p class="js-search-prompt">{{ section.settings.search_description }}</p>
+        {% endif %}
+      </div>
+      <div class="swiper js-search-swiper">
+        <div class="swiper-wrapper">
+          {% for product in collections.all.products limit:3 %}            
+            <div class="swiper-slide">
+              <a href="{{ product.url }}" target="_blank">
+                <img src="{{ product.featured_image | img_url: 'grande' }}" />
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="swiper__append">        
+          <button type="button" class="append-2-slides js-generate-more">Create More 
+            {% render 'create-more-icon' %}
+          </button>
         </div>
       </div>
+    </div>
 
-        <div class="search__wrapper">
-          <div class="search__header">
-            {% if section.settings.search_title != blank %}
-              <h2>{{ section.settings.search_title }}</h2>
-            {% endif %}
-            {% if section.settings.search_description != blank %}
-              <p id="search-prompt">{{ section.settings.search_description }}</p>
-            {% endif %}
-          </div>
-          <div class="swiper" id="search-swiper">
-            <div class="swiper-wrapper">
-              {% for product in collections.all.products limit:4 %}            
-                <div class="swiper-slide">
-                  <a href="{{ product.url }}" target="_blank">
-                    <img src="{{ product.featured_image | img_url: 'grande' }}" />
-                  </a>
-                </div>
-              {% endfor %}
-            </div>
-            <div class="swiper__append">        
-              <button type="button" id="generate-more" class="append-2-slides">Create More 
-                {% render 'create-more-icon' %}
-              </button>
-            </div>
-          </div>
-          {% if section.settings.show_more %}
-            <div class="show-more">
-              <button class="show-more__btn btn btn--secondary">
-                {% render 'icon-magic' %}
-                {{ section.settings.button_more }}
-              </button>
-            </div>
-          {% endif %}
-        </div>
+    {% if section.settings.show_more %}
+      <div class="show-more">
+        <button class="show-more__btn btn btn--secondary">
+          {% render 'icon-magic' %}
+          {{ section.settings.button_more }}
+        </button>
+      </div>
+    {% endif %}
   </div>
 </div>
 
-<script>
-
-  const swiperAppend = document.querySelector('.swiper__append');
-  const swiperSlide3 = document.querySelectorAll('.swiper-slide');
-  
-  const swiper = new Swiper('.swiper1', {
-    slidesPerView: 2.5,
-    spaceBetween: 30,
-    freeMode: true,
-    watchOverflow: true,
-    mousewheel: true,
-    breakpoints: {
-      767: {
-        slidesPerView: 2.5
-      },
-      320: {
-        slidesPerView: 1.2,
-      }
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-  });
-
-  const mediaQuery = window.matchMedia('(max-width: 768px)');
-
-  document.querySelector('.swiper__append').addEventListener('click', function (e) {
-    e.preventDefault();
-
-    swiperSlide3.forEach((elem) => {
-      elem.classList.add('show');
-    })
-    
-    swiper.params.centeredSlides = true;
-    swiper.params.loop = true;
-
-    if (mediaQuery.matches) {
-      swiper.params.slidesPerView = 1.5;
-    }
-    swiper.update();
-    swiper.appendSlide(Array(4).fill('<div class="swiper-slide"><a href="#" target="_blank"><img src="{{ 't-shirt mockup.png' | asset_url }}" /></a></div>'));
-    
-  });
-</script>
-
+<script src="{{ 'search-swipers.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {
