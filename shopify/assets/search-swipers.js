@@ -5,9 +5,6 @@
     
 
     swipers.forEach(function(sw) {
-        var mockupImg = sw.getAttribute('data-mockup-src');
-        var mockupUrl = sw.getAttribute('data-mockup-url');
-
         swiperInstances.push(new Swiper(sw, {
             slidesPerView: 3.5,
             spaceBetween: 30,
@@ -34,7 +31,6 @@
                 sw.swiper.params.slidesPerView = 1.5;
             }
             sw.swiper.update();
-            sw.swiper.appendSlide(Array(2).fill('<div class="swiper-slide"><a href="'+mockupUrl+'" target="_blank"><img src="'+mockupImg+'" /></a></div>'));
         });
     });
 })();

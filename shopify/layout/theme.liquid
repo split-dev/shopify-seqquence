@@ -297,6 +297,15 @@
       <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E4DCLG9S33"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-E4DCLG9S33');
+    </script>
+    
     <script src="{{ 'bundle.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>

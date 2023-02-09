@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="search__wrapper">
+    <div class="search__wrapper loading">
       <div class="search__header">
         {% if section.settings.search_title != blank %}
           <h2>{{ section.settings.search_title }}</h2>
@@ -41,18 +41,21 @@
           <p class="js-search-prompt">{{ section.settings.search_description }}</p>
         {% endif %}
       </div>
-      <div class="swiper js-search-swiper" data-mockup-url="{{ product.url }}" data-mockup-src="{{ product.featured_image | img_url: 'grande' }}">
+      {% assign tshirt_photo_def = section.settings.tshirtplaceholder | image %}
+      {% assign tshirt_photo = section.settings.product.images | first | default: tshirt_photo_def %}
+      <div class="swiper js-search-swiper" data-mockup-url="{{ section.settings.product.url }}" data-mockup-src="{{ tshirt_photo | img_url: 'large' }}">
         <div class="swiper-wrapper">
-          {% for i in (1..3) %}            
+          {% for i in (1..3) %}
               <div class="swiper-slide swiper-slide">
-                <a href="{{ product.url }}" target="_blank">
-                  <img src="{{ product.featured_image | img_url: 'grande' }}" />
+                <a href="{{ section.settings.product.url }}" target="_blank">
+                  <img src="{{ tshirt_photo | img_url: 'large' }}" />
                 </a>
               </div>
             {% endfor %}
         </div>
         <div class="swiper__append">        
-          <button type="button" class="append-2-slides js-generate-more">Create More 
+          <button type="button" class="append-2-slides js-generate-more">
+            <span>Create More</span>
             {% render 'create-more-icon' %}
           </button>
         </div>
@@ -91,6 +94,12 @@
     },
     {
       "type": "text",
+      "id": "tshirtplaceholder",
+      "default": "https://cdn.shopify.com/s/files/1/0694/9752/0433/files/t-shirt-mockup.png?v=1675951639",
+      "label": "URL Link to T-Shirt product placeholder"
+    },
+    {
+      "type": "text",
       "id": "button_text",
       "default": "Create",
       "label": "Button text"
@@ -104,7 +113,7 @@
     {
       "type": "text",
       "id": "search_description",
-      "default": "Space panda, in the style of Pixar animation, very detailed, movie shot, studio quality, 8k render; weekly shonen jump issueby ‘zootopia’, ‘luca’, ‘zootopia’ etc, blockbuster, high detail; high quality film still; poster",
+      "default": "Loading...",
       "label": "Search description"
     },
     {

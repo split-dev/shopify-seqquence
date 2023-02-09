@@ -6159,6 +6159,21 @@ h3 {
   text-transform: capitalize;
 }
 
+@keyframes pulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+}
+
 .template-search .main-page-title {
   display: none;
 }
@@ -6167,6 +6182,30 @@ h3 {
   padding: 50px 0px 50px 20px;
   position: relative;
   transition: all 0.5s;
+}
+
+.template-search .search__wrapper.loading:after, .template-search .search__wrapper.loading::after {
+  content: "Artificial intelligence generates new images...";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+  font-family: Assistant, sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  padding: 80px 20px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: rgba(22, 17, 27, 0.8);
+  cursor: wait;
 }
 
 .template-search .search__header {
@@ -6245,7 +6284,16 @@ h3 {
 }
 
 .template-search .search .swiper__append button svg {
+  transform-origin: center;
   margin-left: 24px;
+}
+
+.template-search .search .swiper__append button.loading {
+  cursor: wait;
+}
+
+.template-search .search .swiper__append button.loading svg {
+  animation: pulse 3s infinite ease-in-out;
 }
 
 .template-search .search .swiper:after, .template-search .search .swiper::after {
@@ -6254,7 +6302,7 @@ h3 {
   display: block;
   position: absolute;
   height: 100%;
-  width: 30%;
+  width: 38%;
   right: 0;
   top: 0;
   bottom: 0;
@@ -6269,13 +6317,18 @@ h3 {
 }
 
 .template-search .search .swiper-slide img {
+  object-fit: contain;
   max-width: 80%;
   max-height: 520px;
+  min-height: 520px;
+  min-width: 520px;
 }
 
 @media (max-width: 767.98px) {
   .template-search .search .swiper-slide img {
     max-width: 100%;
+    min-height: 342px;
+    min-width: 342px;
   }
 }
 
@@ -6330,6 +6383,15 @@ h3 {
 
 .template-search .search .show-more__btn svg {
   margin-right: 16px;
+  transform-origin: center;
+}
+
+.template-search .search .show-more__btn.loading {
+  cursor: wait;
+}
+
+.template-search .search .show-more__btn.loading svg {
+  animation: pulse 3s infinite ease-in-out;
 }
 
 .template-search .hero .banner__form {
