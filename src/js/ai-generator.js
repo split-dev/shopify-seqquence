@@ -38,6 +38,8 @@
                 const slider = searchViews[i].querySelector('.js-search-swiper');
                 const searchPrompt = searchViews[i].querySelector('.js-search-prompt');
                 const generateMoreBtn = searchViews[i].querySelector('.js-generate-more');
+                const mockupImg = slider.getAttribute('data-mockup-src');
+                const mockupUrl = slider.getAttribute('data-mockup-url');
 
                 searchPrompt && (searchPrompt.textContent = search);
                 generateMoreBtn && generateMoreBtn.setAttribute('data-prompt', search);
@@ -50,7 +52,7 @@
                             slide.querySelector('IMG').setAttribute('src', imagesResult[i][key]);
                             slide.querySelector('A').setAttribute('href', `/products/t-shirt-mockup?key=${key}`);
                         } else {
-                            slider.swiper.appendSlide(`<div class="swiper-slide"><a href="/products/t-shirt-mockup?key=${key}" target="_blank"><img src="${imagesResult[i][key]}" /></a></div>`);
+                            slider.swiper.appendSlide(`<div class="swiper-slide"><a href="${mockupUrl}? key=${key}" target="_blank"><img src="${imagesResult[i][key]}" /></a></div>`);
                         }
                     });
                 }
