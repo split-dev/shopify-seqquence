@@ -19,6 +19,7 @@
     const photosData = new Map();
     const cartNotification = document.querySelector('#cart-notification');
     const mainCartItems = document.querySelector('#main-cart-items');
+    const productCards = document.querySelectorAll('.product-card-wrapper img[src*="mockup"]');
     const sleep = ms => new Promise(res => setTimeout(res, ms));
     const PHOTOS_API_NAMES = ['tShirtResult', 'imageStandard', 'imageFull'];
 
@@ -141,6 +142,44 @@
         return imageData;
     };
 
+    const getRandomImages = async () => {
+        const length = 10;
+        const imagesRequest = await fetch(`${API_HOST}/last-images?length=${length}`, {
+            method: 'GET'
+        });
+        
+
+        const imagesResponse = await imagesRequest.json();
+
+        if (imagesRequest.status !== 200) {
+            console.error(imagesResponse);
+
+            trackGoogleError(`Error images request ${JSON.stringify(imagesResponse)}`);
+        }
+
+        return imagesResponse;
+    };
+
+    const fillProductCards = async () => {
+        const randomImages = await getRandomImages();
+
+        productCards.forEach((card, i) => {
+            const randomKey = Math.floor(Math.random() * i);
+            const randomImagesArr = Object.values(randomImages[randomKey].images);
+            const randomKeysArr = Object.keys(randomImages[randomKey].images);
+            const links = card.closest('.product-card-wrapper').querySelectorAll('a');
+
+            card.removeAttribute('srcset');
+            card.setAttribute('src', randomImagesArr[0].tShirtResult);
+            
+            links.forEach((link) => {
+                const href = link.getAttribute('href');
+
+                link.setAttribute('href', `${href}?key=${randomKeysArr[0]}`);
+            });
+        })
+    };
+
     if (isProductPage && queryPhotoKey) {        
         getImages(queryPhotoKey);
 
@@ -172,5 +211,10 @@
         }
 
         updateCartView();
+    }
+
+    if (productCards) {
+        /** need to fill product previews */
+        fillProductCards();
     }
 })();

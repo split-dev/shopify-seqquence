@@ -80,7 +80,7 @@
 
             Object.keys(imgs).forEach((key) => {
                 if (imgs[key] && imgs[key].tShirtResult) {
-                    imagesResult[i][key] = imgs[key].tShirtResult;   
+                    imagesResult[i][key] = imgs[key].tShirtResult;
                 } else {
                     trackGoogleError(`There is no image result for search query: ${search} and id: ${key}`);
                 }
