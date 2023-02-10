@@ -137,7 +137,7 @@
             if (imagesRequest.status !== 200) {
                 console.error(imagesResponse);
 
-                trackGoogleError(`Error images request ${JSON.stringify(imagesRequest)}`);
+                trackGoogleError(`Error images request ${JSON.stringify(imagesResponse)}`);
                 
                 return imagesResponse;
             }
@@ -244,8 +244,8 @@
 
         searchViews.forEach((searchView, i) => {
             searchView.addEventListener('click', (e) => {
-                if (e.target.classList.contains('js-generate-more')) {
-                    const btn = e.target;
+                if (e.target.classList.contains('js-generate-more') || e.target.closest('.js-generate-more')) {
+                    const btn = e.target.closest('.js-generate-more') ? e.target.closest('.js-generate-more') : e.target;
 
                     if (btn.classList.contains('loading')) return false;
 

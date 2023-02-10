@@ -4,7 +4,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
   stats: 'minimal',
-  entry: [path.resolve(__dirname, '../../src/main.js'), path.resolve(__dirname, '../../src/js/ai-generator.js')],
+  entry: [
+    path.resolve(__dirname, '../../src/main.js'), 
+    path.resolve(__dirname, '../../src/js/ai-generator.js'), 
+    path.resolve(__dirname, '../../src/js/ai-personaliser.js')
+  ],
   output: {
     path: path.resolve(__dirname, '../../shopify/assets/'),
     filename: 'bundle.js'

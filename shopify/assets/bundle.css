@@ -6305,6 +6305,7 @@ h3 {
   height: 100%;
   width: 38%;
   right: 0;
+  pointer-events: none;
   top: 0;
   bottom: 0;
   background: rgb(255, 255, 255);

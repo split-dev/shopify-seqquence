@@ -11,7 +11,7 @@
     "a7d2ba8d-8dd7-4199-98bf-66fddc8af4e7": {
       "type": "search",
       "settings": {
-        "product": "mochup-t-shirt",
+        "product": "mockup-t-shirt",
         "form_placeholder": "Panda jumping",
         "button_text": "Create",
         "search_title": "Brought you by  the prompt:",
@@ -23,7 +23,7 @@
     "b4c6eb4e-bbd6-4352-ad69-649f5eafe5fe": {
       "type": "search-2",
       "settings": {
-        "product": "mochup-t-shirt",
+        "product": "mockup-t-shirt",
         "form_placeholder": "",
         "button_text": "",
         "search_title": "Brought you by  the prompt:",
