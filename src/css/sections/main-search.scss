@@ -151,7 +151,7 @@
         max-width: 80%;
         max-height: 520px;
         min-height: 520px;
-        min-width: 520px;
+        min-width: 100%;
         @include media-breakpoint-down(sm) {
           max-width: 100%;
           min-height: 342px;

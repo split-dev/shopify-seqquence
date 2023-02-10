@@ -17,7 +17,8 @@ module.exports = {
     es6: true
   },
   globals: {
-    Shopify: 'readonly'
+    Shopify: 'readonly',
+    Swiper: 'readonly'
   },
   ignorePatterns: [
     /**

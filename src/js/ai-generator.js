@@ -33,24 +33,26 @@
 
         const slider = searchContainer.querySelector('.js-search-swiper:not(.swiper-initialized)');
 
-        new Swiper(slider, {
-            slidesPerView: 3.5,
-            spaceBetween: 30,
-            freeMode: true,
-            mousewheel: true,
-            breakpoints: {
-                767: {
-                    slidesPerView: 3.5
+        if (window.Swiper) {
+            new Swiper(slider, {
+                slidesPerView: 3.5,
+                spaceBetween: 30,
+                freeMode: true,
+                mousewheel: true,
+                breakpoints: {
+                    767: {
+                        slidesPerView: 3.5
+                    },
+                    320: {
+                        slidesPerView: 1.2,
+                    }
                 },
-                320: {
-                    slidesPerView: 1.2,
-                }
-            },
-            navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-            },
-        });
+                navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+                },
+            });
+        }        
     };
 
     const updateImagesPreviews = (promptResult) => {
@@ -134,6 +136,8 @@
     
             if (imagesRequest.status !== 200) {
                 console.error(imagesResponse);
+
+                trackGoogleError(`Error images request ${JSON.stringify(imagesRequest)}`);
                 
                 return imagesResponse;
             }
@@ -151,6 +155,10 @@
 
             await sleep(timeout);
             timeout = 1000;
+        }
+
+        if (imagesResponse.length === 0) {
+            trackGoogleError(`Can't get images. Probably DB connection error`);
         }
 
         updateImagesPreviews(imagesResponse);
