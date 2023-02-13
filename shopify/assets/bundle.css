@@ -5460,7 +5460,7 @@ h3 {
   gap: 60px;
 }
 
-@media screen and (max-width: 1050px) {
+@media screen and (max-width: 1060px) {
   .header .list-menu {
     gap: 20px;
   }
