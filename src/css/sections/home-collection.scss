@@ -5,6 +5,7 @@
 .home-collection {
     position: relative;
     top: -60px;
+    // top: -30px;
 
     @include media-breakpoint-down(lg) {
         top: -30px;

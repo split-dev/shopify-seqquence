@@ -45,6 +45,9 @@
         @media (max-width: 767px) {
             font-size: 20px;
             line-height: 26px;
+
+            top: 3px;
+            left: 17px;
         }
     }
 
@@ -61,12 +64,34 @@
         gap: 60px;
 
         @media screen and (max-width: 1050px) {
-            gap: 25px;
+            gap: 20px;
         }
     }
 
     &__icon {
-        margin-left: 10px;
+        // margin-left: 11px;
+        // margin-top: 5px;
+
+        &--menu .icon {
+            margin-left: 22px;
+            margin-top: 5px;
+            // top: 20px;
+            // left: 24px;
+        }
+
+        &--cart {
+            position: relative;
+            top: 5px;
+            left: 5px;
+
+            svg {
+                @media (max-width: 767px) {
+                    width: 34px !important;
+                    height: 30px !important;
+                    margin-right: 0 !important;
+                }
+            }
+        }
     }
 
     &__icons {

@@ -59,14 +59,19 @@
             padding-right: 15px;
         }
 
+        &__sale {
+            display: flex;
+            align-items: center;
+        }
+
         &-item {
             &--sale {
                 margin-right: 16px;
             }
 
             &--regular {
-                position: relative;
-                top: -10px;
+                // position: relative;
+                // top: -10px;
                 margin-right: 40px;
             }
         }

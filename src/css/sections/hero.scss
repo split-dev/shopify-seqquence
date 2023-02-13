@@ -5,7 +5,10 @@
 .hero {
     position: relative !important;
     top: -35px;
-    padding: 0;
+    // top: -114px;
+    // padding: 0;
+    // height: 100vh !important;
+    // border: 1px solid red;
 
     @include media-breakpoint-down(sm) {
         position: static !important;
@@ -13,26 +16,39 @@
 
     .banner {
         &__content {
-            padding: 0 0 50px !important;
+            // padding: 0 0 50px !important;
             max-width: none !important;
 
+            padding: 0 !important;
+            height: 100vh;
+            // border: 1px solid red;
+            position: relative;
+            top: -114px;
+
+            @media screen and (max-width: 1400px) {
+                // height: auto;
+                // position: static;
+            }
 
             @include media-breakpoint-down(lg) {
-                padding: 0 0 100px !important;
+                // padding: 0 0 100px !important;
             }
 
             @include media-breakpoint-down(sm) {
-                padding: 20px 0 80px !important;
+                // padding: 20px 0 80px !important;
             }
 
             @include media-breakpoint-down(xs) {
-                padding: 75px 0 90px !important;
+                // padding: 75px 0 90px !important;
             }
         }
 
         &__box {
             max-width: none !important;
             padding: 0 !important;
+
+            // position: absolute;
+            // top: calc(39% - 250px);
         }
 
         &__media {
@@ -48,6 +64,10 @@
             line-height: 168px;
             max-width: 1200px;
 
+            @media screen and (max-width: 1221px) {
+                line-height: 138px;
+            }
+
             @include media-breakpoint-down(sm) {
                 font-size: 42px;
                 line-height: 54px;
@@ -55,6 +75,7 @@
 
             &-accent {
                 color: $primary;
+                white-space: nowrap;
             }
         }
 
@@ -126,6 +147,8 @@
         }
 
         &__label {
+            display: none;
+
             top: 35px;
             left: 104px !important;
             letter-spacing: 0;
@@ -164,6 +187,7 @@
         &__text-bottom {
             position: absolute;
             bottom: 65px;
+            // bottom: -80px;
             width: 100%;
             text-align: center;
 
@@ -184,4 +208,5 @@
 
 .grecaptcha-badge {
     z-index: 10;
+    display: none !important;
 }
