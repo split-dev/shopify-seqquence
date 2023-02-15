@@ -3,27 +3,53 @@
 // ==========================================================================
 
 @-webkit-keyframes pulse {
-  0% { -webkit-transform: scale(0.9); opacity: 0.7; }
-  50% { -webkit-transform: scale(1); opacity: 1; }
-  100% { -webkit-transform: scale(0.9); opacity: 0.7; }
+  0% {
+    -webkit-transform: scale(0.9);
+    opacity: 0.7;
+  }
+
+  50% {
+    -webkit-transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    -webkit-transform: scale(0.9);
+    opacity: 0.7;
+  }
 }
 
 @keyframes pulse {
-  0% { transform: scale(0.9); opacity: 0.7; }
-  50% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(0.9); opacity: 0.7; }
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
 }
 
 .template-search {
   .main-page-title {
     display: none;
   }
+
   .search {
     &__wrapper {
-      padding: 50px 0px 50px 20px;
+      // padding: 50px 0px 50px 20px;
+      padding: 50px 0px 30px 20px;
       position: relative;
       transition: all .5s;
+
       &.loading {
+
         &:after,
         &::after {
           content: 'Artificial intelligence generates new images...';
@@ -45,29 +71,34 @@
           left: 0;
           right: 0;
           z-index: 10;
-          background-color: rgba(22,17,27,0.8);
+          background-color: rgba(22, 17, 27, 0.8);
           cursor: wait;
         }
       }
     }
+
     &__header {
       max-width: 1379px;
       padding: 0px 20px 20px 20px;
-      margin: 0 auto!important;
+      margin: 0 auto !important;
+
       @include media-breakpoint-down(sm) {
         padding: 0px 20px 20px 0px;
       }
+
       & h2 {
         font-weight: 700;
         font-size: 26px;
         line-height: 33px;
         color: $text;
         margin-bottom: 10px;
+
         @include media-breakpoint-down(sm) {
           font-size: 20px;
           line-height: 26px;
         }
       }
+
       & p {
         font-weight: 400;
         font-size: 16px;
@@ -75,6 +106,7 @@
         color: $grey;
       }
     }
+
     .swiper__append {
       position: absolute;
       top: 50%;
@@ -88,10 +120,12 @@
       justify-content: center;
       z-index: 20;
       transform: translateY(-50%);
+
       @include media-breakpoint-down(sm) {
         right: 20px;
         top: 80%;
       }
+
       & button {
         padding: 16px;
         font-style: normal;
@@ -102,31 +136,37 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
         @include media-breakpoint-down(sm) {
           max-width: 176px;
           text-align: left;
         }
+
         & svg {
           transform-origin: center;
           margin-left: 24px;
         }
+
         &.loading {
           cursor: wait;
+
           svg {
             -webkit-animation: pulse 3s infinite ease-in-out;
             -o-animation: pulse 3s infinite ease-in-out;
-            -ms-animation: pulse 3s infinite ease-in-out; 
-            -moz-animation: pulse 3s infinite ease-in-out; 
+            -ms-animation: pulse 3s infinite ease-in-out;
+            -moz-animation: pulse 3s infinite ease-in-out;
             animation: pulse 3s infinite ease-in-out;
           }
         }
       }
     }
+
     .swiper {
+
       &:after,
       &::after {
         z-index: 1;
-        content: '';
+        // content: '';
         display: block;
         position: absolute;
         height: 100%;
@@ -135,17 +175,19 @@
         pointer-events: none;
         top: 0;
         bottom: 0;
-        background: rgb(255,255,255);
-        background: -moz-linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(22,17,27,0.8) 35%);
-        background: -webkit-linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(22,17,27,0.8) 35%);
+        background: rgb(255, 255, 255);
+        background: -moz-linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(22, 17, 27, 0.8) 35%);
+        background: -webkit-linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(22, 17, 27, 0.8) 35%);
         background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(22, 17, 27, 0.8) 35%);
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",endColorstr="#16111b",GradientType=1);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#16111b", GradientType=1);
       }
     }
+
     .swiper-wrapper {
       max-width: 1332px;
       margin: 0 auto;
     }
+
     .swiper-slide {
       & img {
         object-fit: contain;
@@ -153,6 +195,7 @@
         max-height: 520px;
         min-height: 520px;
         min-width: 100%;
+
         @include media-breakpoint-down(sm) {
           max-width: 100%;
           min-height: 342px;
@@ -160,36 +203,44 @@
         }
       }
     }
+
     .swiper-button-next {
-      display: block!important;
+      display: block !important;
     }
+
     .banner__content {
-      padding: 0px!important;
+      padding: 0px !important;
     }
+
     .banner__input {
       @include media-breakpoint-down(sm) {
-        height: 70px!important;
+        height: 70px !important;
         padding: 33px 16px 23px 64px;
         font-size: 16px;
       }
     }
+
     .banner__icon-search {
       @include media-breakpoint-down(sm) {
         top: 25px;
       }
     }
+
     .banner__label {
       @include media-breakpoint-down(sm) {
         top: 28px;
       }
     }
+
     .show-more {
       max-width: 1379px;
-      padding: 10px 20px 120px 20px;
-      margin: 0 auto!important;
+      // padding: 10px 20px 120px 20px;
+      margin: 0 auto !important;
+
       @include media-breakpoint-down(sm) {
         display: none;
       }
+
       &__btn {
         display: flex;
         align-items: center;
@@ -197,25 +248,30 @@
         margin: 0 auto;
         max-width: 370px;
         width: 100%;
+
         & svg {
           margin-right: 16px;
           transform-origin: center;
         }
+
         &.loading {
           cursor: wait;
+
           svg {
             -webkit-animation: pulse 3s infinite ease-in-out;
             -o-animation: pulse 3s infinite ease-in-out;
-            -ms-animation: pulse 3s infinite ease-in-out; 
-            -moz-animation: pulse 3s infinite ease-in-out; 
+            -ms-animation: pulse 3s infinite ease-in-out;
+            -moz-animation: pulse 3s infinite ease-in-out;
             animation: pulse 3s infinite ease-in-out;
           }
         }
       }
     }
   }
+
   .hero .banner__form {
     padding-top: 40px;
+
     @include media-breakpoint-down(sm) {
       margin: 16px auto 0 !important;
       padding-top: 0px;

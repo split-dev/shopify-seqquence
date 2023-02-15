@@ -147,7 +147,7 @@
         }
 
         &__label {
-            display: none;
+            // display: none;
 
             top: 35px;
             left: 104px !important;
@@ -209,4 +209,20 @@
 .grecaptcha-badge {
     z-index: 10;
     display: none !important;
+}
+
+.template-search .hero.js-search-view {
+    position: static !important;
+
+    // margin-top: 114px;
+    // padding-top: 76px;
+    .banner__form {
+        margin-top: 114px !important;
+        padding-top: 76px !important;
+
+        @include media-breakpoint-down(sm) {
+            margin-top: 114px !important;
+            padding-top: 16px !important;
+        }
+    }
 }

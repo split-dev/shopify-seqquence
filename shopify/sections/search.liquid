@@ -1,8 +1,11 @@
 <div class="search hero js-search-view">
   <div class="container banner__content banner__content--{{ section.settings.desktop_content_position }} page-width">
     <div class="banner__box content-container content-container--full-width-mobile">
-      <div class="banner__form" {{ block.shopify_attributes }}>
-        <form action="/pages/search" type="POST" id="aiSearch">
+      <div class="banner__form" {{ section.shopify_attributes }}>
+        <form
+          action="/pages/search"
+          type="POST"
+          id="aiSearch">
           <div class="banner__field-wrapper">
             <div class="banner__field field">
               <input
@@ -15,20 +18,22 @@
                 autocorrect="off"
                 autocapitalize="off"
                 autocomplete="search"
-                placeholder="{{ block.settings.form_placeholder | escape }}"
-                required
-              >
+                placeholder="{{ section.settings.form_placeholder | escape }}"
+                required>
               <span class="banner__icon-search">{% render 'icon-search' %}</span>
               <label class="banner__label field__label color-text-white text-20px font-weight-bold">
-                {{ block.settings.form_placeholder | escape }}
+                {{ section.settings.form_placeholder | escape }}
               </label>
-              <button type="submit" class="btn btn--primary banner__button field__button" id="SearchSubmit">
+              <button
+                type="submit"
+                class="btn btn--primary banner__button field__button"
+                id="SearchSubmit">
                 {% render 'icon-magic-wand' %}
-                {{ block.settings.button_text | escape }}
+                {{ section.settings.button_text | escape }}
               </button>
             </div>
           </div>
-        </form> 
+        </form>
       </div>
     </div>
 
@@ -43,17 +48,20 @@
       </div>
       {% assign tshirt_photo_def = section.settings.tshirtplaceholder | image %}
       {% assign tshirt_photo = section.settings.product.images | first | default: tshirt_photo_def %}
-      <div class="swiper js-search-swiper" data-mockup-url="{{ section.settings.product.url }}" data-mockup-src="{{ tshirt_photo | img_url: 'large' }}">
+      <div
+        class="swiper js-search-swiper"
+        data-mockup-url="{{ section.settings.product.url }}"
+        data-mockup-src="{{ tshirt_photo | img_url: 'large' }}">
         <div class="swiper-wrapper">
           {% for i in (1..3) %}
-              <div class="swiper-slide swiper-slide">
-                <a href="{{ section.settings.product.url }}" target="_blank">
-                  <img src="{{ tshirt_photo | img_url: 'large' }}" />
-                </a>
-              </div>
-            {% endfor %}
+            <div class="swiper-slide swiper-slide">
+              <a href="{{ section.settings.product.url }}" target="_blank">
+                <img src="{{ tshirt_photo | img_url: 'large' }}" />
+              </a>
+            </div>
+          {% endfor %}
         </div>
-        <div class="swiper__append">        
+        <div class="swiper__append">
           <button type="button" class="append-2-slides js-generate-more">
             <span>Create More</span>
             {% render 'create-more-icon' %}
@@ -76,63 +84,59 @@
 <script src="{{ 'search-swipers.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
-{
-  "name": "Search grid",
-  "tag": "section",
-  "class": "section",
-  "settings": [
-    {
-      "type": "product",
-      "id": "product",
-      "label": "Default mockup product"
-    },
-    {
-      "type": "text",
-      "id": "form_placeholder",
-      "default": "Panda jumping",
-      "label": "Form placeholder"
-    },
-    {
-      "type": "text",
-      "id": "tshirtplaceholder",
-      "default": "https://cdn.shopify.com/s/files/1/0694/9752/0433/files/t-shirt-mockup.png?v=1675951639",
-      "label": "URL Link to T-Shirt product placeholder"
-    },
-    {
-      "type": "text",
-      "id": "button_text",
-      "default": "Create",
-      "label": "Button text"
-    },
-    {
-      "type": "text",
-      "id": "search_title",
-      "default": "Brought you by  the prompt:",
-      "label": "Search title"
-    },
-    {
-      "type": "text",
-      "id": "search_description",
-      "default": "Loading...",
-      "label": "Search description"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_more",
-      "label": "Show more button",
-      "default": false
-    },
-    {
-      "type": "text",
-      "id": "button_more",
-      "label": "Button more text",
-      "default": "Show me more"
-    }
-  ],
-  "presets": [
-    {
-      "name": "Search grid"
-    }
-  ]
-}
+  {
+    "name": "Search grid",
+    "tag": "section",
+    "class": "section",
+    "settings": [
+      {
+        "type": "product",
+        "id": "product",
+        "label": "Default mockup product"
+      },
+      {
+        "type": "text",
+        "id": "form_placeholder",
+        "default": "Panda jumping",
+        "label": "Form placeholder"
+      },
+      {
+        "type": "text",
+        "id": "tshirtplaceholder",
+        "default": "https://cdn.shopify.com/s/files/1/0694/9752/0433/files/t-shirt-mockup.png?v=1675951639",
+        "label": "URL Link to T-Shirt product placeholder"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "default": "Create",
+        "label": "Button text"
+      }, {
+        "type": "text",
+        "id": "search_title",
+        "default": "Brought you by  the prompt:",
+        "label": "Search title"
+      }, {
+        "type": "text",
+        "id": "search_description",
+        "default": "Loading...",
+        "label": "Search description"
+      }, {
+        "type": "checkbox",
+        "id": "show_more",
+        "label": "Show more button",
+        "default": false
+      }, {
+        "type": "text",
+        "id": "button_more",
+        "label": "Button more text",
+        "default": "Show me more"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Search grid"
+      }
+    ]
+  }
 {% endschema %}

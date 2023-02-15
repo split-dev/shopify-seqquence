@@ -12,7 +12,8 @@
       "type": "search",
       "settings": {
         "product": "mockup-t-shirt",
-        "form_placeholder": "Panda jumping",
+        "form_placeholder": "",
+        "tshirtplaceholder": "https:\/\/cdn.shopify.com\/s\/files\/1\/0694\/9752\/0433\/files\/t-shirt-mockup.png?v=1675951639",
         "button_text": "Create",
         "search_title": "Brought you by  the prompt:",
         "search_description": "Loading...",
@@ -25,6 +26,7 @@
       "settings": {
         "product": "mockup-t-shirt",
         "form_placeholder": "",
+        "tshirtplaceholder": "https:\/\/cdn.shopify.com\/s\/files\/1\/0694\/9752\/0433\/files\/t-shirt-mockup.png?v=1675951639",
         "button_text": "",
         "search_title": "Brought you by  the prompt:",
         "search_description": "Loading...",
