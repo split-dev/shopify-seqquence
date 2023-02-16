@@ -124,6 +124,20 @@
                 box-shadow: none;
             }
 
+            &::placeholder {
+                display: block !important;
+                opacity: 1 !important;
+                color: $text;
+            }
+
+            &:focus {
+                box-shadow: none;
+
+                input::placeholder {
+                    display: none !important;
+                }
+            }
+
             @include media-breakpoint-down(xs) {
                 height: 126px !important;
                 padding: 43px 16px 43px 64px;

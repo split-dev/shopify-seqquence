@@ -39,7 +39,9 @@
       <div class="contact__fields">
         <div class="field">
           <input class="field__input" autocomplete="name" type="text" id="ContactForm-name" name="contact[{{ 'templates.contact.form.name' | t }}]" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}" placeholder="{{ 'templates.contact.form.name' | t }}">
-          <label class="field__label" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
+          {% comment %}
+            <label class="field__label" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
+          {% endcomment %}
         </div>
         <div class="field field--with-error">
           <input
@@ -58,7 +60,11 @@
             {% endif %}
             placeholder="{{ 'templates.contact.form.email' | t }}"
           >
-          <label class="field__label" for="ContactForm-email">{{ 'templates.contact.form.email' | t }} <span aria-hidden="true">*</span></label>
+
+          {% comment %}
+            <label class="field__label" for="ContactForm-email">{{ 'templates.contact.form.email' | t }} <span aria-hidden="true">*</span></label>
+          {% endcomment %}
+
           {%- if form.errors contains 'email' -%}
             <small class="contact__field-error" id="ContactForm-email-error">
               <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
@@ -77,7 +83,9 @@
         >
           {{- form.body -}}
         </textarea>
-        <label class="form__label field__label" for="ContactForm-body">{{ 'templates.contact.form.comment' | t }}</label>
+        {% comment %}
+          <label class="form__label field__label" for="ContactForm-body">{{ 'templates.contact.form.comment' | t }}</label>
+        {% endcomment %}
       </div>
       <div class="contact__button">
         <button type="submit" class="button btn btn--secondary">

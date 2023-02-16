@@ -12,7 +12,7 @@
       "type": "search",
       "settings": {
         "product": "mockup-t-shirt",
-        "form_placeholder": "",
+        "form_placeholder": "Panda jumping",
         "tshirtplaceholder": "https:\/\/cdn.shopify.com\/s\/files\/1\/0694\/9752\/0433\/files\/t-shirt-mockup.png?v=1675951639",
         "button_text": "Create",
         "search_title": "Brought you by  the prompt:",

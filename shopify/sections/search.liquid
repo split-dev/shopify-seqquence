@@ -21,9 +21,12 @@
                 placeholder="{{ section.settings.form_placeholder | escape }}"
                 required>
               <span class="banner__icon-search">{% render 'icon-search' %}</span>
+              {% comment %}
               <label class="banner__label field__label color-text-white text-20px font-weight-bold">
                 {{ section.settings.form_placeholder | escape }}
               </label>
+              {% endcomment %}
+
               <button
                 type="submit"
                 class="btn btn--primary banner__button field__button"

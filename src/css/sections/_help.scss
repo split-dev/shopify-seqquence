@@ -52,11 +52,23 @@
 
     &__input {
       border-radius: 2px;
+
+      &::placeholder {
+        display: block !important;
+        opacity: 1 !important;
+        color: $text;
+    }
+
+    &:focus {
+        box-shadow: none;
+
+        input::placeholder {
+            display: none !important;
+        }
+    }
     }
 
     &__label {
-      display: none;
-      
       font-weight: 400;
       font-size: 16px;
       line-height: 20px;

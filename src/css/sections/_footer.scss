@@ -67,11 +67,23 @@
             @include media-breakpoint-down(sm) {
                 width: 100%;
             }
+
+            &::placeholder {
+                display: block !important;
+                opacity: 1 !important;
+                color: $text;
+            }
+
+            &:focus {
+                box-shadow: none;
+
+                input::placeholder {
+                    display: none !important;
+                }
+            }
         }
 
         &__label {
-            display: none;
-            
             font-size: 16px;
             line-height: 20px;
             color: $light;
