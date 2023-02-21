@@ -109,7 +109,7 @@
                         slide.querySelector('A').setAttribute('href', `${mockupUrl}?key=${key}`);
                         slide.classList.add('customized');
                     } else {
-                        slider.swiper.appendSlide(`<div class="swiper-slide customized"><a href="${mockupUrl}?key=${key}" target="_blank"><img src="${imagesResult[i][key]}" /></a></div>`);
+                        slider.swiper.appendSlide(`<div class="swiper-slide customized"><a href="${mockupUrl}?key=${key}" target="_blank"><img src="${imagesResult[i][key]}" onerror="this.src=${mockupImg}" /></a></div>`);
                     }
                 });
                 if (slider.swiper.slides[slider.swiper.slides.length - 1].classList.contains('customized')) {
