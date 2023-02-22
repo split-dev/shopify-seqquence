@@ -14,7 +14,7 @@
     const isProductPage = window.location.pathname.includes('/product') && document.body.classList.contains('template-product');
     const isCartPage = window.location.pathname.includes('/cart');
     const REQUESTS_LIMIT = 270;
-    const API_HOST = 'https://awesome-code-nkh8j.cloud.serverless.com';
+    const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
     const queryPhotoKey = new URL(document.location).searchParams.get('key') || ''; 
     const photosData = new Map();
     const cartNotification = document.querySelector('#cart-notification');
