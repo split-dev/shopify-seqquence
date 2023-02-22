@@ -4,7 +4,7 @@
     const generateNewSearchPrompt = document.querySelector('.js-get-new-prompt');
     const searchViews = document.querySelectorAll('.js-search-view');
     const localSearch = localStorage.getItem(LS_SEARCH_KEY);
-    const API_HOST = 'https://awesome-code-nkh8j.cloud.serverless.com';
+    const API_HOST = 'https://smoggy-tam-boa.cyclic.app';
     const searchHistory = localSearch ? JSON.parse(localSearch) : {};
     const REQUESTS_LIMIT = 270;
     const sleep = ms => new Promise(res => setTimeout(res, ms));
