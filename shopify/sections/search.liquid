@@ -73,11 +73,44 @@
       </div>
     </div>
 
+    <template class="js-search-dom-template">
+      <div class="search__wrapper">
+        <div class="search__header">
+          {% if section.settings.search_title != blank %}
+            <h2>{{ section.settings.search_title }}</h2>
+          {% endif %}
+          {% if section.settings.search_description != blank %}
+            <p class="js-search-prompt">Loading...</p>
+          {% endif %}
+        </div>
+        {% assign tshirt_photo_def = section.settings.tshirtplaceholder | image %}
+        {% assign tshirt_photo = section.settings.product.images | first | default: tshirt_photo_def %}
+        <div class="swiper js-search-swiper" data-mockup-url="{{ section.settings.product.url }}" data-mockup-src="{{ tshirt_photo | img_url: 'large' }}">
+          <div class="swiper-wrapper">
+            {% for i in (1..3) %}
+                <div class="swiper-slide swiper-slide">
+                  <a href="{{ section.settings.product.url }}" target="_blank">
+                    <img src="{{ tshirt_photo | img_url: 'large' }}" />
+                  </a>
+                </div>
+              {% endfor %}
+          </div>
+          <div class="swiper__append">        
+            <button type="button" class="append-2-slides js-generate-more">
+              <span>Create More</span>
+              {% render 'create-more-icon' %}
+            </button>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    {% comment %} @todo: add functionaity! {% endcomment %}
     {% if section.settings.show_more %}
       <div class="show-more">
-        <button class="show-more__btn btn btn--secondary">
+        <button class="show-more__btn btn btn--secondary js-get-new-prompt">
           {% render 'icon-magic' %}
-          {{ section.settings.button_more }}
+          <span>{{ section.settings.button_more }}</span>
         </button>
       </div>
     {% endif %}

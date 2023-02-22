@@ -86,7 +86,7 @@
                 }
             });
 
-            if (!searchResultDomCarousels[i] && generateNewSearchPrompt) {
+            if (!searchResultDomCarousels[i]) {
                 addNewCarousel();
                 searchResultDomCarousels = document.querySelectorAll('.js-search-view .search__wrapper');
             }
