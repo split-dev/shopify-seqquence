@@ -31,6 +31,8 @@
       ],
       "settings": {
         "image": "shopify:\/\/shop_images\/flying_products_promo_f29e091f-5010-48c8-8397-07e39b8667ba.png",
+        "video": "shopify:\/\/files\/videos\/AP_video_desktop.mp4",
+        "video_mob": "shopify:\/\/files\/videos\/AP_video_mobile.mp4",
         "image_height": "medium",
         "adapt_height_first_image": true,
         "desktop_content_position": "middle-center",
