@@ -122,6 +122,12 @@
     "cart_type": "notification",
     "show_vendor": false,
     "show_cart_note": false,
+    "checkout_logo_image": "shopify:\/\/shop_images\/Favicon.png",
+    "checkout_body_background_color": "#16111b",
+    "checkout_input_background_color_mode": "transparent",
+    "checkout_sidebar_background_color": "#16111b",
+    "checkout_accent_color": "#ccec06",
+    "checkout_button_color": "#0500ff",
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",

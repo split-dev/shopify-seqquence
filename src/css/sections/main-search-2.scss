@@ -75,6 +75,7 @@
         align-items: center;
         justify-content: center;
 
+        max-width: 223px;
         @include media-breakpoint-down(sm) {
           max-width: 176px;
           text-align: left;

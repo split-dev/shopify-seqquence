@@ -20,13 +20,13 @@
                     <a href="{{ section.settings.product.url }}" target="_blank">
                       <img src="{{ tshirt_photo | img_url: 'large' }}" />
                     </a>
-                    <a href="{{ section.settings.product.url }}" class="btn btn--secondary product-form__submit button button--secondary">Buy</a>
+                    <button class="btn btn--secondary js-get-product-redirect button button--secondary">Buy</button>
                   </div>
                 {% endfor %}
             </div>
             <div class="swiper__append">        
               <button type="button" class="append-2-slides js-generate-more">
-                <span>Create More</span>
+                <span>Create More of this Style</span>
                 {% render 'create-more-icon' %}
               </button>
             </div>
@@ -52,13 +52,13 @@
                       <a href="{{ section.settings.product.url }}" target="_blank">
                         <img src="{{ tshirt_photo | img_url: 'large' }}" />
                       </a>
-                      <a href="{{ section.settings.product.url }}" class="btn btn--secondary product-form__submit button button--secondary">Buy</a>
+                      <button class="btn btn--secondary js-get-product-redirect button button--secondary">Buy</button>
                     </div>
                   {% endfor %}
               </div>
               <div class="swiper__append">        
                 <button type="button" class="append-2-slides js-generate-more">
-                  <span>Create More</span>
+                  <span>Create More of this Style</span>
                   {% render 'create-more-icon' %}
                 </button>
               </div>

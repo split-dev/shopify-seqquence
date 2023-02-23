@@ -107,14 +107,14 @@
                     
                     if (slide) {
                         slide.querySelector('IMG').setAttribute('src', imagesResult[i][key]);
-                        slide.querySelector('A').setAttribute('href', `${mockupUrl}?key=${key}`);
+                        slide.querySelector('.js-get-product-redirect').setAttribute('data-id', `${key}`);
                         slide.classList.add('customized');
                     } else {
-                        slider.swiper.appendSlide(`<div class="swiper-slide customized"><a href="${mockupUrl}?key=${key}" target="_blank"><img src="${imagesResult[i][key]}" onerror="this.src=${mockupImg}" /></a><a href="${mockupUrl}?key=${key}" class="btn btn--secondary product-form__submit button button--secondary">Buy</a></div>`);
+                        slider.swiper.appendSlide(`<div class="swiper-slide customized"><img src="${imagesResult[i][key]}" onerror="this.src=${mockupImg}" /><button data-id=${key} class="btn btn--secondary js-get-product-redirect button button--secondary">Buy</button></div>`);
                     }
                 });
                 if (slider.swiper.slides[slider.swiper.slides.length - 1].classList.contains('customized')) {
-                    slider.swiper.appendSlide(`<div class="swiper-slide"><a href="${mockupUrl}" target="_blank"><img src="${mockupImg}" /></a><a href="${mockupUrl}" class="btn btn--secondary product-form__submit button button--secondary">Buy</a></div>`);
+                    slider.swiper.appendSlide(`<div class="swiper-slide"><img src="${mockupImg}" /><button class="btn btn--secondary js-get-product-redirect button button--secondary">Buy</button></div>`);
                 }
                 slider.swiper.slideTo(slider.swiper.slides.length);
             }
@@ -208,6 +208,28 @@
         return await waitImagesResult(queuesIds);
     };
 
+    const getPrintifyProduct = async (imageId) => {
+        const request = await fetch(`${API_HOST}/printify-product`, {
+            method: 'POST',
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                imageId
+            })
+        });
+
+        const response = await request.json();
+
+        if (response.status !== 200) {
+            console.error(response);
+            return false;
+        }
+
+        console.log('Printify product response:', response);
+    };
+
     const setBusyButtonState = (btn, state) => {
         const innerLabel = btn.querySelector('SPAN');
 
@@ -216,7 +238,7 @@
             innerLabel && (innerLabel.textContent = 'Loading...');
         } else {
             btn.classList.remove('loading');
-            innerLabel && (innerLabel.textContent = 'Create more');
+            innerLabel && (innerLabel.textContent = 'Create More of this Style');
         }
     };
 
@@ -244,6 +266,12 @@
                     console.log('Got images from Replicate API :>> ', images);
                 });
         }
+
+        document.querySelector('.search').addEventListener('click', (e) => {
+            if (e.target.classList.contains('js-get-product-redirect')) {
+                getPrintifyProduct(e.target.getAttribute('data-id'));
+            }
+        })
 
         searchViews.forEach((searchView, i) => {
             searchView.addEventListener('click', (e) => {
