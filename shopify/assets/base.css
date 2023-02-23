@@ -1907,6 +1907,54 @@ input[type='checkbox'] {
   margin-right: 0.5rem;
 }
 
+
+.checkbox {
+  padding: 1rem 2rem 1rem 0;
+  flex-grow: 1;
+  position: relative;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  word-break: break-word;
+  cursor: pointer;
+}
+
+.checkbox input[type='checkbox'] {
+  position: absolute;
+  opacity: 1;
+  width: 1.6rem;
+  height: 1.6rem;
+  top: 0.7rem;
+  left: -0.4rem;
+  z-index: -1;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.checkbox > svg {
+  background-color: rgb(var(--color-background));
+  margin-right: 1.2rem;
+  flex-shrink: 0;
+}
+
+.checkbox .icon-checkmark {
+  visibility: hidden;
+  position: absolute;
+  left: 0rem;
+  z-index: 5;
+  top: 1.4rem;
+}
+
+.checkbox > input[type='checkbox']:checked ~ .icon-checkmark {
+  visibility: visible;
+  height: 16px;
+  object-fit: contain;
+  background-color: #0500FF;
+  width: 16px;
+  padding: 2px;
+}
+
+
 /* Form global */
 
 .form__label {

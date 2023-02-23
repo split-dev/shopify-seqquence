@@ -6353,6 +6353,16 @@ h3 {
   animation: pulse 3s infinite ease-in-out;
 }
 
+.template-search .search .swiper .button--secondary {
+  max-height: 30px;
+  min-height: 30px;
+  min-width: 90px;
+  max-width: 90px;
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+}
+
 .template-search .search .swiper:after, .template-search .search .swiper::after {
   z-index: 1;
   display: block;

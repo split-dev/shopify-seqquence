@@ -1,6 +1,7 @@
 (() => {
     const LS_SEARCH_KEY = 'ai-search';
     const searchForm = document.getElementById('aiSearch');
+    const preventAutoExtendInput = document.getElementById('preventAutoExtend');
     const generateNewSearchPrompt = document.querySelector('.js-get-new-prompt');
     const searchViews = document.querySelectorAll('.js-search-view');
     const localSearch = localStorage.getItem(LS_SEARCH_KEY);
@@ -10,6 +11,7 @@
     const sleep = ms => new Promise(res => setTimeout(res, ms));
     const imagesResult = {};
     const allPromptResults = new Map();
+    let preventAutoExtend = false;
     let querySearch = new URL(document.location).searchParams.get('search') || '';
     let allAvailablePrompts;
     let searchResultDomCarousels = document.querySelectorAll('.js-search-view .search__wrapper');
@@ -109,11 +111,11 @@
                         slide.querySelector('A').setAttribute('href', `${mockupUrl}?key=${key}`);
                         slide.classList.add('customized');
                     } else {
-                        slider.swiper.appendSlide(`<div class="swiper-slide customized"><a href="${mockupUrl}?key=${key}" target="_blank"><img src="${imagesResult[i][key]}" onerror="this.src=${mockupImg}" /></a></div>`);
+                        slider.swiper.appendSlide(`<div class="swiper-slide customized"><a href="${mockupUrl}?key=${key}" target="_blank"><img src="${imagesResult[i][key]}" onerror="this.src=${mockupImg}" /></a><a href="${mockupUrl}?key=${key}" class="btn btn--secondary product-form__submit button button--secondary">Buy</a></div>`);
                     }
                 });
                 if (slider.swiper.slides[slider.swiper.slides.length - 1].classList.contains('customized')) {
-                    slider.swiper.appendSlide(`<div class="swiper-slide"><a href="${mockupUrl}" target="_blank"><img src="${mockupImg}" /></a></div>`);
+                    slider.swiper.appendSlide(`<div class="swiper-slide"><a href="${mockupUrl}" target="_blank"><img src="${mockupImg}" /></a><a href="${mockupUrl}" class="btn btn--secondary product-form__submit button button--secondary">Buy</a></div>`);
                 }
                 slider.swiper.slideTo(slider.swiper.slides.length);
             }
@@ -173,7 +175,9 @@
                 "Access-Control-Allow-Origin": "*",
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
+                preventAutoExtend,
+                randomPromptsCount: 1,
                 [isFullPrompt ? `fullPrompt` : `prompt`]: prompt
             })
         });
@@ -318,4 +322,8 @@
     }
 
     searchForm.querySelector('input[name="search"]').value = querySearch;
+
+    preventAutoExtendInput && preventAutoExtendInput.addEventListener('change', (e) => {
+        preventAutoExtend = preventAutoExtendInput.checked;
+    });
 })();

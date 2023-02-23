@@ -162,7 +162,15 @@
     }
 
     .swiper {
-
+      .button--secondary {
+        max-height: 30px;
+        min-height: 30px;
+        min-width: 90px;
+        max-width: 90px;
+        margin: 0 auto;
+        display: block;
+        text-align: center;
+      }
       &:after,
       &::after {
         z-index: 1;
