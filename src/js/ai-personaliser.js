@@ -21,7 +21,8 @@
     const mainCartItems = document.querySelector('#main-cart-items');
     const productCards = document.querySelectorAll('.product-card-wrapper img[src*="mockup"]');
     const sleep = ms => new Promise(res => setTimeout(res, ms));
-    const PHOTOS_API_NAMES = ['tShirtResult', 'imageStandard', 'imageFull'];
+    const PHOTOS_API_NAMES = ['tShirtResult', 'tShirtBlackResult', 'imageStandard', 'imageFull'];
+    let imageData;
 
     const trackGoogleError = (err) => {
         window.gtag && window.gtag('event', 'error', {
@@ -32,14 +33,18 @@
     };
 
     const updateProductPreviewData = (imgData) => {
+        imgData = imgData || imageData;
+
         const productPhotoMedia = document.querySelectorAll('.product-media-modal__content img, .product__media img');
         const productForm = document.querySelectorAll('.product-form Form');
+        const selectedBlack = (document.querySelector('.product [name="Color"]:checked').value === 'Black');
         const tShirtPhoto = imgData.images[queryPhotoKey]?.tShirtResult;
+        const tShirtBlackPhoto = imgData.images[queryPhotoKey]?.tShirtBlackResult;
 
         if (tShirtPhoto) {
             productPhotoMedia.forEach((img) => {
                 img.removeAttribute('srcset');
-                img.setAttribute('src', tShirtPhoto);
+                img.setAttribute('src', selectedBlack ? tShirtBlackPhoto || tShirtPhoto : tShirtPhoto);
             });
             productForm.forEach((frm) => {
                 Object.keys(imgData.images[queryPhotoKey]).forEach((imageName) => {
@@ -59,6 +64,9 @@
     const updateCartNotificationPreview = () => {
         const notificationOptions = cartNotification.querySelectorAll('.product-option');
         const imageNotification = cartNotification.querySelector('.cart-notification-product__image img');
+        const selectedBlack = (document.querySelector('.product [name="Color"]:checked').value === 'Black');
+        const whiteTshirtPhoto = photosData.get('tShirtResult');
+        const blackTshirtPhoto = photosData.get('tShirtBlackResult');
 
         notificationOptions.forEach((option) => {
             const optKey = option.querySelector('dt').textContent;
@@ -67,7 +75,7 @@
                 option.classList.add('hidden');
             }
         });
-        imageNotification.setAttribute('src', photosData.get('tShirtResult'));
+        imageNotification.setAttribute('src', selectedBlack ? blackTshirtPhoto || whiteTshirtPhoto : whiteTshirtPhoto);
     };
 
     const updateCartView = () => {
@@ -77,6 +85,7 @@
             const options = cartItem.querySelectorAll('.product-option');
             const img = cartItem.querySelector('.cart-item__image');
             const itemPhotos = {};
+            let blackTshirtSelected = false;
     
             options.forEach((option) => {
                 if (!option.querySelector('dd')) return;
@@ -85,19 +94,22 @@
                 const optVal = option.querySelector('dd').textContent.trim();
                 const name = optKey.replace(':', '');
 
+                if (name === 'Color') {
+                    blackTshirtSelected = (optVal === 'Black');
+                }
+
                 if (PHOTOS_API_NAMES.indexOf(name) > -1) {
                     option.classList.add('hidden');
                     itemPhotos[name] = optVal;
                 }
             });
-            itemPhotos.tShirtResult && img.setAttribute('src', itemPhotos.tShirtResult);
+            itemPhotos.tShirtResult && img.setAttribute('src', blackTshirtSelected ? itemPhotos.tShirtBlackResult || itemPhotos.tShirtResult : itemPhotos.tShirtResult);
         });
     };
 
     const getImages = async (key) => {
         let imagesResponse;
         let timeout = 1000;
-        let imageData;
 
         if (!key) return;
 
@@ -182,6 +194,23 @@
 
     if (isProductPage && queryPhotoKey) {        
         getImages(queryPhotoKey);
+
+        document.querySelectorAll('[data-url]').forEach((dUrl) => {
+            const url = new URL(document.location);
+            const keySearch = url.searchParams.get('key');
+    
+            dUrl.setAttribute('data-url', `${url.pathname}?key=${keySearch}`);
+        });
+
+        const selectColor = document.querySelectorAll('.product [name="Color"]');
+
+        selectColor.forEach((select) => {
+            select.addEventListener('change', () => {
+                console.log(select.value);
+                updateProductPreviewData();
+            });
+        });
+
 
         if (cartNotification) {
             const config = { attributes: true, childList: true, subtree: true };

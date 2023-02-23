@@ -1,7 +1,6 @@
 (() => {
     const LS_SEARCH_KEY = 'ai-search';
     const searchForm = document.getElementById('aiSearch');
-    const preventAutoExtendInput = document.getElementById('preventAutoExtend');
     const generateNewSearchPrompt = document.querySelector('.js-get-new-prompt');
     const searchViews = document.querySelectorAll('.js-search-view');
     const localSearch = localStorage.getItem(LS_SEARCH_KEY);
@@ -11,8 +10,8 @@
     const sleep = ms => new Promise(res => setTimeout(res, ms));
     const imagesResult = {};
     const allPromptResults = new Map();
-    let preventAutoExtend = false;
     let querySearch = new URL(document.location).searchParams.get('search') || '';
+    let preventAutoExtend = (new URL(document.location).searchParams.get('preventAutoExtend') === "on");
     let allAvailablePrompts;
     let searchResultDomCarousels = document.querySelectorAll('.js-search-view .search__wrapper');
 
@@ -177,7 +176,7 @@
             },
             body: JSON.stringify({
                 preventAutoExtend,
-                randomPromptsCount: 1,
+                randomPromptsCount: 2,
                 [isFullPrompt ? `fullPrompt` : `prompt`]: prompt
             })
         });
@@ -322,8 +321,5 @@
     }
 
     searchForm.querySelector('input[name="search"]').value = querySearch;
-
-    preventAutoExtendInput && preventAutoExtendInput.addEventListener('change', (e) => {
-        preventAutoExtend = preventAutoExtendInput.checked;
-    });
+    searchForm.querySelector('input[name="preventAutoExtend"]').checked = preventAutoExtend;
 })();

@@ -801,7 +801,8 @@ class VariantSelects extends HTMLElement {
 
   updateURL() {
     if (!this.currentVariant || this.dataset.updateUrl === 'false') return;
-    window.history.replaceState({ }, '', `${this.dataset.url}?variant=${this.currentVariant.id}`);
+    const isQuery = this.dataset.url.indexOf('?') >= 0;
+    window.history.replaceState({ }, '', `${this.dataset.url}${isQuery ? '&' : '?'}variant=${this.currentVariant.id}`);
   }
 
   updateShareUrl() {
