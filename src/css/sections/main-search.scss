@@ -171,6 +171,10 @@
         margin: 0 auto;
         display: block;
         text-align: center;
+        &.loading {
+          cursor: wait;
+          color: white !important;
+        }
       }
       &:after,
       &::after {

@@ -110,17 +110,25 @@
                         slide.querySelector('.js-get-product-redirect').setAttribute('data-id', `${key}`);
                         slide.classList.add('customized');
                     } else {
-                        slider.swiper.appendSlide(`<div class="swiper-slide customized"><img src="${imagesResult[i][key]}" onerror="this.src=${mockupImg}" /><button data-id=${key} class="btn btn--secondary js-get-product-redirect button button--secondary">Buy</button></div>`);
+                        slider.swiper.appendSlide(`<div class="swiper-slide customized"><img src="${imagesResult[i][key]}" onerror="this.src=${mockupImg}" /><button data-id="${key}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button></div>`);
                     }
                 });
                 if (slider.swiper.slides[slider.swiper.slides.length - 1].classList.contains('customized')) {
-                    slider.swiper.appendSlide(`<div class="swiper-slide"><img src="${mockupImg}" /><button class="btn btn--secondary js-get-product-redirect button button--secondary">Buy</button></div>`);
+                    slider.swiper.appendSlide(`<div class="swiper-slide"><img src="${mockupImg}" /><button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button></div>`);
                 }
                 slider.swiper.slideTo(slider.swiper.slides.length);
             }
         });
 
         console.log('FULL imagesResult :>> ', imagesResult);
+    }
+
+    const checkImagesFullLoaded = (length, pendImagesResult) => {
+        return (pendImagesResult.length === length) && pendImagesResult.every((result) => {
+            return result.images && Object.keys(result.images).length && Object.keys(result.images).every((key) => {
+                return result.images[key].printifyId
+            });
+        });
     }
 
     const waitImagesResult = async (ids, initialTimeout) => {
@@ -143,7 +151,9 @@
                 return imagesResponse;
             }
 
-            if (imagesResponse.length === ids.length) {
+            console.log('imagesResponse', imagesResponse);
+
+            if (checkImagesFullLoaded(ids.length, imagesResponse)) {
                 break;
             }
 
@@ -176,7 +186,6 @@
             },
             body: JSON.stringify({
                 preventAutoExtend,
-                randomPromptsCount: 2,
                 [isFullPrompt ? `fullPrompt` : `prompt`]: prompt
             })
         });
@@ -208,7 +217,7 @@
         return await waitImagesResult(queuesIds);
     };
 
-    const getPrintifyProduct = async (imageId) => {
+    const getPrintifyProduct = async (imageId, prompt, number) => {
         const request = await fetch(`${API_HOST}/printify-product`, {
             method: 'POST',
             headers: {
@@ -216,18 +225,52 @@
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                imageId
+                imageId,
+                type: 't-shirt',
+                prompt,
+                number: number + 1
             })
         });
 
         const response = await request.json();
-
-        if (response.status !== 200) {
+        
+        if (!response.id) {
             console.error(response);
+            setBusyBuyButtonState(e.target, false);
             return false;
         }
+        
+        console.log('response', response);
+        
+        const productUrl = `/products/${response.title.toLowerCase().replace(/[^a-z|0-9]+/img, '-')}`;
+        
+        let iterations = 100;
 
-        console.log('Printify product response:', response);
+        const checkProductCreated = async () => {
+            const response = await fetch(`${productUrl}.js`, {method: 'GET'});
+
+            if (response.status === 200) {
+                const productData = await response.json();
+
+                if (productData.available && productData.featured_image && productData.images?.length) {
+                    document.location.href = productUrl;
+                } else {
+                    if (iterations > 0) {
+                        setTimeout(checkProductCreated, 1000);
+                    } else {
+                        console.error('PRINTIFY BUG: Product creation timed out');
+                    }   
+                }
+            } else {
+                if (iterations > 0) {
+                    setTimeout(checkProductCreated, 1000);
+                } else {
+                    console.error('PRINTIFY BUG: Product creation timed out');
+                }
+            }
+        };
+
+        checkProductCreated();
     };
 
     const setBusyButtonState = (btn, state) => {
@@ -239,6 +282,18 @@
         } else {
             btn.classList.remove('loading');
             innerLabel && (innerLabel.textContent = 'Create More of this Style');
+        }
+    };
+
+    const setBusyBuyButtonState = (btn, state) => {
+        const innerLabel = btn.querySelector('SPAN');
+
+        if (state) {
+            btn.classList.add('loading');
+            innerLabel && (innerLabel.textContent = 'Wait...');
+        } else {
+            btn.classList.remove('loading');
+            innerLabel && (innerLabel.textContent = 'Buy');
         }
     };
 
@@ -259,7 +314,7 @@
                     console.log('Got images from LS :>> ', images);
                 });
         } else {
-            sendPromptRequest(querySearch)
+            sendPromptRequest(querySearch, false, 1)
                 .then(pendimages => pendimages)
                 .then(images => {
                     removeResultsBusyState();
@@ -269,7 +324,12 @@
 
         document.querySelector('.search').addEventListener('click', (e) => {
             if (e.target.classList.contains('js-get-product-redirect')) {
-                getPrintifyProduct(e.target.getAttribute('data-id'));
+                setBusyBuyButtonState(e.target, true);
+                getPrintifyProduct(
+                    e.target.getAttribute('data-id'), 
+                    e.target.closest('.search__wrapper').querySelector('.js-search-prompt').innerHTML,
+                    Array.from(e.target.closest('.swiper-slide').parentNode.children).indexOf(e.target.closest('.swiper-slide'))
+                );
             }
         })
 
