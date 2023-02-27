@@ -86,7 +86,8 @@
           {% for i in (1..3) %}
             <div class="swiper-slide swiper-slide">
               <img src="{{ tshirt_photo | img_url: 'large' }}" />
-              <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+              <button data-mockup="{{ section.settings.product.url }}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+              {{ section.settings.preloader | video_tag: muted: true, loop: true, autoplay: true, playsinline: true, width: 210 }}
             </div>
           {% endfor %}
         </div>
@@ -116,7 +117,8 @@
             {% for i in (1..3) %}
                 <div class="swiper-slide swiper-slide">
                   <img src="{{ tshirt_photo | img_url: 'large' }}" />
-                  <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+                  <button data-mockup="{{ section.settings.product.url }}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+                  {{ section.settings.preloader | video_tag: muted: true, loop: true, autoplay: true, playsinline: true, width: 210 }}
                 </div>
               {% endfor %}
           </div>
@@ -154,6 +156,11 @@
         "type": "product",
         "id": "product",
         "label": "Default mockup product"
+      },
+      {
+        "type": "video",
+        "id": "preloader",
+        "label": "Video preloader"
       },
       {
         "type": "text",

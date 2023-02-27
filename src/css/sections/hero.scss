@@ -57,6 +57,27 @@
             @include media-breakpoint-down(md) {
                 height: 60%;
             }
+
+            .js-banner__video {
+                display: block;
+            }
+
+            .js-banner__video-mobile {
+                display: none;
+            }
+            @media (max-width: 600px) {
+                height: 100vh;
+
+                .js-banner__video {
+                    display: none;
+                }
+
+                .js-banner__video-mobile {
+                    display: block;
+                    object-position: center;
+                    height: 100% !important;
+                }
+            }
         }
 
         &__heading {

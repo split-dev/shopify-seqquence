@@ -24,7 +24,15 @@
 {%- endif -%} 
 
 <div id="Banner-{{ section.id }}" class="hero container-fluid banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.adapt_height_first_image and section.settings.image != blank %} banner--adapt{% endif %} banner--desktop-transparent">
-  {%- if section.settings.image != blank -%}
+  {%- if section.settings.video != blank -%}
+    <div class="banner__media media">
+      {% assign poster = section.settings.image | image_url: width: 1500 %}
+
+      {{ section.settings.video | video_tag: poster: poster, muted: true, loop: true, autoplay: true, playsinline: true, width: 1500, class: "js-banner__video" }}
+      {{ section.settings.video_mob | video_tag: poster: poster, muted: true, loop: true, autoplay: true, playsinline: true, width: 600, class: "js-banner__video-mobile" }}
+    </div>
+
+  {%- elsif section.settings.image != blank  -%}
     <div class="banner__media media{% if section.settings.image == blank %} placeholder{% endif %}">
       {%-liquid
         assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
@@ -39,7 +47,6 @@
         alt: section.settings.image.alt | escape
       }}
     </div>
-
   {%- else -%}
     <div class="banner__media media{% if section.settings.image == blank %} placeholder{% endif %}">
       {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
@@ -104,6 +111,85 @@
 
   
 </div>
+
+<script>
+(function (){
+  var videoBanner = document.querySelector(window.innerWidth > 600 ? '.js-banner__video' : '.js-banner__video-mobile');
+  var inputBanner = document.querySelector('.hero input[name="search"]');
+  
+  var prompts = [
+    ['family of pandas', 1500],
+    ['cool metal robot', 2400],
+    ['dog royal portrait'],
+    ['cute cat photo'],
+    ['beautiful girl as pocahontas', 3000]
+  ];
+  var i = 0;
+
+  function updatePrompt() {
+    var prompt = prompts[i];
+
+    if (!prompt) return;
+
+    var characters = prompt[0].split("");
+    var delayPerChar = 500 / characters.length;
+    var charIndex = 0;
+
+    i = (i === prompts.length - 1) ? 0 : i + 1;
+    inputBanner.placeholder = '';
+
+    function charTyper() {
+      inputBanner.placeholder += characters[charIndex++];
+
+      if (charIndex === characters.length) return;
+
+      updatePrompt.timeoutType = setTimeout(charTyper, delayPerChar);
+    }
+
+    updatePrompt.timeoutType = setTimeout(charTyper, delayPerChar);
+    updatePrompt.timeoutPrompt = setTimeout(updatePrompt, prompt[1] || 2300);
+    updatePrompt.stop = function () {
+      clearTimeout(updatePrompt.timeoutPrompt);
+      clearTimeout(updatePrompt.timeoutType);
+      i = 0;
+    }
+  }
+
+  if (videoBanner) {
+    videoBanner.addEventListener('loadeddata', function () {
+      updatePrompt();
+    });
+    videoBanner.addEventListener('timeupdate', function () {
+      var cTime = this.currentTime;
+
+      if (Math.ceil(cTime) === this.duration) {
+        videoBanner.pause();
+        videoBanner.currentTime = 0;
+        updatePrompt.stop();
+
+        setTimeout(function() {
+          videoBanner.play();
+          updatePrompt();
+        }, 10);
+      }
+    });
+  }
+
+  function handleVisibilityChange() {
+    if (document.visibilityState === 'visible') {
+      videoBanner.play();
+      updatePrompt();
+    } else {
+      videoBanner.pause();
+      videoBanner.currentTime = 0;
+      updatePrompt.stop();
+    }
+  }
+
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+})()
+</script>
+
 
 {% schema %}
 {

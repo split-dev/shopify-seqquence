@@ -97,6 +97,7 @@
             const generateMoreBtn = searchResultDomCarousels[i].querySelector('.js-generate-more');
             const mockupImg = slider.getAttribute('data-mockup-src');
             const mockupUrl = slider.getAttribute('data-mockup-url');
+            const preloadUrl = 'https://cdn.shopify.com/videos/c/vp/21de78cbe14f46cbbc3e8f54adfd86b4/21de78cbe14f46cbbc3e8f54adfd86b4.SD-480p-1.5Mbps-12651580.mp4';
 
             searchPrompt && (searchPrompt.textContent = search);
             generateMoreBtn && generateMoreBtn.setAttribute('data-prompt', search);
@@ -110,13 +111,13 @@
                         slide.querySelector('.js-get-product-redirect').setAttribute('data-id', `${key}`);
                         slide.classList.add('customized');
                     } else {
-                        slider.swiper.appendSlide(`<div class="swiper-slide customized"><img src="${imagesResult[i][key]}" onerror="this.src=${mockupImg}" /><button data-id="${key}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button></div>`);
+                        slider.swiper.appendSlide(`<div class="swiper-slide customized"><img src="${imagesResult[i][key]}" onerror="this.src=${mockupImg}" /><button data-mockup="${mockupUrl}" data-id="${key}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button><video loop muted autoplay playsinline width="210"><source src="${preloadUrl}" type="video/mp4"/></video></div>`);
                     }
                 });
                 if (slider.swiper.slides[slider.swiper.slides.length - 1].classList.contains('customized')) {
-                    slider.swiper.appendSlide(`<div class="swiper-slide"><img src="${mockupImg}" /><button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button></div>`);
+                    slider.swiper.appendSlide(`<div class="swiper-slide"><img src="${mockupImg}" /><button data-mockup="${mockupUrl}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button><video loop muted autoplay playsinline width="210"><source src="${preloadUrl}" type="video/mp4"/></video></div>`);
                 }
-                slider.swiper.slideTo(slider.swiper.slides.length);
+                /* slider.swiper.slideTo(slider.swiper.slides.length); */
             }
         });
 
@@ -132,6 +133,8 @@
     }
 
     const waitImagesResult = async (ids, initialTimeout) => {
+        console.time('waitImagesResult');
+
         let imagesResponse;
         let timeout = initialTimeout || 10000;
         let loadedImages = 0;
@@ -154,6 +157,7 @@
             console.log('imagesResponse', imagesResponse);
 
             if (checkImagesFullLoaded(ids.length, imagesResponse)) {
+                console.timeEnd('waitImagesResult');
                 break;
             }
 
@@ -178,6 +182,8 @@
     };
 
     const sendPromptRequest = async (prompt, isFullPrompt) => {
+        console.time('generateImages with Replicate AI');
+
         const sendSearch = await fetch(`${API_HOST}/prompt`, {
             method: 'POST',
             headers: {
@@ -214,10 +220,13 @@
         
         localStorage.setItem(LS_SEARCH_KEY, JSON.stringify(searchHistory));
 
+        console.timeEnd('generateImages with Replicate AI');
+
         return await waitImagesResult(queuesIds);
     };
 
-    const getPrintifyProduct = async (imageId, prompt, number) => {
+    const getPrintifyProduct = async (button, imageId, prompt, number, mockupUrl) => {
+        console.time('getPrintifyProduct');
         const request = await fetch(`${API_HOST}/printify-product`, {
             method: 'POST',
             headers: {
@@ -236,41 +245,18 @@
         
         if (!response.id) {
             console.error(response);
-            setBusyBuyButtonState(e.target, false);
+            setBusyBuyButtonState(button, false);
             return false;
         }
         
         console.log('response', response);
         
         const productUrl = `/products/${response.title.toLowerCase().replace(/[^a-z|0-9]+/img, '-')}`;
-        
-        let iterations = 100;
 
-        const checkProductCreated = async () => {
-            const response = await fetch(`${productUrl}.js`, {method: 'GET'});
+        console.timeEnd('getPrintifyProduct');
 
-            if (response.status === 200) {
-                const productData = await response.json();
-
-                if (productData.available && productData.featured_image && productData.images?.length) {
-                    document.location.href = productUrl;
-                } else {
-                    if (iterations > 0) {
-                        setTimeout(checkProductCreated, 1000);
-                    } else {
-                        console.error('PRINTIFY BUG: Product creation timed out');
-                    }   
-                }
-            } else {
-                if (iterations > 0) {
-                    setTimeout(checkProductCreated, 1000);
-                } else {
-                    console.error('PRINTIFY BUG: Product creation timed out');
-                }
-            }
-        };
-
-        checkProductCreated();
+        window.sessionStorage.setItem('currentCreatingProduct', productUrl);
+        document.location.href = `${mockupUrl}?key=${imageId}`;
     };
 
     const setBusyButtonState = (btn, state) => {
@@ -297,6 +283,12 @@
         }
     };
 
+    const setResultsBusyState = () => {
+        searchResultDomCarousels.forEach(carousel => {
+            carousel.classList.add('loading');
+        });
+    };
+
     const removeResultsBusyState = () => {
         searchResultDomCarousels.forEach(carousel => {
             carousel.classList.remove('loading');
@@ -305,7 +297,7 @@
 
     if (querySearch.length) {            
         /** PAGE LOAD STARTS HERE! */
-        if (searchHistory[querySearch]) {
+        if (searchHistory[querySearch] && !preventAutoExtend) {
             const requestIds = Object.values(searchHistory[querySearch]).reduce((prev, curr) => prev.concat(curr), []);
 
             waitImagesResult(requestIds, 1)
@@ -326,9 +318,11 @@
             if (e.target.classList.contains('js-get-product-redirect')) {
                 setBusyBuyButtonState(e.target, true);
                 getPrintifyProduct(
+                    e.target,
                     e.target.getAttribute('data-id'), 
                     e.target.closest('.search__wrapper').querySelector('.js-search-prompt').innerHTML,
-                    Array.from(e.target.closest('.swiper-slide').parentNode.children).indexOf(e.target.closest('.swiper-slide'))
+                    Array.from(e.target.closest('.swiper-slide').parentNode.children).indexOf(e.target.closest('.swiper-slide')),
+                    e.target.getAttribute('data-mockup')
                 );
             }
         })
@@ -340,11 +334,13 @@
 
                     if (btn.classList.contains('loading')) return false;
 
+                    setResultsBusyState();
                     setBusyButtonState(btn, true);
     
                     sendPromptRequest(btn.getAttribute('data-prompt'), true)
                         .then(pendimages => pendimages)
                         .then(images => {
+                            removeResultsBusyState();
                             setBusyButtonState(btn, false);
                             console.log('Got images from Replicate API :>> ', images);
                         });

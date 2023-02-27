@@ -1,21 +1,10 @@
-
-/** API Printify */
-/**
- * eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6Ijg2YWE1MWM2ZGFjOGYwYWY5OTdhZjE3YWJmZWMyMzBjZGNhNmI1NGI0OTM5MTBiOTA0MWRiMjNlY2FmMDA3ZjEzOWYyNGEwMmE5ZDM2MmU2IiwiaWF0IjoxNjc2MDMwNzU3LjA4NjExLCJuYmYiOjE2NzYwMzA3NTcuMDg2MTEzLCJleHAiOjE3MDc1NjY3NTcuMDM2NzU5LCJzdWIiOiIxMTk1OTcxOCIsInNjb3BlcyI6WyJzaG9wcy5tYW5hZ2UiLCJzaG9wcy5yZWFkIiwiY2F0YWxvZy5yZWFkIiwib3JkZXJzLnJlYWQiLCJvcmRlcnMud3JpdGUiLCJwcm9kdWN0cy5yZWFkIiwicHJvZHVjdHMud3JpdGUiLCJ3ZWJob29rcy5yZWFkIiwid2ViaG9va3Mud3JpdGUiLCJ1cGxvYWRzLnJlYWQiLCJ1cGxvYWRzLndyaXRlIiwicHJpbnRfcHJvdmlkZXJzLnJlYWQiXX0.AdCStZgN0ywpW9qlw7oxe--TL44I3IOU0NbYQfpY-8Ctwe8aWhaY6NJ_YNAS9LfZiMYrnE-4s4R3vDUclYQ
- * 
- * 
- * 
- * 
- * 
- * 
- */
-
 (() => {
     const isProductPage = window.location.pathname.includes('/product') && document.body.classList.contains('template-product');
     const isCartPage = window.location.pathname.includes('/cart');
     const REQUESTS_LIMIT = 270;
     const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
     const queryPhotoKey = new URL(document.location).searchParams.get('key') || ''; 
+    const productUrl = window.sessionStorage.getItem('currentCreatingProduct');
     const photosData = new Map();
     const cartNotification = document.querySelector('#cart-notification');
     const mainCartItems = document.querySelector('#main-cart-items');
@@ -195,34 +184,75 @@
     if (isProductPage && queryPhotoKey) {        
         getImages(queryPhotoKey);
 
-        document.querySelectorAll('[data-url]').forEach((dUrl) => {
-            const url = new URL(document.location);
-            const keySearch = url.searchParams.get('key');
+        if (productUrl) {
+            const productInfo = document.querySelector('.product__info-wrapper');
+
+            console.time('Creating real product');
+            
+            let iterations = 100;
+
+            productInfo.classList.add('loading');
+
+            const checkProductCreated = async () => {
+                const response = await fetch(`${productUrl}.js`, {method: 'GET'});
     
-            dUrl.setAttribute('data-url', `${url.pathname}?key=${keySearch}`);
-        });
+                if (response.status === 200) {
+                    const productData = await response.json();
+    
+                    if (productData.available && productData.images.length) {
+                        console.timeEnd('Creating real product');
+                        console.log('FINALLY got product!!! ', productData);
 
-        const selectColor = document.querySelectorAll('.product [name="Color"]');
+                        window.sessionStorage.removeItem('currentCreatingProduct');
 
-        selectColor.forEach((select) => {
-            select.addEventListener('change', () => {
-                console.log(select.value);
-                updateProductPreviewData();
-            });
-        });
-
-
-        if (cartNotification) {
-            const config = { attributes: true, childList: true, subtree: true };
-            const obs = new MutationObserver((mutationList, observer) => {
-                for (const mutation of mutationList) {
-                  if (mutation.type === 'childList') {
-                    updateCartNotificationPreview();
-                  }
+                        productInfo.classList.remove('loading');
+                        document.location.href = productData.url;
+                    } else {
+                        if (iterations > 0) {
+                            setTimeout(checkProductCreated, 1000);
+                        } else {
+                            console.error('PRINTIFY BUG: Product creation timed out');
+                        }   
+                    }
+                } else {
+                    if (iterations > 0) {
+                        setTimeout(checkProductCreated, 1000);
+                    } else {
+                        console.error('PRINTIFY BUG: Product creation timed out');
+                    }
                 }
+            };
+    
+            checkProductCreated();
+        } else {
+            if (cartNotification) {
+                const config = { attributes: true, childList: true, subtree: true };
+                const obs = new MutationObserver((mutationList, observer) => {
+                    for (const mutation of mutationList) {
+                      if (mutation.type === 'childList') {
+                        updateCartNotificationPreview();
+                      }
+                    }
+                });
+    
+                obs.observe(cartNotification, config);
+            }
+            
+            document.querySelectorAll('[data-url]').forEach((dUrl) => {
+                const url = new URL(document.location);
+                const keySearch = url.searchParams.get('key');
+        
+                dUrl.setAttribute('data-url', `${url.pathname}?key=${keySearch}`);
             });
-
-            obs.observe(cartNotification, config);
+    
+            const selectColor = document.querySelectorAll('.product [name="Color"]');
+    
+            selectColor.forEach((select) => {
+                select.addEventListener('change', () => {
+                    console.log(select.value);
+                    updateProductPreviewData();
+                });
+            });
         }
     }
     if (isCartPage) {
