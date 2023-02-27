@@ -6519,6 +6519,10 @@ input:-webkit-autofill:active {
   display: none;
 }
 
+.template-search .search .swiper-slide.customized {
+  cursor: pointer;
+}
+
 .template-search .search .swiper-slide.customized video {
   display: none !important;
 }

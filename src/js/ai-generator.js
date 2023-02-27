@@ -317,16 +317,27 @@
         }
 
         document.querySelector('.search').addEventListener('click', (e) => {
+            let btnTarget;
+
             if (e.target.classList.contains('js-get-product-redirect')) {
-                setBusyBuyButtonState(e.target, true);
-                getPrintifyProduct(
-                    e.target,
-                    e.target.getAttribute('data-id'), 
-                    querySearch,
-                    Array.from(e.target.closest('.swiper-slide').parentNode.children).indexOf(e.target.closest('.swiper-slide')) * document.querySelectorAll('.js-search-swiper').length,
-                    e.target.getAttribute('data-mockup')
-                );
+                btnTarget = e.target;
+            } else if (e.target.tagName.toLowerCase() === 'img') {
+                btnTarget = e.target.closest('.swiper-slide').querySelector('.js-get-product-redirect');
             }
+
+            if (btnTarget.classList.contains('loading')) {
+                return false;
+            }
+
+            setBusyBuyButtonState(btnTarget, true);
+
+            getPrintifyProduct(
+                btnTarget,
+                btnTarget.getAttribute('data-id'), 
+                querySearch,
+                Array.from(btnTarget.closest('.swiper-slide').parentNode.children).indexOf(btnTarget.closest('.swiper-slide')) * document.querySelectorAll('.js-search-swiper').length,
+                btnTarget.getAttribute('data-mockup')
+            );
         })
 
         searchViews.forEach((searchView, i) => {
