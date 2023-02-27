@@ -80,9 +80,25 @@
         }
 
         &--cart {
-            position: relative;
-            top: 5px;
-            left: 5px;
+            // position: relative;
+            // top: 5px;
+            // left: 5px;
+            @media (max-width: 767px) {
+                position: relative;
+                top: 5px;
+                left: 5px;
+            }
+
+            // .cart-count-bubble span {
+            //     position: relative;
+            //     top: 2px;
+            // }
+
+            @media (max-width: 767px) {
+                .cart-count-bubble {
+                    left: 2rem !important;
+                }
+            }
 
             svg {
                 @media (max-width: 767px) {
