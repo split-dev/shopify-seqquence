@@ -5697,6 +5697,8 @@ h3 {
 
 .hero .banner__media .js-banner__video {
   display: block;
+  object-position: top;
+  object-fit: cover;
 }
 
 .hero .banner__media .js-banner__video-mobile {
@@ -6502,15 +6504,41 @@ input:-webkit-autofill:active {
 .template-search .search .swiper-slide video {
   display: none;
   position: absolute;
-  top: 50%;
+  top: 48%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 40%;
-  max-height: 30%;
+  max-width: 45%;
+  max-height: 35%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}
+
+.template-search .search .swiper-slide .button.js-get-product-redirect {
+  display: none;
 }
 
 .template-search .search .swiper-slide.customized video {
   display: none !important;
+}
+
+.template-search .search .swiper-slide.customized .button.js-get-product-redirect {
+  display: block;
+}
+
+@media (max-width: 1500px) {
+  .template-search .search .swiper-slide video {
+    max-width: 40%;
+  }
+}
+
+@media (max-width: 678px) {
+  .template-search .search .swiper-slide video {
+    max-width: 40%;
+    max-height: 46%;
+    top: 45%;
+  }
 }
 
 .template-search .search .swiper-button-next {

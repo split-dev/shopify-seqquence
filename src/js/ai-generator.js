@@ -53,7 +53,9 @@
                 prevEl: '.swiper-button-prev',
                 },
             });
-        }        
+        }
+
+        return slider;
     };
 
     const updateImagesPreviews = (promptResult) => {
@@ -283,14 +285,14 @@
         }
     };
 
-    const setResultsBusyState = () => {
-        searchResultDomCarousels.forEach(carousel => {
+    const setResultsBusyState = (_carousel) => {
+        _carousel ? _carousel.classList.add('loading') : searchResultDomCarousels.forEach(carousel => {
             carousel.classList.add('loading');
         });
     };
 
-    const removeResultsBusyState = () => {
-        searchResultDomCarousels.forEach(carousel => {
+    const removeResultsBusyState = (_carousel) => {
+        _carousel ? _carousel.classList.remove('loading') : searchResultDomCarousels.forEach(carousel => {
             carousel.classList.remove('loading');
         });
     };
@@ -320,8 +322,8 @@
                 getPrintifyProduct(
                     e.target,
                     e.target.getAttribute('data-id'), 
-                    e.target.closest('.search__wrapper').querySelector('.js-search-prompt').innerHTML,
-                    Array.from(e.target.closest('.swiper-slide').parentNode.children).indexOf(e.target.closest('.swiper-slide')),
+                    querySearch,
+                    Array.from(e.target.closest('.swiper-slide').parentNode.children).indexOf(e.target.closest('.swiper-slide')) * document.querySelectorAll('.js-search-swiper').length,
                     e.target.getAttribute('data-mockup')
                 );
             }
@@ -393,6 +395,9 @@
                     newUniquePrompt = allAvailablePrompts[randomKey];
                 }
 
+                const addedCarousel = addNewCarousel();
+
+                setResultsBusyState(addedCarousel.closest('.search__wrapper'));
                 
                 sendPromptRequest(newUniquePrompt, true)
                     .then(pendimages => pendimages)
