@@ -258,7 +258,7 @@
         console.timeEnd('getPrintifyProduct');
 
         window.sessionStorage.setItem('currentCreatingProduct', productUrl);
-        document.location.href = `${mockupUrl}?key=${imageId}`;
+        window.open(`${mockupUrl}?key=${imageId}`, '_blank');
     };
 
     const setBusyButtonState = (btn, state) => {
@@ -325,7 +325,7 @@
                 btnTarget = e.target.closest('.swiper-slide').querySelector('.js-get-product-redirect');
             }
 
-            if (btnTarget.classList.contains('loading')) {
+            if (!btnTarget || btnTarget.classList.contains('loading')) {
                 return false;
             }
 
@@ -344,16 +344,17 @@
             searchView.addEventListener('click', (e) => {
                 if (e.target.classList.contains('js-generate-more') || e.target.closest('.js-generate-more')) {
                     const btn = e.target.closest('.js-generate-more') ? e.target.closest('.js-generate-more') : e.target;
+                    const carousel = btn.closest('.search__wrapper');
 
                     if (btn.classList.contains('loading')) return false;
 
-                    setResultsBusyState();
+                    setResultsBusyState(carousel);
                     setBusyButtonState(btn, true);
     
                     sendPromptRequest(btn.getAttribute('data-prompt'), true)
                         .then(pendimages => pendimages)
                         .then(images => {
-                            removeResultsBusyState();
+                            removeResultsBusyState(carousel);
                             setBusyButtonState(btn, false);
                             console.log('Got images from Replicate API :>> ', images);
                         });

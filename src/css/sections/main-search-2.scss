@@ -149,10 +149,6 @@
       padding: 100px 20px 20px 20px;
       margin: 0 auto !important;
 
-      @include media-breakpoint-down(sm) {
-        display: none;
-      }
-
       &__btn {
         display: flex;
         align-items: center;

@@ -245,6 +245,7 @@
 
       &.customized {
         cursor: pointer;
+        padding-bottom: 20px;
         video {
           display: none !important;
         }
@@ -299,10 +300,6 @@
       max-width: 1379px;
       // padding: 10px 20px 120px 20px;
       margin: 0 auto !important;
-
-      @include media-breakpoint-down(sm) {
-        display: none;
-      }
 
       &__btn {
         display: flex;
