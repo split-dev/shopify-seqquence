@@ -221,9 +221,10 @@
           min-width: 342px;
         }
         @media (max-width: 415px) {
-          max-width: 100%;
-          min-height: 342px;
-          min-width: 300px;
+          min-width: 260px;
+          min-height: 260px;
+          height: 260px;
+          width: 260px;
         }
       }
       video {
@@ -261,9 +262,11 @@
       }
       @media (max-width: 678px) {
         video {
-          max-width: 40%;
-          max-height: 46%;
-          top: 45%;
+          min-width: 120px;
+          min-height: 120px;
+          height: 120px;
+          width: 120px;
+          left: 135px;
         }
       }
     }

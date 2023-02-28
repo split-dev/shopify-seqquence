@@ -7,8 +7,8 @@
     swipers.forEach(function(sw) {
         swiperInstances.push(new Swiper(sw, {
             slidesPerView: 3.5,
-            spaceBetween: 30,
             freeMode: true,
+            spaceBetween: 30,
             mousewheel: true,
             breakpoints: {
                 767: {

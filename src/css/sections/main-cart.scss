@@ -183,6 +183,9 @@
     }
     .cart__dynamic-checkout-buttons {
       margin: 0 0 0 auto;
+      @include media-breakpoint-down(sm) {
+        max-width: 100%;
+      }
     }
   }
 }
