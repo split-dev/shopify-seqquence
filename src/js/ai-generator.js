@@ -160,6 +160,7 @@
 
             if (checkImagesFullLoaded(ids.length, imagesResponse)) {
                 console.timeEnd('waitImagesResult');
+                removeResultsBusyState();
                 break;
             }
 
@@ -415,6 +416,7 @@
                     .then(pendimages => pendimages)
                     .then(images => {
                         setBusyButtonState(generateNewSearchPrompt, false);
+                        removeResultsBusyState();
                         console.log('Got images from Replicate API :>> ', images);
                     });
             });
