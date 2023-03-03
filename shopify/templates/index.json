@@ -19,6 +19,7 @@
         },
         "38bad702-e83d-4a64-9100-be582b11d73d": {
           "type": "text-bottom",
+          "disabled": true,
           "settings": {
             "text_bottom": "or get inspired by our best sellers"
           }
@@ -42,6 +43,7 @@
     },
     "0d12c2dc-6a67-4314-be69-294727ebcea3": {
       "type": "home-collection",
+      "disabled": true,
       "settings": {
         "collection": "frontpage",
         "products_to_show": 10,

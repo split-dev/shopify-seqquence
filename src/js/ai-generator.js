@@ -138,7 +138,7 @@
         console.time('waitImagesResult');
 
         let imagesResponse;
-        let timeout = initialTimeout || 10000;
+        let timeout = initialTimeout || 5000;
         let loadedImages = 0;
 
         for (let i = 0; i < REQUESTS_LIMIT; i += 1) {
@@ -286,13 +286,13 @@
     };
 
     const setResultsBusyState = (_carousel) => {
-        _carousel ? _carousel.classList.add('loading') : searchResultDomCarousels.forEach(carousel => {
+        _carousel ? _carousel.classList.add('loading') : document.querySelectorAll('.js-search-view .search__wrapper').forEach(carousel => {
             carousel.classList.add('loading');
         });
     };
 
     const removeResultsBusyState = (_carousel) => {
-        _carousel ? _carousel.classList.remove('loading') : searchResultDomCarousels.forEach(carousel => {
+        _carousel ? _carousel.classList.remove('loading') : document.querySelectorAll('.js-search-view .search__wrapper').forEach(carousel => {
             carousel.classList.remove('loading');
         });
     };
