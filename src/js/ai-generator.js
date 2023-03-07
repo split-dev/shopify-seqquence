@@ -230,6 +230,8 @@
 
     const getPrintifyProduct = async (button, imageId, prompt, number, mockupUrl) => {
         console.time('getPrintifyProduct');
+        window.sessionStorage.setItem('currentCreatingProduct', null);
+        const newWindow = window.open(`${mockupUrl}?key=${imageId}`, '_blank');
         const request = await fetch(`${API_HOST}/printify-product`, {
             method: 'POST',
             headers: {
@@ -246,9 +248,12 @@
 
         const response = await request.json();
         
+        setBusyBuyButtonState(button, false);
+
+        console.timeEnd('getPrintifyProduct');
+
         if (!response.id) {
             console.error(response);
-            setBusyBuyButtonState(button, false);
             return false;
         }
         
@@ -256,10 +261,9 @@
         
         const productUrl = `/products/${response.title.toLowerCase().replace(/[^a-z|0-9]+/img, '-')}`;
 
-        console.timeEnd('getPrintifyProduct');
-
         window.sessionStorage.setItem('currentCreatingProduct', productUrl);
-        window.open(`${mockupUrl}?key=${imageId}`, '_blank');
+
+        newWindow.location.reload();
     };
 
     const setBusyButtonState = (btn, state) => {
