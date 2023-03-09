@@ -274,6 +274,6 @@
 
     if (productCards) {
         /** need to fill product previews */
-        fillProductCards();
+        /** fillProductCards(); */
     }
 })();

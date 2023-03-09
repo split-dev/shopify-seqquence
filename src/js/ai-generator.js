@@ -9,7 +9,9 @@
     const REQUESTS_LIMIT = 270;
     const sleep = ms => new Promise(res => setTimeout(res, ms));
     const imagesResult = {};
+    const previewsResult = {};
     const allPromptResults = new Map();
+    const preloadUrl = 'https://cdn.shopify.com/videos/c/vp/21de78cbe14f46cbbc3e8f54adfd86b4/21de78cbe14f46cbbc3e8f54adfd86b4.SD-480p-1.5Mbps-12651580.mp4';
     let querySearch = new URL(document.location).searchParams.get('search') || '';
     let preventAutoExtend = (new URL(document.location).searchParams.get('preventAutoExtend') === "on");
     let allAvailablePrompts;
@@ -80,8 +82,12 @@
             const imgs = allPromptResults.get(search);
 
             imagesResult[i] = imagesResult[i] || {};
+            previewsResult[i] = previewsResult[i] || {};
 
             Object.keys(imgs).forEach((key) => {
+                if (imgs[key] && imgs[key].generatedImg) {
+                    previewsResult[i][key] = imgs[key].generatedImg;
+                }
                 if (imgs[key] && imgs[key].tShirtResult) {
                     imagesResult[i][key] = imgs[key].tShirtResult;
                 } else {
@@ -99,25 +105,51 @@
             const generateMoreBtn = searchResultDomCarousels[i].querySelector('.js-generate-more');
             const mockupImg = slider.getAttribute('data-mockup-src');
             const mockupUrl = slider.getAttribute('data-mockup-url');
-            const preloadUrl = 'https://cdn.shopify.com/videos/c/vp/21de78cbe14f46cbbc3e8f54adfd86b4/21de78cbe14f46cbbc3e8f54adfd86b4.SD-480p-1.5Mbps-12651580.mp4';
 
             searchPrompt && (searchPrompt.textContent = search);
             generateMoreBtn && generateMoreBtn.setAttribute('data-prompt', search);
 
             if (slider) {
+                Object.keys(previewsResult[i]).forEach((key, j) => {
+                    console.log(`url(${previewsResult[i][key]})`);
+                    const slide = slider.querySelectorAll('.swiper-slide')[j];
+                    
+                    if (slide) {
+                        slide.querySelector('.preview-image').style.backgroundImage = `url(${previewsResult[i][key]})`;
+                    } else {
+                        slider.swiper.appendSlide(`<div class="swiper-slide">
+                            <div class="preview-image" style="background-image: url(${previewsResult[i][key]})"></div>
+                            <img src="${mockupImg}" onerror="this.src=${mockupImg}" />
+                            <button data-mockup="${mockupUrl}" data-id="${key}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+                            <video loop muted autoplay playsinline width="210"><source src="${preloadUrl}" type="video/mp4"/></video>
+                        </div>`);
+                    }
+                });
                 Object.keys(imagesResult[i]).forEach((key, j) => {
                     const slide = slider.querySelectorAll('.swiper-slide')[j];
                     
                     if (slide) {
+                        slide.querySelector('.preview-image').style.opacity = '0';
                         slide.querySelector('IMG').setAttribute('src', imagesResult[i][key]);
                         slide.querySelector('.js-get-product-redirect').setAttribute('data-id', `${key}`);
                         slide.classList.add('customized');
                     } else {
-                        slider.swiper.appendSlide(`<div class="swiper-slide customized"><img src="${imagesResult[i][key]}" onerror="this.src=${mockupImg}" /><button data-mockup="${mockupUrl}" data-id="${key}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button><video loop muted autoplay playsinline width="210"><source src="${preloadUrl}" type="video/mp4"/></video></div>`);
+                        slider.swiper.appendSlide(`<div class="swiper-slide customized">
+                            <div class="preview-image"></div>
+                            <img src="${imagesResult[i][key]}" onerror="this.src=${mockupImg}" />
+                            <button data-mockup="${mockupUrl}" data-id="${key}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+                            <video loop muted autoplay playsinline width="210"><source src="${preloadUrl}" type="video/mp4"/></video>
+                        </div>`);
                     }
                 });
+                
                 if (slider.swiper.slides[slider.swiper.slides.length - 1].classList.contains('customized')) {
-                    slider.swiper.appendSlide(`<div class="swiper-slide"><img src="${mockupImg}" /><button data-mockup="${mockupUrl}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button><video loop muted autoplay playsinline width="210"><source src="${preloadUrl}" type="video/mp4"/></video></div>`);
+                    slider.swiper.appendSlide(`<div class="swiper-slide">
+                        <div class="preview-image"></div>
+                        <img src="${mockupImg}" />
+                        <button data-mockup="${mockupUrl}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+                        <video loop muted autoplay playsinline width="210"><source src="${preloadUrl}" type="video/mp4"/></video>
+                    </div>`);
                 }
                 /* slider.swiper.slideTo(slider.swiper.slides.length); */
             }
@@ -138,7 +170,7 @@
         console.time('waitImagesResult');
 
         let imagesResponse;
-        let timeout = initialTimeout || 5000;
+        let timeout = initialTimeout || 1000;
         let loadedImages = 0;
 
         for (let i = 0; i < REQUESTS_LIMIT; i += 1) {
@@ -172,7 +204,7 @@
             console.log(`pending images...next ping in ${timeout/1000} seconds`);
 
             await sleep(timeout);
-            timeout = 1000;
+            timeout = 500;
         }
 
         if (imagesResponse.length === 0) {
@@ -241,8 +273,7 @@
             body: JSON.stringify({
                 imageId,
                 type: 't-shirt',
-                prompt,
-                number: number + 1
+                prompt
             })
         });
 
@@ -263,6 +294,7 @@
 
         window.sessionStorage.setItem('currentCreatingProduct', productUrl);
 
+        newWindow.sessionStorage.setItem('currentCreatingProduct', productUrl);
         newWindow.location.reload();
     };
 
