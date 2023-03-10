@@ -151,6 +151,8 @@
 
                 variantRadios.updateOptions();
                 variantRadios.updateMasterId();
+                variantRadios.updateVariantInput();
+                variantRadios.updateURL();
             } else {
                 setTimeout(() => shopifyProductWaiter(url), 1000);
                 waitIterations = waitIterations - 1;
