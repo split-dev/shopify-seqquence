@@ -7,6 +7,7 @@
     const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
     const searchHistory = localSearch ? JSON.parse(localSearch) : {};
     const REQUESTS_LIMIT = 100;
+    const LS_QUEUE_PRINTIFY_PRODUCTS = 'currentCreatingProduct';
     const sleep = ms => new Promise(res => setTimeout(res, ms));
     const imagesResult = {};
     const previewsResult = {};
@@ -88,11 +89,6 @@
                 if (imgs[key] && imgs[key].generatedImg) {
                     previewsResult[i][key] = imgs[key].generatedImg;
                 }
-                if (imgs[key] && imgs[key].tShirtResult) {
-                    imagesResult[i][key] = imgs[key].tShirtResult;
-                } else {
-                    trackGoogleError(`There is no image result for search query: ${search} and id: ${key}`);
-                }
             });
 
             if (!searchResultDomCarousels[i]) {
@@ -115,33 +111,18 @@
                     
                     if (slide) {
                         slide.querySelector('.preview-image').style.backgroundImage = `url(${previewsResult[i][key]})`;
-                    } else {
-                        slider.swiper.appendSlide(`<div class="swiper-slide">
-                            <div class="preview-image" style="background-image: url(${previewsResult[i][key]})"></div>
-                            <img src="${mockupImg}" onerror="this.src=${mockupImg}" />
-                            <button data-mockup="${mockupUrl}" data-id="${key}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
-                            <video loop muted autoplay playsinline width="210"><source src="${preloadUrl}" type="video/mp4"/></video>
-                        </div>`);
-                    }
-                });
-                Object.keys(imagesResult[i]).forEach((key, j) => {
-                    const slide = slider.querySelectorAll('.swiper-slide')[j];
-                    
-                    if (slide) {
-                        slide.querySelector('.preview-image').style.opacity = '0';
-                        slide.querySelector('IMG').setAttribute('src', imagesResult[i][key]);
                         slide.querySelector('.js-get-product-redirect').setAttribute('data-id', `${key}`);
                         slide.classList.add('customized');
                     } else {
                         slider.swiper.appendSlide(`<div class="swiper-slide customized">
-                            <div class="preview-image"></div>
-                            <img src="${imagesResult[i][key]}" onerror="this.src=${mockupImg}" />
+                            <div class="preview-image" style="background-image: url(${previewsResult[i][key]})"></div>
+                            <img src="${mockupImg}"/>
                             <button data-mockup="${mockupUrl}" data-id="${key}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
                             <video loop muted autoplay playsinline width="210"><source src="${preloadUrl}" type="video/mp4"/></video>
                         </div>`);
                     }
                 });
-                
+
                 if (slider.swiper.slides[slider.swiper.slides.length - 1].classList.contains('customized')) {
                     slider.swiper.appendSlide(`<div class="swiper-slide">
                         <div class="preview-image"></div>
@@ -159,20 +140,18 @@
 
     const checkImagesFullLoaded = (length, pendImagesResult) => {
         return (pendImagesResult.length === length) && pendImagesResult.every((result) => {
-            return result.images && Object.keys(result.images).length && Object.keys(result.images).every((key) => {
-                return result.images[key].printifyId
-            });
+            return result.images && Object.keys(result.images).length;
         });
     }
 
-    const waitImagesResult = async (ids, initialTimeout) => {
+    const waitImagesResult = async (ids, cacheRun) => {
         console.time('waitImagesResult');
 
         let imagesResponse;
-        let timeout = initialTimeout || 2500;
+        let timeout = cacheRun ? 1 : 2500;
         let loadedImages = 0;
 
-        queuesIds.forEach(function (id) {
+        !cacheRun && ids.forEach(function (id) {
             var channel = pusher.subscribe(id);
 
             channel.bind('1', function (data) {
@@ -194,10 +173,9 @@
                 trackGoogleError(`Error images request ${JSON.stringify(imagesResponse)}`);
 
                 pusher.unsubscribe(ids[0]);
+
                 return imagesResponse;
             }
-
-            updateImagesPreviews(imagesResponse);
 
             if (checkImagesFullLoaded(ids.length, imagesResponse)) {
                 console.timeEnd('waitImagesResult');
@@ -276,7 +254,8 @@
 
     const getPrintifyProduct = async (button, imageId, prompt, number, mockupUrl) => {
         console.time('getPrintifyProduct');
-        window.sessionStorage.setItem('currentCreatingProduct', null);
+
+        const queuePrintifyProducts = JSON.parse(localStorage.getItem(LS_QUEUE_PRINTIFY_PRODUCTS) || '{}');
         const newWindow = window.open(`${mockupUrl}?key=${imageId}`, '_blank');
         const request = await fetch(`${API_HOST}/printify-product`, {
             method: 'POST',
@@ -306,9 +285,8 @@
         
         const productUrl = `/products/${response.title.toLowerCase().replace(/[^a-z|0-9]+/img, '-')}`;
 
-        window.sessionStorage.setItem('currentCreatingProduct', productUrl);
-
-        newWindow.sessionStorage.setItem('currentCreatingProduct', productUrl);
+        queuePrintifyProducts[productUrl] = false;
+        newWindow.localStorage.setItem(LS_QUEUE_PRINTIFY_PRODUCTS, JSON.stringify(queuePrintifyProducts));
         newWindow.location.reload();
     };
 
@@ -369,7 +347,7 @@
         if (searchHistory[querySearch] && !preventAutoExtend) {
             const requestIds = Object.values(searchHistory[querySearch]).reduce((prev, curr) => prev.concat(curr), []);
 
-            waitImagesResult(requestIds, 1)
+            waitImagesResult(requestIds, true)
                 .then((images) => {
                     removeResultsBusyState();
                     console.log('Got images from LS :>> ', images);

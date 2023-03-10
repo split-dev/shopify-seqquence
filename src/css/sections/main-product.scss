@@ -36,6 +36,21 @@
         .global-media-settings {
             border: none !important;
         }
+
+        .preview-image {
+            position: absolute;
+            z-index: 1;
+            top: 23%;
+            left: 50%;
+            object-fit: cover;
+            height: 44%;
+            width: 35%;
+            transform: translateX(-50%);
+            -webkit-transform: translateX(-50%);
+            -moz-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            -o-transform: translateX(-50%);
+}
     }
 
     &__info-wrapper {
