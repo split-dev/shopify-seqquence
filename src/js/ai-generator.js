@@ -346,17 +346,16 @@
         });
 
         var channel = pusher.subscribe('my-channel');
+        
         channel.bind('my-event', function (data) {
             console.log(data);
         });
-        this.pusher = pusher;
-        this.channel = channel;
     }
 
     try {
         pusher();
     } catch(e) {
-        console.error('pusher error', error)
+        console.error('pusher error', e)
     }
 
     if (querySearch.length) {            
