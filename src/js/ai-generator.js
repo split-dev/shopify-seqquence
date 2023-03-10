@@ -172,6 +172,15 @@
         let timeout = initialTimeout || 2500;
         let loadedImages = 0;
 
+        queuesIds.forEach(function (id) {
+            var channel = pusher.subscribe(id);
+
+            channel.bind('1', function (data) {
+                // we can handle updates here
+                console.log(data);
+            });
+        })
+
         for (let i = 0; i < REQUESTS_LIMIT; i += 1) {
             const imagesRequest = await fetch(`${API_HOST}/image?requestId=${ids.join(',')}`, {
                 method: 'GET'
@@ -183,7 +192,8 @@
                 console.error(imagesResponse);
 
                 trackGoogleError(`Error images request ${JSON.stringify(imagesResponse)}`);
-                
+
+                pusher.unsubscribe(ids[0]);
                 return imagesResponse;
             }
 
@@ -209,6 +219,7 @@
                 timeout = 400;
             }
         }
+        pusher.unsubscribe(ids[0]);
 
         if (imagesResponse.length === 0) {
             trackGoogleError(`Can't get images. Probably DB connection error`);
@@ -337,22 +348,18 @@
         });
     };
 
-    function pusher() {
+    var pusher;
+
+    function pusherInit() {
         Pusher.logToConsole = true;
 
-        var pusher = new Pusher('de22d0c16c3acf27abc0', {
+        pusher = new Pusher('de22d0c16c3acf27abc0', {
             cluster: 'eu'
-        });
-
-        var channel = pusher.subscribe('my-channel');
-        
-        channel.bind('my-event', function (data) {
-            console.log(data);
         });
     }
 
     try {
-        pusher();
+        pusherInit();
     } catch(e) {
         console.error('pusher error', e)
     }
