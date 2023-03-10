@@ -6,7 +6,7 @@
     const localSearch = localStorage.getItem(LS_SEARCH_KEY);
     const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
     const searchHistory = localSearch ? JSON.parse(localSearch) : {};
-    const REQUESTS_LIMIT = 270;
+    const REQUESTS_LIMIT = 100;
     const sleep = ms => new Promise(res => setTimeout(res, ms));
     const imagesResult = {};
     const previewsResult = {};
@@ -170,7 +170,7 @@
         console.time('waitImagesResult');
 
         let imagesResponse;
-        let timeout = initialTimeout || 1000;
+        let timeout = initialTimeout || 2500;
         let loadedImages = 0;
 
         for (let i = 0; i < REQUESTS_LIMIT; i += 1) {
@@ -201,10 +201,14 @@
                 loadedImages = imagesResponse.length;
             }
 
-            console.log(`pending images...next ping in ${timeout/1000} seconds`);
+            console.log(`pending images...next ping in ${(timeout/1000).toFixed(1)} seconds`);
 
             await sleep(timeout);
-            timeout = 500;
+            if (i) {
+                timeout *= 1.03; // 7687s after 100req
+            } else {
+                timeout = 400;
+            }
         }
 
         if (imagesResponse.length === 0) {
@@ -333,6 +337,27 @@
             carousel.classList.remove('loading');
         });
     };
+
+    function pusher() {
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('de22d0c16c3acf27abc0', {
+            cluster: 'eu'
+        });
+
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function (data) {
+            console.log(data);
+        });
+        this.pusher = pusher;
+        this.channel = channel;
+    }
+
+    try {
+        pusher();
+    } catch(e) {
+        console.error('pusher error', error)
+    }
 
     if (querySearch.length) {            
         /** PAGE LOAD STARTS HERE! */
