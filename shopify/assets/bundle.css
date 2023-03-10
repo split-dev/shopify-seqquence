@@ -6396,6 +6396,16 @@ input:-webkit-autofill:active {
   display: block !important;
 }
 
+.template-search .search__wrapper.loading .swiper-slide {
+  cursor: wait !important;
+}
+
+.template-search .search__wrapper.loading .swiper-slide .js-get-product-redirect,
+.template-search .search__wrapper.loading .swiper-slide img {
+  cursor: wait !important;
+  pointer-events: none;
+}
+
 .template-search .search__header {
   max-width: 1379px;
   padding: 0px 20px 20px 20px;

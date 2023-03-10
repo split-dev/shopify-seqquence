@@ -86,6 +86,7 @@
 
             Object.keys(imgs).forEach((key) => {
                 if (imgs[key] && imgs[key].generatedImg) {
+                    console.log('imgs[key]', imgs[key]);
                     previewsResult[i][key] = imgs[key].generatedImg;
                 }
             });
@@ -140,7 +141,9 @@
     const checkImagesFullLoaded = (length, pendImagesResult) => {
         console.log('checkImagesFullLoaded :>> ', pendImagesResult.length, length, pendImagesResult);
         return (pendImagesResult.length === length) && pendImagesResult.every((result) => {
-            return result.images && Object.keys(result.images).length;
+            return result.images && Object.keys(result.images).length && Object.keys(result.images).every((key) => {
+                return result.images[key].printifyId;
+            });
         });
     }
 

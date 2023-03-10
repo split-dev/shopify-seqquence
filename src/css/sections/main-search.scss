@@ -80,6 +80,15 @@
         .swiper-slide .preview-image {
           display: block !important;
         }
+
+        .swiper-slide {
+          cursor: wait !important;
+        }
+        .swiper-slide .js-get-product-redirect,
+        .swiper-slide img {
+          cursor: wait !important;
+          pointer-events: none;
+        }
       }
     }
 
