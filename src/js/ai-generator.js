@@ -187,6 +187,8 @@
                 return imagesResponse;
             }
 
+            updateImagesPreviews(imagesResponse);
+
             if (checkImagesFullLoaded(ids.length, imagesResponse)) {
                 console.timeEnd('waitImagesResult');
                 removeResultsBusyState();
