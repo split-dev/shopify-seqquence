@@ -8,7 +8,6 @@
     const searchHistory = localSearch ? JSON.parse(localSearch) : {};
     const REQUESTS_LIMIT = 100;
     const LS_QUEUE_PRINTIFY_PRODUCTS = 'currentCreatingProduct';
-    const sleep = ms => new Promise(res => setTimeout(res, ms));
     const imagesResult = {};
     const previewsResult = {};
     const allPromptResults = new Map();
@@ -139,16 +138,25 @@
     }
 
     const checkImagesFullLoaded = (length, pendImagesResult) => {
+        console.log('checkImagesFullLoaded :>> ', pendImagesResult.length, length, pendImagesResult);
         return (pendImagesResult.length === length) && pendImagesResult.every((result) => {
             return result.images && Object.keys(result.images).length;
         });
     }
 
+    let resolver;
+    const sleep = ms => new Promise(resolve => {
+        const timeout = setTimeout(resolve, ms)
+        resolver = data => {
+            clearTimeout(timeout);
+            resolve(data);
+        }
+    });
     const waitImagesResult = async (ids, cacheRun) => {
         console.time('waitImagesResult');
 
         let imagesResponse;
-        let timeout = cacheRun ? 1 : 2500;
+        let timeout = cacheRun ? 1 : 4000;
         let loadedImages = 0;
 
         !cacheRun && ids.forEach(function (id) {
@@ -156,27 +164,32 @@
 
             channel.bind('1', function (data) {
                 // we can handle updates here
-                console.log(data);
+                console.log('<< pusher >>', data);
+                resolver(data)
             });
         })
 
         for (let i = 0; i < REQUESTS_LIMIT; i += 1) {
-            const imagesRequest = await fetch(`${API_HOST}/image?requestId=${ids.join(',')}`, {
-                method: 'GET'
-            });
-    
-            imagesResponse = await imagesRequest.json();
-    
-            if (imagesRequest.status !== 200) {
-                console.error(imagesResponse);
+            const data = await sleep(timeout); // pusher can send data earlier to us
 
-                trackGoogleError(`Error images request ${JSON.stringify(imagesResponse)}`);
+            if (Object.keys(data?.images || {}).length) {
+                imagesResponse = data;
+            } else {
+                const imagesRequest = await fetch(`${API_HOST}/image?requestId=${ids.join(',')}`, {
+                    method: 'GET'
+                });
+                if (imagesRequest.status !== 200) {
+                    console.error(imagesResponse);
 
-                pusher.unsubscribe(ids[0]);
+                    trackGoogleError(`Error images request ${JSON.stringify(imagesResponse)}`);
 
-                return imagesResponse;
+                    pusher.unsubscribe(ids[0]);
+
+                    return imagesResponse;
+                }
+                imagesResponse = await imagesRequest.json();
             }
-
+    
             if (checkImagesFullLoaded(ids.length, imagesResponse)) {
                 console.timeEnd('waitImagesResult');
                 removeResultsBusyState();
@@ -190,11 +203,10 @@
 
             console.log(`pending images...next ping in ${(timeout/1000).toFixed(1)} seconds`);
 
-            await sleep(timeout);
             if (i) {
                 timeout *= 1.03; // 7687s after 100req
             } else {
-                timeout = 400;
+                timeout = 600;
             }
         }
         pusher.unsubscribe(ids[0]);
