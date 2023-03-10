@@ -27,31 +27,15 @@
         imgData = imgData || imageData;
 
         const productPhotoMedia = document.querySelectorAll('.product__modal-opener--image');
-        const productForm = document.querySelectorAll('.product-form Form');
         const tShirtPhoto = imgData.images[queryPhotoKey]?.generatedImg;
-        const productInfo = document.querySelector('.product__info-wrapper');
-
+        
         if (tShirtPhoto) {
-            productInfo.classList.remove('loading');
-
             productPhotoMedia.forEach((img) => {
                 const previewImg = document.createElement('img');
                 previewImg.className = 'preview-image';
                 previewImg.src = tShirtPhoto;
 
                 img.parentNode.insertBefore(previewImg, img);
-            });
-            productForm.forEach((frm) => {
-                Object.keys(imgData.images[queryPhotoKey]).forEach((imageName) => {
-                    const inp = document.createElement('input');
-
-                    photosData.set(imageName, imgData.images[queryPhotoKey][imageName]);
-                    inp.setAttribute('type', 'hidden');
-                    inp.setAttribute('name', `properties[${imageName}]`);
-                    inp.setAttribute('value', imgData.images[queryPhotoKey][imageName]);
-                    
-                    frm.prepend(inp);
-                });
             });
         }
     };
@@ -79,22 +63,9 @@
         const cartItems = document.querySelectorAll('.cart-item');
 
         cartItems.forEach((cartItem) => {
-            const options = cartItem.querySelectorAll('.product-option');
             const img = cartItem.querySelector('.cart-item__image');
             const itemPhotos = {};
     
-            options.forEach((option) => {
-                if (!option.querySelector('dd')) return;
-
-                const optKey = option.querySelector('dt').textContent.trim();
-                const optVal = option.querySelector('dd').textContent.trim();
-                const name = optKey.replace(':', '');
-
-                if (PHOTOS_API_NAMES.indexOf(name) > -1) {
-                    option.classList.add('hidden');
-                    itemPhotos[name] = optVal;
-                }
-            });
             if (itemPhotos.generatedImg) {
                 const previewImg = document.createElement('img');
                 
@@ -157,19 +128,39 @@
     if (isProductPage && queryPhotoKey) {        
         getImages(queryPhotoKey);
 
-        /** wait the current product created and allow to buy */
+        const productInfo = document.querySelector('.product__info-wrapper');
+        const variantRadios = document.querySelector('variant-radios');
+        productInfo.classList.add('loading');
+        
+        const productPrintifyInfo = JSON.parse(window.sessionStorage.getItem(queryPhotoKey) || '{}');
+        const productForm = document.querySelectorAll('.product-form Form');
 
-        if (cartNotification) {
-            const config = { attributes: true, childList: true, subtree: true };
-            const obs = new MutationObserver((mutationList, observer) => {
-                for (const mutation of mutationList) {
-                    if (mutation.type === 'childList') {
-                        updateCartNotificationPreview();
-                    }
-                }
-            });
+        let waitIterations = 200;
 
-            obs.observe(cartNotification, config);
+        const shopifyProductWaiter = (url) => {
+            queuePrintifyProducts = JSON.parse(localStorage.getItem(LS_QUEUE_PRINTIFY_PRODUCTS) || '{}');
+            if (queuePrintifyProducts[url]) {
+                productInfo.classList.remove('loading');
+
+                console.log('Loaded product:', queuePrintifyProducts[url]);
+
+                const variants = queuePrintifyProducts[url].variants;
+
+                variantRadios.variantData = variants; 
+                variantRadios.querySelector('[type="application/json"]').textContent = JSON.stringify(variants, null, 2);
+
+                variantRadios.updateOptions();
+                variantRadios.updateMasterId();
+            } else {
+                setTimeout(() => shopifyProductWaiter(url), 1000);
+                waitIterations = waitIterations - 1;
+            }
+        }
+
+        if (Object.keys(productPrintifyInfo).length) {
+            const productUrl = `/products/${productPrintifyInfo.title.toLowerCase().replace(/[^a-z|0-9]+/img, '-')}`;
+
+            shopifyProductWaiter(productUrl);
         }
         
         document.querySelectorAll('[data-url]').forEach((dUrl) => {
@@ -179,22 +170,22 @@
             dUrl.setAttribute('data-url', `${url.pathname}?key=${keySearch}`);
         });
     }
-    if (isCartPage) {
-        if (mainCartItems) {
-            const config = { attributes: true, childList: true, subtree: true };
-            const obsCart = new MutationObserver((mutationList, observer) => {
-                for (const mutation of mutationList) {
-                  if (mutation.type === 'childList') {
-                    updateCartView();
-                  }
-                }
-            });
+    // if (isCartPage) {
+    //     if (mainCartItems) {
+    //         const config = { attributes: true, childList: true, subtree: true };
+    //         const obsCart = new MutationObserver((mutationList, observer) => {
+    //             for (const mutation of mutationList) {
+    //               if (mutation.type === 'childList') {
+    //                 updateCartView();
+    //               }
+    //             }
+    //         });
 
-            obsCart.observe(mainCartItems, config);
-        }
+    //         obsCart.observe(mainCartItems, config);
+    //     }
 
-        updateCartView();
-    }
+    //     updateCartView();
+    // }
 
     let iterations = 300;
 

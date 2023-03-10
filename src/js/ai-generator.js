@@ -298,6 +298,7 @@
         const productUrl = `/products/${response.title.toLowerCase().replace(/[^a-z|0-9]+/img, '-')}`;
 
         queuePrintifyProducts[productUrl] = false;
+        newWindow.sessionStorage.setItem(imageId, JSON.stringify(response));
         newWindow.localStorage.setItem(LS_QUEUE_PRINTIFY_PRODUCTS, JSON.stringify(queuePrintifyProducts));
         newWindow.location.reload();
     };

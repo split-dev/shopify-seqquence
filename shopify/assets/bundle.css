@@ -6030,11 +6030,11 @@ input:-webkit-autofill:active {
   }
 }
 
-.container-fluid .product__info-wrapper.loading, .container-sm .product__info-wrapper.loading, .container-md .product__info-wrapper.loading, .container-lg .product__info-wrapper.loading, .container-xl .product__info-wrapper.loading {
+.container-fluid .product__info-wrapper.loading .product-form, .container-sm .product__info-wrapper.loading .product-form, .container-md .product__info-wrapper.loading .product-form, .container-lg .product__info-wrapper.loading .product-form, .container-xl .product__info-wrapper.loading .product-form {
   position: relative;
 }
 
-.container-fluid .product__info-wrapper.loading:after, .container-sm .product__info-wrapper.loading:after, .container-md .product__info-wrapper.loading:after, .container-lg .product__info-wrapper.loading:after, .container-xl .product__info-wrapper.loading:after, .container-fluid .product__info-wrapper.loading::after {
+.container-fluid .product__info-wrapper.loading .product-form:after, .container-sm .product__info-wrapper.loading .product-form:after, .container-md .product__info-wrapper.loading .product-form:after, .container-lg .product__info-wrapper.loading .product-form:after, .container-xl .product__info-wrapper.loading .product-form:after, .container-fluid .product__info-wrapper.loading .product-form::after {
   content: "";
   display: flex;
   flex-direction: column;
@@ -6058,7 +6058,7 @@ input:-webkit-autofill:active {
   cursor: wait;
 }
 
-.container-fluid .product__info-wrapper.loading:before, .container-sm .product__info-wrapper.loading:before, .container-md .product__info-wrapper.loading:before, .container-lg .product__info-wrapper.loading:before, .container-xl .product__info-wrapper.loading:before, .container-fluid .product__info-wrapper.loading::before {
+.container-fluid .product__info-wrapper.loading .product-form:before, .container-sm .product__info-wrapper.loading .product-form:before, .container-md .product__info-wrapper.loading .product-form:before, .container-lg .product__info-wrapper.loading .product-form:before, .container-xl .product__info-wrapper.loading .product-form:before, .container-fluid .product__info-wrapper.loading .product-form::before {
   z-index: 11;
   content: "";
   position: absolute;

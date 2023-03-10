@@ -50,7 +50,7 @@
             -moz-transform: translateX(-50%);
             -ms-transform: translateX(-50%);
             -o-transform: translateX(-50%);
-}
+        }
     }
 
     &__info-wrapper {
@@ -62,7 +62,7 @@
         }
         
 
-        &.loading {
+        &.loading .product-form {
             position: relative;
             &:after,
             &::after {
