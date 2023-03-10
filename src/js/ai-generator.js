@@ -41,7 +41,7 @@
                 slidesPerView: 3.5,
                 spaceBetween: 30,
                 freeMode: true,
-                mousewheel: true,
+
                 breakpoints: {
                     767: {
                         slidesPerView: 3.5
@@ -111,7 +111,6 @@
 
             if (slider) {
                 Object.keys(previewsResult[i]).forEach((key, j) => {
-                    console.log(`url(${previewsResult[i][key]})`);
                     const slide = slider.querySelectorAll('.swiper-slide')[j];
                     
                     if (slide) {
@@ -187,8 +186,6 @@
                 
                 return imagesResponse;
             }
-
-            console.log('imagesResponse', imagesResponse);
 
             if (checkImagesFullLoaded(ids.length, imagesResponse)) {
                 console.timeEnd('waitImagesResult');
@@ -292,7 +289,7 @@
             return false;
         }
         
-        console.log('response', response);
+        console.log('Printify Result: ', response);
         
         const productUrl = `/products/${response.title.toLowerCase().replace(/[^a-z|0-9]+/img, '-')}`;
 
