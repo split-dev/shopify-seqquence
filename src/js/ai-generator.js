@@ -7,7 +7,6 @@
     const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
     const searchHistory = localSearch ? JSON.parse(localSearch) : {};
     const REQUESTS_LIMIT = 100;
-    const sleep = ms => new Promise(res => setTimeout(res, ms));
     const imagesResult = {};
     const previewsResult = {};
     const allPromptResults = new Map();
@@ -165,6 +164,14 @@
         });
     }
 
+    let resolver;
+    const sleep = ms => new Promise(resolve => {
+        const timeout = setTimeout(resolve, ms)
+        resolver = () => {
+            clearTimeout(timeout)
+            resolve()
+        }
+    });
     const waitImagesResult = async (ids, initialTimeout) => {
         console.time('waitImagesResult');
 
@@ -182,6 +189,7 @@
         })
 
         for (let i = 0; i < REQUESTS_LIMIT; i += 1) {
+            await sleep(timeout);
             const imagesRequest = await fetch(`${API_HOST}/image?requestId=${ids.join(',')}`, {
                 method: 'GET'
             });
@@ -212,7 +220,6 @@
 
             console.log(`pending images...next ping in ${(timeout/1000).toFixed(1)} seconds`);
 
-            await sleep(timeout);
             if (i) {
                 timeout *= 1.03; // 7687s after 100req
             } else {
