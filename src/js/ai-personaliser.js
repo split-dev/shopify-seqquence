@@ -8,10 +8,12 @@
     const LS_QUEUE_PRINTIFY_PRODUCTS = 'currentCreatingProduct';
     const cartNotification = document.querySelector('#cart-notification');
     const mainCartItems = document.querySelector('#main-cart-items');
-    const productCards = document.querySelectorAll('.product-card-wrapper img[src*="mockup"]');
     const sleep = ms => new Promise(res => setTimeout(res, ms));
     const PHOTOS_API_NAMES = ['generatedImg', 'imageFull'];
     let imageData;
+
+    let queuePrintifyProducts = JSON.parse(localStorage.getItem(LS_QUEUE_PRINTIFY_PRODUCTS) || '{}');
+    let pendingProducts = Object.keys(queuePrintifyProducts).filter((url) => !queuePrintifyProducts[url]);
 
     const trackGoogleError = (err) => {
         window.gtag && window.gtag('event', 'error', {
@@ -67,7 +69,7 @@
             }
         });
         const previewImg = document.createElement('img');
-        
+
         previewImg.className = 'preview-image';
         previewImg.src = tshirtPhoto;
         imageNotification.parentNode.insertBefore(previewImg, imageNotification);
@@ -155,6 +157,8 @@
     if (isProductPage && queryPhotoKey) {        
         getImages(queryPhotoKey);
 
+        /** wait the current product created and allow to buy */
+
         if (cartNotification) {
             const config = { attributes: true, childList: true, subtree: true };
             const obs = new MutationObserver((mutationList, observer) => {
@@ -194,9 +198,6 @@
 
     let iterations = 300;
 
-    let queuePrintifyProducts = JSON.parse(localStorage.getItem(LS_QUEUE_PRINTIFY_PRODUCTS) || '{}');
-    let pendingProducts = Object.keys(queuePrintifyProducts).filter((url) => !queuePrintifyProducts[url]);
-
     const checkProductCreated = async (productUrl) => {
         const response = await fetch(`${productUrl}.js`, {method: 'GET'});
 
@@ -207,8 +208,8 @@
                 console.log('FINALLY got product!!! ', productData);
 
                 queuePrintifyProducts = JSON.parse(localStorage.getItem(LS_QUEUE_PRINTIFY_PRODUCTS) || '{}');
-                queuePrintifyProducts[productUrl] = true;
-                newWindow.localStorage.setItem(LS_QUEUE_PRINTIFY_PRODUCTS, JSON.stringify(queuePrintifyProducts));
+                queuePrintifyProducts[productUrl] = productData;
+                window.localStorage.setItem(LS_QUEUE_PRINTIFY_PRODUCTS, JSON.stringify(queuePrintifyProducts));
             } else {
                 if (iterations > 0) {
                     setTimeout(() => checkProductCreated(productUrl), 1000);
