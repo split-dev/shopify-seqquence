@@ -105,10 +105,11 @@
     "sale_badge_color_scheme": "accent-2",
     "sold_out_badge_color_scheme": "inverse",
     "accent_icons": "text",
-    "social_twitter_link": "",
+    "social_etsy_link": "https:\/\/www.etsy.com\/shop\/ArtificialPrinterCom",
+    "social_instagram_link": "https:\/\/www.instagram.com\/artificialprinter",
+    "social_twitter_link": "https:\/\/twitter.com\/ArtificialPrint",
     "social_facebook_link": "",
     "social_pinterest_link": "",
-    "social_instagram_link": "",
     "social_tiktok_link": "",
     "social_tumblr_link": "",
     "social_snapchat_link": "",
@@ -172,6 +173,8 @@
         ],
         "settings": {
           "newsletter_enable": true,
+          "show_social": true,
+          "footer_badge_url": "https:\/\/www.producthunt.com\/posts\/artificial-printer?utm_source=badge-top-post-topic-badge&utm_medium=badge&utm_souce=badge-artificial&#0045;printer",
           "newsletter_heading": "Subscribe to our emails"
         }
       },

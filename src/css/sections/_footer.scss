@@ -93,6 +93,37 @@
     .newsletter-form__field-wrapper {
         max-width: none;
     }
+    &__badge {
+        display: flex;
+        align-items: center;
+        margin-top: 24px;
+        @include media-breakpoint-down(sm) {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 40px;
+        }
+        &-img {
+            margin-right: 24px;
+            @include media-breakpoint-down(sm) {
+                margin-right: 0px;
+                margin-bottom: 16px;
+            }
+        }
+        &-icons {
+            margin-top: -10px;
+            & ul {
+                & li {
+                    margin-right: 24px;
+                    @include media-breakpoint-down(sm) {
+                        margin-right: 16px;
+                    }
+                    &:last-child {
+                        margin-right: 0px;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .field__input:focus~.field__label,

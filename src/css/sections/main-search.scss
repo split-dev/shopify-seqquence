@@ -229,7 +229,7 @@
           max-width: 100%;
           min-height: 342px;
           min-width: 342px;
-        }
+        }   
         @media (max-width: 415px) {
           min-width: 260px;
           min-height: 260px;
@@ -302,7 +302,8 @@
         video, .preview-image {
           width: 35%;
           height: 38%;
-          top: 39%;
+          top: 50%;
+          left: 45%;
         }
       }
     }

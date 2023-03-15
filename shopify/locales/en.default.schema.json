@@ -231,6 +231,10 @@
           "label": "Twitter",
           "info": "https:\/\/twitter.com\/shopify"
         },
+        "social_etsy_link": {
+          "label": "Etsy",
+          "info": "https:\/\/etsy.com\/shopify"
+        },
         "social_facebook_link": {
           "label": "Facebook",
           "info": "https:\/\/facebook.com\/shopify"
