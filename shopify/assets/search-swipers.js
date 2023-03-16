@@ -8,6 +8,7 @@
         swiperInstances.push(new Swiper(sw, {
             slidesPerView: 3.5,
             freeMode: true,
+            mousewheel: true,
             spaceBetween: 30,
             breakpoints: {
                 767: {

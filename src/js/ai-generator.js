@@ -41,7 +41,7 @@
                 slidesPerView: 3.5,
                 spaceBetween: 30,
                 freeMode: true,
-
+                mousewheel: true,
                 breakpoints: {
                     767: {
                         slidesPerView: 3.5
