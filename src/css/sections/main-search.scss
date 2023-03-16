@@ -282,29 +282,62 @@
           display: block;
         }
       }
-      @media (max-width: 1600px) {
+      @media (max-width: 1700px) {
         video, .preview-image {
           width: 139px;
           height: 157px;
         }
       }
       @media (max-width: 1350px) {
-        video, .preview-image {
+        video {
           width: 35%;
           height: 24%;
         }
+        .preview-image {
+          width: 35%;
+          height: 22%;
+        }
       }
       @media (max-width: 1200px) {
-        video, .preview-image {
+        video {
           height: 18%;
+        }
+        .preview-image {
+          height: 18%;
+        }
+      }
+      @media (max-width: 1000px) {
+        .preview-image {
+          height: 16%;
+        }
+      }
+      @media (max-width: 920px) {
+        .preview-image {
+          height: 14%;
         }
       }
       @media (max-width: 768px) {
         video, .preview-image {
-          width: 35%;
-          height: 38%;
-          top: 50%;
-          left: 45%;
+          width: 34%;
+          height: 33%;
+          top: 40%;
+          left: 50%;
+        }
+      }
+      @media (max-width: 415px) {
+        video, .preview-image {
+          width: 28%;
+          height: 32%;
+          top: 40%;
+          left: 39%;
+        }
+      }
+      @media (max-width: 400px) {
+        video, .preview-image {
+          width: 29%;
+          height: 30%;
+          top: 39%;
+          left: 130px;
         }
       }
     }

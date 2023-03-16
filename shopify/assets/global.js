@@ -808,7 +808,8 @@ class VariantSelects extends HTMLElement {
   updateShareUrl() {
     const shareButton = document.getElementById(`Share-${this.dataset.section}`);
     if (!shareButton || !shareButton.updateUrl) return;
-    shareButton.updateUrl(`${window.shopUrl}${this.dataset.url}?variant=${this.currentVariant.id}`);
+    const isQuery = this.dataset.url.indexOf('?') >= 0;
+    shareButton.updateUrl(`${window.shopUrl}${this.dataset.url}${isQuery ? '&' : '?'}variant=${this.currentVariant.id}`);
   }
 
   updateVariantInput() {

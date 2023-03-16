@@ -27,10 +27,18 @@
         imgData = imgData || imageData;
 
         const productPhotoMedia = document.querySelectorAll('.product__modal-opener--image');
+        const productPhotoGalleryModal = document.querySelectorAll('.product-media-modal__dialog img');
         const tShirtPhoto = imgData.images[queryPhotoKey]?.generatedImg;
         
         if (tShirtPhoto) {
             productPhotoMedia.forEach((img) => {
+                const previewImg = document.createElement('img');
+                previewImg.className = 'preview-image';
+                previewImg.src = tShirtPhoto;
+
+                img.parentNode.insertBefore(previewImg, img);
+            });
+            productPhotoGalleryModal.forEach((img) => {
                 const previewImg = document.createElement('img');
                 previewImg.className = 'preview-image';
                 previewImg.src = tShirtPhoto;
@@ -74,6 +82,15 @@
 
                 img.parentNode.insertBefore(previewImg, img);
             }
+        });
+    };
+
+    const updateUrlsData = () => {
+        document.querySelectorAll('[data-url]').forEach((dUrl) => {
+            const url = new URL(document.location);
+            const keySearch = url.searchParams.get('key');
+    
+            dUrl.setAttribute('data-url', `${url.pathname}?key=${keySearch}`);
         });
     };
 
@@ -152,7 +169,9 @@
                 variantRadios.updateOptions();
                 variantRadios.updateMasterId();
                 variantRadios.updateVariantInput();
+                updateUrlsData();
                 variantRadios.updateURL();
+                updateUrlsData();
             } else {
                 setTimeout(() => shopifyProductWaiter(url), 1000);
                 waitIterations = waitIterations - 1;
@@ -165,29 +184,8 @@
             shopifyProductWaiter(productUrl);
         }
         
-        document.querySelectorAll('[data-url]').forEach((dUrl) => {
-            const url = new URL(document.location);
-            const keySearch = url.searchParams.get('key');
-    
-            dUrl.setAttribute('data-url', `${url.pathname}?key=${keySearch}`);
-        });
+        updateUrlsData();
     }
-    // if (isCartPage) {
-    //     if (mainCartItems) {
-    //         const config = { attributes: true, childList: true, subtree: true };
-    //         const obsCart = new MutationObserver((mutationList, observer) => {
-    //             for (const mutation of mutationList) {
-    //               if (mutation.type === 'childList') {
-    //                 updateCartView();
-    //               }
-    //             }
-    //         });
-
-    //         obsCart.observe(mainCartItems, config);
-    //     }
-
-    //     updateCartView();
-    // }
 
     let iterations = 300;
 

@@ -1019,6 +1019,7 @@
         aria-label="{{ 'products.modal.label' | t }}"
         tabindex="0"
       >
+        <div class="product_media_modal_container">
         {%- liquid
           if product.selected_or_first_available_variant.featured_media != null
             assign media = product.selected_or_first_available_variant.featured_media
@@ -1039,6 +1040,7 @@
             endunless
           -%}
         {%- endfor -%}
+      </div>
       </div>
     </div>
   </product-modal>

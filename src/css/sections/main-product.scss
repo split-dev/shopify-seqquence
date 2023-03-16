@@ -364,3 +364,28 @@
         }
     }
 }
+
+.product_media_modal_container {
+    position: relative;
+    text-align: center;
+    .global-media-settings {
+        min-width: 100%;
+        width: 100%;
+        height: auto;
+    }
+}
+.product-media-modal__content {
+    img.preview-image {
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 36%;
+        height: auto;
+        z-index: 1;
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+    }
+}

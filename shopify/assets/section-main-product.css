@@ -740,7 +740,7 @@ a.product__text {
   overflow: auto;
 }
 
-.product-media-modal__content > *:not(.active),
+.product-media-modal__content > *:not(.active, .product_media_modal_container),
 .product__media-list .deferred-media {
   display: none;
 }
