@@ -6002,6 +6002,7 @@ input:-webkit-autofill:active {
   background-size: cover;
   display: block;
   height: 209px;
+  pointer-events: none;
   left: 50%;
   position: absolute;
   top: 248px;

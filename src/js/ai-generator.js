@@ -345,9 +345,12 @@
     var pusher;
 
     function pusherInit() {
-        Pusher.logToConsole = true;
+        if (!window.Pusher) {
+            return setTimeout(pusherInit, 100)
+        }
+        window.Pusher.logToConsole = true;
 
-        pusher = new Pusher('de22d0c16c3acf27abc0', {
+        pusher = new window.Pusher('de22d0c16c3acf27abc0', {
             cluster: 'eu'
         });
     }

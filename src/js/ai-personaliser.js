@@ -202,12 +202,22 @@
 
                 queuePrintifyProducts = JSON.parse(localStorage.getItem(LS_QUEUE_PRINTIFY_PRODUCTS) || '{}');
                 queuePrintifyProducts[productUrl] = productData;
+                if (productData.images.length) {
+                    console.log('GOT IMAGES!');
+                } else {
+                    if (iterations > 0) {
+                        setTimeout(() => checkProductCreated(productUrl), 1000);
+                    } else {
+                        console.error('SHOPIFY BUG: Product creation timed out');
+                    }  
+                }
                 window.localStorage.setItem(LS_QUEUE_PRINTIFY_PRODUCTS, JSON.stringify(queuePrintifyProducts));
+                
             } else {
                 if (iterations > 0) {
                     setTimeout(() => checkProductCreated(productUrl), 1000);
                 } else {
-                    console.error('PRINTIFY BUG: Product creation timed out');
+                    console.error('SHOPIFY BUG: Product creation timed out');
                 }   
             }
         } else {
