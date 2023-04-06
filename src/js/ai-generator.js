@@ -7,11 +7,10 @@
     const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
     const searchHistory = localSearch ? JSON.parse(localSearch) : {};
     const REQUESTS_LIMIT = 100;
-    const LS_QUEUE_PRINTIFY_PRODUCTS = 'currentCreatingProduct';
+    // const LS_QUEUE_PRINTIFY_PRODUCTS = 'currentCreatingProduct';
     const imagesResult = {};
     const previewsResult = {};
     const allPromptResults = new Map();
-    const preloadUrl = 'https://cdn.shopify.com/s/files/1/0694/9752/0433/files/aisharp.webp?v=1680782705';
     let querySearch = new URL(document.location).searchParams.get('search') || '';
     let preventAutoExtend = (new URL(document.location).searchParams.get('preventAutoExtend') === "on");
     let allAvailablePrompts;
@@ -61,6 +60,7 @@
     };
 
     const updateImagesPreviews = (promptResult) => {
+        console.log('promptResult', promptResult)
         searchResultDomCarousels = document.querySelectorAll('.js-search-view .search__wrapper');
 
         promptResult.forEach((result) => {
@@ -79,7 +79,7 @@
 
         uniqueSearches.forEach((search, i) => {
             const imgs = allPromptResults.get(search);
-
+            console.log('imgs', imgs)
             imagesResult[i] = imagesResult[i] || {};
             previewsResult[i] = previewsResult[i] || {};
 
@@ -113,14 +113,19 @@
                         slide.querySelector('.preview-image').style.backgroundImage = `url(${previewsResult[i][key]})`;
                         
                         redirectBtn.setAttribute('data-id', `${key}`)
-                        redirectBtn.setAttribute('data-handle', `${imgs[key].handle}`);
+                        redirectBtn.setAttribute('data-handle', `${imgs[key].handle || ''}`);
                         slide.classList.add('customized');
                     } else {
                         slider.swiper.appendSlide(`<div class="swiper-slide customized">
                             <div class="preview-image" style="background-image: url(${previewsResult[i][key]})"></div>
                             <img src="${mockupImg}"/>
-                            <button data-mockup="${mockupUrl}" data-id="${key}" data-handle="${imgs[key].handle}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+                            <button data-mockup="${mockupUrl}" data-id="${key}" data-handle="${imgs[key].handle || ''}" class="btn btn--secondary ${imgs[key].handle ? '' : 'loading'} js-get-product-redirect button button--secondary"><span>${imgs[key].handle ? 'Buy' : 'Wait..'}</span></button>
                         </div>`);
+                    }
+
+                    if (!imgs[key].handle) {
+                        console.error('No product handle found');
+                        slide && setBusyBuyButtonState(slide.querySelector('.btn'), true);
                     }
                 });
 
@@ -170,7 +175,9 @@
                 console.log('<< pusher >>', data);
                 resolver(data)
             });
-        })
+        });
+
+        
 
         for (let i = 0; i < REQUESTS_LIMIT; i += 1) {
             const data = await sleep(timeout); // pusher can send data earlier to us
@@ -195,13 +202,14 @@
     
             if (checkImagesFullLoaded(ids.length, imagesResponse)) {
                 console.timeEnd('waitImagesResult');
-                removeResultsUnavailableState();
+                console.log('All images ready to buy');
+                removeResultsUnavailableState(); /** can buy */
                 break;
             }
 
             if (imagesResponse.length > loadedImages) {
                 updateImagesPreviews(imagesResponse);
-                removeResultsBusyState();
+                removeResultsBusyState(); /** images visible */
                 loadedImages = imagesResponse.length;
             }
 
@@ -268,7 +276,7 @@
         return await waitImagesResult(queuesIds);
     };
 
-    const getPrintifyProduct = async (button, imageId, prompt, number, mockupUrl) => {
+    /*const getPrintifyProduct = async (button, imageId, prompt, number, mockupUrl) => {
         console.time('getPrintifyProduct');
 
         const queuePrintifyProducts = JSON.parse(localStorage.getItem(LS_QUEUE_PRINTIFY_PRODUCTS) || '{}');
@@ -305,7 +313,7 @@
         newWindow.sessionStorage.setItem(imageId, JSON.stringify(response));
         newWindow.localStorage.setItem(LS_QUEUE_PRINTIFY_PRODUCTS, JSON.stringify(queuePrintifyProducts));
         newWindow.location.reload();
-    };
+    };*/
 
     const setBusyButtonState = (btn, state) => {
         const innerLabel = btn.querySelector('SPAN');
@@ -378,21 +386,22 @@
 
     if (querySearch.length) {            
         /** PAGE LOAD STARTS HERE! */
+        
         if (searchHistory[querySearch] && !preventAutoExtend) {
             const requestIds = Object.values(searchHistory[querySearch]).reduce((prev, curr) => prev.concat(curr), []);
-
+            
             waitImagesResult(requestIds, true)
                 .then((images) => {
                     removeResultsBusyState();
-                    removeResultsUnavailableState();
                     console.log('Got images from LS :>> ', images);
                 });
         } else {
+            setResultsUnavailableState();
+
             sendPromptRequest(querySearch, false, 1)
                 .then(pendimages => pendimages)
                 .then(images => {
                     removeResultsBusyState();
-                    //removeResultsUnavailableState();
                     console.log('Got images from Replicate API :>> ', images);
                 });
         }
@@ -412,18 +421,18 @@
 
             const handle = btnTarget.getAttribute('data-handle');
 
-            if (handle) {
+            if (handle && handle.length) {
                 window.open(`/products/${btnTarget.getAttribute('data-handle')}`, '_blank')
             } else {
                 setBusyBuyButtonState(btnTarget, true);
                 
-                getPrintifyProduct(
-                    btnTarget,
-                    btnTarget.getAttribute('data-id'), 
-                    querySearch,
-                    Array.from(btnTarget.closest('.swiper-slide').parentNode.children).indexOf(btnTarget.closest('.swiper-slide')) * document.querySelectorAll('.js-search-swiper').length,
-                    btnTarget.getAttribute('data-mockup')
-                );
+                // getPrintifyProduct(
+                //     btnTarget,
+                //     btnTarget.getAttribute('data-id'), 
+                //     querySearch,
+                //     Array.from(btnTarget.closest('.swiper-slide').parentNode.children).indexOf(btnTarget.closest('.swiper-slide')) * document.querySelectorAll('.js-search-swiper').length,
+                //     btnTarget.getAttribute('data-mockup')
+                // );
             }
         })
 
@@ -432,8 +441,19 @@
                 if (e.target.classList.contains('js-generate-more') || e.target.closest('.js-generate-more')) {
                     const btn = e.target.closest('.js-generate-more') ? e.target.closest('.js-generate-more') : e.target;
                     const carousel = btn.closest('.search__wrapper');
+                    const slider = btn.closest('.js-search-swiper');
+                    const mockupImg = slider.getAttribute('data-mockup-src');
+                    const mockupUrl = slider.getAttribute('data-mockup-url');
 
                     if (btn.classList.contains('loading')) return false;
+
+                    for (let i = 0; i < 2; i++) {
+                        slider.swiper.appendSlide(`<div class="swiper-slide">
+                            <div class="preview-image"></div>
+                            <img src="${mockupImg}" />
+                            <button data-mockup="${mockupUrl}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+                        </div>`);
+                    }
 
                     setResultsBusyState(carousel);
                     setResultsUnavailableState(carousel);
@@ -444,7 +464,6 @@
                         .then(images => {
                             removeResultsBusyState(carousel);
                             setBusyButtonState(btn, false);
-                            //removeResultsUnavailableState();
                             console.log('Got images from Replicate API :>> ', images);
                         });
                 }
@@ -498,6 +517,7 @@
 
                 const addedCarousel = addNewCarousel();
 
+                setResultsBusyState(addedCarousel.closest('.search__wrapper'));
                 setResultsUnavailableState(addedCarousel.closest('.search__wrapper'));
 
                 sendPromptRequest(newUniquePrompt, true)
@@ -505,7 +525,6 @@
                     .then(images => {
                         setBusyButtonState(generateNewSearchPrompt, false);
                         removeResultsBusyState();
-                        //removeResultsUnavailableState();
                         console.log('Got images from Replicate API :>> ', images);
                     });
             });

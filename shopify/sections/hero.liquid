@@ -28,8 +28,8 @@
     <div class="banner__media media">
       {% assign poster = section.settings.image | image_url: width: 1500 %}
 
-      {{ section.settings.video | video_tag: poster: poster, muted: true, loop: true, autoplay: true, playsinline: true, width: 1500, class: "js-banner__video" }}
-      {{ section.settings.video_mob | video_tag: poster: poster, muted: true, loop: true, autoplay: true, playsinline: true, width: 600, class: "js-banner__video-mobile" }}
+      {{ section.settings.video | video_tag: poster: poster, muted: true, loop: true, autoplay: true, playsinline: true, disableRemotePlayback: true, width: 1500, class: "js-banner__video" }}
+      {{ section.settings.video_mob | video_tag: poster: poster, muted: true, loop: true, autoplay: true, playsinline: true, disableRemotePlayback: true, width: 600, class: "js-banner__video-mobile" }}
     </div>
 
   {%- elsif section.settings.image != blank  -%}

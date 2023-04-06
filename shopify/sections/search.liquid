@@ -85,7 +85,7 @@
         <div class="swiper-wrapper">
           {% for i in (1..2) %}
             <div class="swiper-slide swiper-slide">
-              <div class="preview-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0694/9752/0433/files/aisharp.webp?v=1680782705)"></div>
+              <div class="preview-image"></div>
               <img src="{{ tshirt_photo | img_url: 'large' }}" />
               <button data-mockup="{{ section.settings.product.url }}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
             </div>
@@ -112,7 +112,7 @@
             <h2>{{ section.settings.search_title }}</h2>
           {% endif %}
           {% if section.settings.search_description != blank %}
-            <p class="js-search-prompt">Loading...</p>
+            <p class="js-search-prompt">We are generating images, usually it takes around 10 seconds…</p>
           {% endif %}
         </div>
         {% assign tshirt_photo_def = section.settings.tshirtplaceholder | image %}
@@ -121,7 +121,7 @@
           <div class="swiper-wrapper">
             {% for i in (1..2) %}
                 <div class="swiper-slide swiper-slide">
-                  <div class="preview-image" style="background-image: url(https://cdn.shopify.com/s/files/1/0694/9752/0433/files/aisharp.webp?v=1680782705)"></div>
+                  <div class="preview-image"></div>
                   <img src="{{ tshirt_photo | img_url: 'large' }}" />
                   <button data-mockup="{{ section.settings.product.url }}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
                 </div>

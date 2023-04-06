@@ -40,7 +40,7 @@
                 <h2>{{ section.settings.search_title }}</h2>
               {% endif %}
               {% if section.settings.search_description != blank %}
-                <p class="js-search-prompt">Loading...</p>
+                <p class="js-search-prompt">We are generating images, usually it takes around 10 seconds…</p>
               {% endif %}
             </div>
             {% assign tshirt_photo_def = section.settings.tshirtplaceholder | image %}
@@ -121,7 +121,7 @@
     {
       "type": "text",
       "id": "search_description",
-      "default": "Loading...",
+      "default": "We are generating images, usually it takes around 10 seconds…",
       "label": "Search description"
     },
     {

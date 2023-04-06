@@ -1,7 +1,6 @@
 (function () {
     var swipers = document.querySelectorAll('.swiper');
     var swiperInstances = [];
-    var mediaQuery = window.matchMedia('(max-width: 768px)');
     
 
     swipers.forEach(function(sw) {
@@ -16,6 +15,9 @@
                 },
                 320: {
                     slidesPerView: 1.2,
+                },
+                100: {
+                    slidesPerView: 1,
                 }
             },
             navigation: {
@@ -26,10 +28,7 @@
 
         sw.querySelector('.swiper__append').addEventListener('click', function (e) {
             e.preventDefault();
-            sw.swiper.params.slidesPerView = 3.5;
-            if (mediaQuery.matches) {
-                sw.swiper.params.slidesPerView = 1.5;
-            }
+            
             sw.swiper.update();
         });
     });
