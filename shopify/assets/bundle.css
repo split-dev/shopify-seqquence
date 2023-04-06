@@ -5873,10 +5873,24 @@ input:-webkit-autofill:active {
 .template-search .search__wrapper.loading .swiper-slide {
   cursor: wait !important;
 }
-.template-search .search__wrapper.loading .swiper-slide .js-get-product-redirect,
-.template-search .search__wrapper.loading .swiper-slide img {
+.template-search .search__wrapper.loading .swiper-slide.customized + .swiper-slide:not(.customized) .preview-image,
+.template-search .search__wrapper.loading .swiper-slide.customized + .swiper-slide:not(.customized) + .swiper-slide:not(.customized) .preview-image {
+  background-image: url(https://cdn.shopify.com/s/files/1/0694/9752/0433/files/aisharp.webp?v=1680782705);
+}
+.template-search .search__wrapper.unavailable .swiper-slide .js-get-product-redirect,
+.template-search .search__wrapper.unavailable .swiper-slide img {
   cursor: wait !important;
   pointer-events: none;
+}
+.template-search .search__wrapper.unavailable .swiper-slide.customized {
+  cursor: wait;
+}
+.template-search .search__wrapper .swiper-slide.customized {
+  cursor: pointer;
+  padding-bottom: 20px;
+}
+.template-search .search__wrapper .swiper-slide.customized .button.js-get-product-redirect {
+  display: block;
 }
 .template-search .search__header {
   max-width: 1379px;
@@ -6038,16 +6052,6 @@ input:-webkit-autofill:active {
 }
 .template-search .search .swiper-slide .button.js-get-product-redirect {
   display: none;
-}
-.template-search .search .swiper-slide.customized {
-  cursor: pointer;
-  padding-bottom: 20px;
-}
-.template-search .search .swiper-slide.customized video {
-  display: none !important;
-}
-.template-search .search .swiper-slide.customized .button.js-get-product-redirect {
-  display: block;
 }
 @media (max-width: 1700px) {
   .template-search .search .swiper-slide video, .template-search .search .swiper-slide .preview-image {

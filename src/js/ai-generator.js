@@ -11,7 +11,7 @@
     const imagesResult = {};
     const previewsResult = {};
     const allPromptResults = new Map();
-    const preloadUrl = 'https://cdn.shopify.com/videos/c/vp/21de78cbe14f46cbbc3e8f54adfd86b4/21de78cbe14f46cbbc3e8f54adfd86b4.SD-480p-1.5Mbps-12651580.mp4';
+    const preloadUrl = 'https://cdn.shopify.com/s/files/1/0694/9752/0433/files/aisharp.webp?v=1680782705';
     let querySearch = new URL(document.location).searchParams.get('search') || '';
     let preventAutoExtend = (new URL(document.location).searchParams.get('preventAutoExtend') === "on");
     let allAvailablePrompts;
@@ -37,7 +37,7 @@
         const slider = searchContainer.querySelector('.js-search-swiper:not(.swiper-initialized)');
 
         if (window.Swiper) {
-            new Swiper(slider, {
+            new window.Swiper(slider, {
                 slidesPerView: 3.5,
                 spaceBetween: 30,
                 freeMode: true,
@@ -63,15 +63,14 @@
     const updateImagesPreviews = (promptResult) => {
         searchResultDomCarousels = document.querySelectorAll('.js-search-view .search__wrapper');
 
-        promptResult.forEach((result, i) => {
+        promptResult.forEach((result) => {
             if (result.error) {
                 trackGoogleError(result.error);
             } else {
-                if (allPromptResults.get(result.prompt)) {
-                    allPromptResults.set(result.prompt, Object.assign({}, allPromptResults.get(result.prompt), result.images));
-                } else {
-                    allPromptResults.set(result.prompt, result.images);
-                }
+                allPromptResults.set(result.prompt, {
+                    ...allPromptResults.get(result.prompt),
+                    ...result.images,
+                });
             }
         });
 
@@ -110,15 +109,17 @@
                     const slide = slider.querySelectorAll('.swiper-slide')[j];
                     
                     if (slide) {
+                        const redirectBtn = slide.querySelector('.js-get-product-redirect');
                         slide.querySelector('.preview-image').style.backgroundImage = `url(${previewsResult[i][key]})`;
-                        slide.querySelector('.js-get-product-redirect').setAttribute('data-id', `${key}`);
+                        
+                        redirectBtn.setAttribute('data-id', `${key}`)
+                        redirectBtn.setAttribute('data-handle', `${imgs[key].handle}`);
                         slide.classList.add('customized');
                     } else {
                         slider.swiper.appendSlide(`<div class="swiper-slide customized">
                             <div class="preview-image" style="background-image: url(${previewsResult[i][key]})"></div>
                             <img src="${mockupImg}"/>
-                            <button data-mockup="${mockupUrl}" data-id="${key}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
-                            <video loop muted autoplay playsinline width="210"><source src="${preloadUrl}" type="video/mp4"/></video>
+                            <button data-mockup="${mockupUrl}" data-id="${key}" data-handle="${imgs[key].handle}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
                         </div>`);
                     }
                 });
@@ -128,7 +129,6 @@
                         <div class="preview-image"></div>
                         <img src="${mockupImg}" />
                         <button data-mockup="${mockupUrl}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
-                        <video loop muted autoplay playsinline width="210"><source src="${preloadUrl}" type="video/mp4"/></video>
                     </div>`);
                 }
                 /* slider.swiper.slideTo(slider.swiper.slides.length); */
@@ -142,7 +142,7 @@
         console.log('checkImagesFullLoaded :>> ', pendImagesResult.length, length, pendImagesResult);
         return (pendImagesResult.length === length) && pendImagesResult.every((result) => {
             return result.images && Object.keys(result.images).length && Object.keys(result.images).every((key) => {
-                return result.images[key].printifyId;
+                return result.images[key].handle;
             });
         });
     }
@@ -195,12 +195,13 @@
     
             if (checkImagesFullLoaded(ids.length, imagesResponse)) {
                 console.timeEnd('waitImagesResult');
-                removeResultsBusyState();
+                removeResultsUnavailableState();
                 break;
             }
 
             if (imagesResponse.length > loadedImages) {
                 updateImagesPreviews(imagesResponse);
+                removeResultsBusyState();
                 loadedImages = imagesResponse.length;
             }
 
@@ -331,14 +332,28 @@
     };
 
     const setResultsBusyState = (_carousel) => {
+        console.log('setResultsBusyState _carousel :>> ', _carousel);
         _carousel ? _carousel.classList.add('loading') : document.querySelectorAll('.js-search-view .search__wrapper').forEach(carousel => {
             carousel.classList.add('loading');
         });
     };
 
     const removeResultsBusyState = (_carousel) => {
+        console.log('setResultsBusyState _carousel :>> ', _carousel);
         _carousel ? _carousel.classList.remove('loading') : document.querySelectorAll('.js-search-view .search__wrapper').forEach(carousel => {
             carousel.classList.remove('loading');
+        });
+    };
+
+    const removeResultsUnavailableState = (_carousel) => {
+        _carousel ? _carousel.classList.remove('unavailable') : document.querySelectorAll('.js-search-view .search__wrapper').forEach(carousel => {
+            carousel.classList.remove('unavailable');
+        });
+    };
+
+    const setResultsUnavailableState = (_carousel) => {
+        _carousel ? _carousel.classList.add('unavailable') : document.querySelectorAll('.js-search-view .search__wrapper').forEach(carousel => {
+            carousel.classList.add('unavailable');
         });
     };
 
@@ -369,6 +384,7 @@
             waitImagesResult(requestIds, true)
                 .then((images) => {
                     removeResultsBusyState();
+                    removeResultsUnavailableState();
                     console.log('Got images from LS :>> ', images);
                 });
         } else {
@@ -376,6 +392,7 @@
                 .then(pendimages => pendimages)
                 .then(images => {
                     removeResultsBusyState();
+                    //removeResultsUnavailableState();
                     console.log('Got images from Replicate API :>> ', images);
                 });
         }
@@ -393,18 +410,24 @@
                 return false;
             }
 
-            setBusyBuyButtonState(btnTarget, true);
+            const handle = btnTarget.getAttribute('data-handle');
 
-            getPrintifyProduct(
-                btnTarget,
-                btnTarget.getAttribute('data-id'), 
-                querySearch,
-                Array.from(btnTarget.closest('.swiper-slide').parentNode.children).indexOf(btnTarget.closest('.swiper-slide')) * document.querySelectorAll('.js-search-swiper').length,
-                btnTarget.getAttribute('data-mockup')
-            );
+            if (handle) {
+                window.open(`/products/${btnTarget.getAttribute('data-handle')}`, '_blank')
+            } else {
+                setBusyBuyButtonState(btnTarget, true);
+                
+                getPrintifyProduct(
+                    btnTarget,
+                    btnTarget.getAttribute('data-id'), 
+                    querySearch,
+                    Array.from(btnTarget.closest('.swiper-slide').parentNode.children).indexOf(btnTarget.closest('.swiper-slide')) * document.querySelectorAll('.js-search-swiper').length,
+                    btnTarget.getAttribute('data-mockup')
+                );
+            }
         })
 
-        searchViews.forEach((searchView, i) => {
+        searchViews.forEach((searchView) => {
             searchView.addEventListener('click', (e) => {
                 if (e.target.classList.contains('js-generate-more') || e.target.closest('.js-generate-more')) {
                     const btn = e.target.closest('.js-generate-more') ? e.target.closest('.js-generate-more') : e.target;
@@ -413,13 +436,15 @@
                     if (btn.classList.contains('loading')) return false;
 
                     setResultsBusyState(carousel);
+                    setResultsUnavailableState(carousel);
                     setBusyButtonState(btn, true);
-    
+
                     sendPromptRequest(btn.getAttribute('data-prompt'), true)
                         .then(pendimages => pendimages)
                         .then(images => {
                             removeResultsBusyState(carousel);
                             setBusyButtonState(btn, false);
+                            //removeResultsUnavailableState();
                             console.log('Got images from Replicate API :>> ', images);
                         });
                 }
@@ -473,13 +498,14 @@
 
                 const addedCarousel = addNewCarousel();
 
-                setResultsBusyState(addedCarousel.closest('.search__wrapper'));
-                
+                setResultsUnavailableState(addedCarousel.closest('.search__wrapper'));
+
                 sendPromptRequest(newUniquePrompt, true)
                     .then(pendimages => pendimages)
                     .then(images => {
                         setBusyButtonState(generateNewSearchPrompt, false);
                         removeResultsBusyState();
+                        //removeResultsUnavailableState();
                         console.log('Got images from Replicate API :>> ', images);
                     });
             });

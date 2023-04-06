@@ -7,6 +7,7 @@
   "scripts": {
     "start": "run-p -sr shopify:serve webpack:watch",
     "start-cli-3": "run-p -sr shopify:serve3 webpack:watch",
+    "dev": "run-p -sr webpack:watch",
     "deploy": "run-s webpack:build && cd shopify && shopify theme push",
     "deploy:new": "run-s webpack:build && cd shopify && shopify theme push --unpublished",
     "webpack:watch": "cross-env NODE_ENV=development BROWSERSLIST_ENV=development BROWSERSLIST_CONFIG=.config/.browserslistrc webpack --config .config/webpack/webpack.dev.js --watch --progress",
