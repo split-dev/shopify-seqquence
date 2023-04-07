@@ -124,9 +124,11 @@
                         </div>`);
                     }
 
-                    if (!imgs[key].handle) {
+                    if (!imgs[key].handle?.length) {
                         console.error('No product handle found');
                         slide && setBusyBuyButtonState(slide.querySelector('.btn'), true);
+                    } else {
+                        slide && setBusyBuyButtonState(slide.querySelector('.btn'), false);
                     }
                 });
 
