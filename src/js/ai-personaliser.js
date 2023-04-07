@@ -1,15 +1,15 @@
 (() => {
     const isProductPage = window.location.pathname.includes('/product') && document.body.classList.contains('template-product');
-    const isCartPage = window.location.pathname.includes('/cart');
+    // const isCartPage = window.location.pathname.includes('/cart');
     const REQUESTS_LIMIT = 270;
     const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
     const queryPhotoKey = new URL(document.location).searchParams.get('key') || '';
     const photosData = new Map();
     const LS_QUEUE_PRINTIFY_PRODUCTS = 'currentCreatingProduct';
     const cartNotification = document.querySelector('#cart-notification');
-    const mainCartItems = document.querySelector('#main-cart-items');
+    // const mainCartItems = document.querySelector('#main-cart-items');
     const sleep = ms => new Promise(res => setTimeout(res, ms));
-    const PHOTOS_API_NAMES = ['generatedImg', 'imageFull'];
+    // const PHOTOS_API_NAMES = ['generatedImg', 'imageFull'];
     let imageData;
 
     let queuePrintifyProducts = JSON.parse(localStorage.getItem(LS_QUEUE_PRINTIFY_PRODUCTS) || '{}');
@@ -48,6 +48,7 @@
         }
     };
 
+    // eslint-disable-next-line no-unused-vars
     const updateCartNotificationPreview = () => {
         const notificationOptions = cartNotification.querySelectorAll('.product-option');
         const imageNotification = cartNotification.querySelector('.cart-notification-product__image');
@@ -67,6 +68,7 @@
         imageNotification.parentNode.insertBefore(previewImg, imageNotification);
     };
 
+    // eslint-disable-next-line no-unused-vars
     const updateCartView = () => {
         const cartItems = document.querySelectorAll('.cart-item');
 
@@ -150,7 +152,7 @@
         productInfo.classList.add('loading');
         
         const productPrintifyInfo = JSON.parse(window.sessionStorage.getItem(queryPhotoKey) || '{}');
-        const productForm = document.querySelectorAll('.product-form Form');
+        // const productForm = document.querySelectorAll('.product-form Form');
 
         let waitIterations = 200;
 

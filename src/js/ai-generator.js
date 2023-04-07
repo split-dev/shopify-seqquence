@@ -5,6 +5,7 @@
     const searchViews = document.querySelectorAll('.js-search-view');
     const localSearch = localStorage.getItem(LS_SEARCH_KEY);
     const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
+    // const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
     const searchHistory = localSearch ? JSON.parse(localSearch) : {};
     const REQUESTS_LIMIT = 100;
     // const LS_QUEUE_PRINTIFY_PRODUCTS = 'currentCreatingProduct';
@@ -243,7 +244,8 @@
             },
             body: JSON.stringify({
                 preventAutoExtend,
-                [isFullPrompt ? `fullPrompt` : `prompt`]: prompt
+                fullPrompt: isFullPrompt && prompt,
+                prompt: querySearch
             })
         });
 
@@ -398,7 +400,7 @@
         } else {
             setResultsUnavailableState();
 
-            sendPromptRequest(querySearch, false, 1)
+            sendPromptRequest(querySearch, false)
                 .then(pendimages => pendimages)
                 .then(images => {
                     removeResultsBusyState();
