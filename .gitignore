@@ -1,5 +1,9 @@
+
+./shopify/assets/bundle.js
+./shopify/assets/bundle.css
+@shopify-directory/assets/bundle.js
+@shopify-directory/assets/bundle.css
 node_modules/
 .DS_Store
 *.log
-shopify/assets/
 # ignore all files inside shopify/assets/ except files with 'static' keyword in their filename
