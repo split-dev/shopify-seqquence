@@ -3,7 +3,7 @@
     <div class="banner__box content-container content-container--full-width-mobile">
       <div class="banner__form" {{ section.shopify_attributes }}>
         <form
-          action="/pages/search"
+          action="/pages/search?preventAutoExtend=on"
           type="POST"
           id="aiSearch">
           <div class="banner__field-wrapper">
@@ -105,6 +105,7 @@
       </div>
     </div>
 
+    {% comment %} COPY OF UPPER BLOCK BECAUSE OF SWIPER {% endcomment %}
     <template class="js-search-dom-template">
       <div class="search__wrapper">
         <div class="search__header">
@@ -112,27 +113,30 @@
             <h2>{{ section.settings.search_title }}</h2>
           {% endif %}
           {% if section.settings.search_description != blank %}
-            <p class="js-search-prompt">We are generating images, usually it takes around 10 seconds…</p>
+            <p class="js-search-prompt">{{ section.settings.search_description }}</p>
           {% endif %}
         </div>
         {% assign tshirt_photo_def = section.settings.tshirtplaceholder | image %}
         {% assign tshirt_photo = section.settings.product.images | first | default: tshirt_photo_def %}
-        <div class="swiper js-search-swiper" data-mockup-url="{{ section.settings.product.url }}" data-mockup-src="{{ tshirt_photo | img_url: 'large' }}">
+        <div
+          class="swiper js-search-swiper"
+          data-mockup-url="{{ section.settings.product.url }}"
+          data-mockup-src="{{ tshirt_photo | img_url: 'large' }}">
           <div class="swiper-wrapper">
             {% for i in (1..2) %}
-                <div class="swiper-slide swiper-slide">
-                  <div class="preview-image"></div>
-                  <img src="{{ tshirt_photo | img_url: 'large' }}" />
-                  <button data-mockup="{{ section.settings.product.url }}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
-                </div>
-              {% endfor %}
               <div class="swiper-slide swiper-slide">
-                  <div class="preview-image"></div>
-                  <img src="{{ tshirt_photo | img_url: 'large' }}" />
-                  <button data-mockup="{{ section.settings.product.url }}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+                <div class="preview-image"></div>
+                <img src="{{ tshirt_photo | img_url: 'large' }}" />
+                <button data-mockup="{{ section.settings.product.url }}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
               </div>
+            {% endfor %}
+            <div class="swiper-slide swiper-slide">
+                <div class="preview-image"></div>
+                <img src="{{ tshirt_photo | img_url: 'large' }}" />
+                <button data-mockup="{{ section.settings.product.url }}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+            </div>
           </div>
-          <div class="swiper__append">        
+          <div class="swiper__append">
             <button type="button" class="append-2-slides js-generate-more">
               <span>Create More of this Style</span>
               {% render 'create-more-icon' %}
@@ -144,7 +148,7 @@
 
     {% comment %} @todo: add functionaity! {% endcomment %}
     {% if section.settings.show_more %}
-      <div class="show-more">
+      <div class="show-more js-show-more">
         <button class="show-more__btn btn btn--secondary js-get-new-prompt">
           {% render 'icon-magic' %}
           <span>{{ section.settings.button_more }}</span>

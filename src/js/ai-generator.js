@@ -5,18 +5,24 @@
     const searchViews = document.querySelectorAll('.js-search-view');
     const localSearch = localStorage.getItem(LS_SEARCH_KEY);
     const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
-    // const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
+    const S3_HOST = 'https://aipr.s3.amazonaws.com';
+    const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws';
     const searchHistory = localSearch ? JSON.parse(localSearch) : {};
     const REQUESTS_LIMIT = 100;
     // const LS_QUEUE_PRINTIFY_PRODUCTS = 'currentCreatingProduct';
     const imagesResult = {};
     const previewsResult = {};
     const allPromptResults = new Map();
+    const searchDomTemplate = document.querySelector('.js-search-dom-template');
+
     let querySearch = new URL(document.location).searchParams.get('search') || '';
     let preventAutoExtend = (new URL(document.location).searchParams.get('preventAutoExtend') === "on");
     let allAvailablePrompts;
     let searchResultDomCarousels = document.querySelectorAll('.js-search-view .search__wrapper');
 
+    console.log('preventAutoExtend :>> ', preventAutoExtend);
+    console.log(new URL(document.location).searchParams.get('preventAutoExtend'))
+    console.log('new URL(document.location).searchParams :>> ', new URL(document.location).searchParams);
     if (!searchForm || !searchViews.length) return;
 
     const trackGoogleError = (err) => {
@@ -28,7 +34,6 @@
     };
 
     const addNewCarousel = () => {
-        const searchDomTemplate = document.querySelector('.js-search-dom-template');
         const newSearchDom = searchDomTemplate.content.cloneNode(true);
         const searchContainer = generateNewSearchPrompt.closest('.js-search-view');
 
@@ -77,6 +82,7 @@
 
         const promptSearchesIterator = allPromptResults.keys();
         const uniqueSearches = Array.from(promptSearchesIterator);
+        console.log('allPromptResults :>> ', promptSearchesIterator, uniqueSearches);
 
         uniqueSearches.forEach((search, i) => {
             const imgs = allPromptResults.get(search);
@@ -86,7 +92,6 @@
 
             Object.keys(imgs).forEach((key) => {
                 if (imgs[key] && imgs[key].generatedImg) {
-                    console.log('imgs[key]', imgs[key]);
                     previewsResult[i][key] = imgs[key].generatedImg;
                 }
             });
@@ -102,6 +107,7 @@
             const mockupImg = slider.getAttribute('data-mockup-src');
             const mockupUrl = slider.getAttribute('data-mockup-url');
 
+            console.log('searchPrompt,search :>> ', searchPrompt, search);
             searchPrompt && (searchPrompt.textContent = search);
             generateMoreBtn && generateMoreBtn.setAttribute('data-prompt', search);
 
@@ -155,10 +161,10 @@
         });
     }
 
-    let resolver;
-    const sleep = ms => new Promise(resolve => {
+    let resolvePusher;
+    const waitPusher = ms => new Promise(resolve => {
         const timeout = setTimeout(resolve, ms)
-        resolver = data => {
+        resolvePusher = data => {
             clearTimeout(timeout);
             resolve(data);
         }
@@ -167,7 +173,7 @@
         console.time('waitImagesResult');
 
         let imagesResponse;
-        let timeout = cacheRun ? 1 : 4000;
+        let timeout = cacheRun ? 1 : 4000; // 3s for AI and 1s for crop
         let loadedImages = 0;
 
         !cacheRun && ids.forEach(function (id) {
@@ -176,19 +182,17 @@
             channel.bind('1', function (data) {
                 // we can handle updates here
                 console.log('<< pusher >>', data);
-                resolver(data)
+                resolvePusher(data)
             });
         });
 
-        
-
         for (let i = 0; i < REQUESTS_LIMIT; i += 1) {
-            const data = await sleep(timeout); // pusher can send data earlier to us
+            const data = await waitPusher(timeout); // pusher can send data earlier to us
 
             if (Object.keys(data?.images || {}).length) {
                 imagesResponse = data;
             } else {
-                const imagesRequest = await fetch(`${API_HOST}/image?requestId=${ids.join(',')}`, {
+                const imagesRequest = await fetch(`${LAMBDA_HOST}/image?requestId=${ids.join(',')}`, {
                     method: 'GET'
                 });
                 if (imagesRequest.status !== 200) {
@@ -206,11 +210,14 @@
             if (checkImagesFullLoaded(ids.length, imagesResponse)) {
                 console.timeEnd('waitImagesResult');
                 console.log('All images ready to buy');
+                // removeResultsBusyState();
                 removeResultsUnavailableState(); /** can buy */
                 break;
             }
 
             if (imagesResponse.length > loadedImages) {
+                console.log('updateImagesPreviews :>> ', updateImagesPreviews);
+                timeout += 200;
                 updateImagesPreviews(imagesResponse);
                 removeResultsBusyState(); /** images visible */
                 loadedImages = imagesResponse.length;
@@ -219,9 +226,9 @@
             console.log(`pending images...next ping in ${(timeout/1000).toFixed(1)} seconds`);
 
             if (i) {
-                timeout *= 1.03; // 7687s after 100req
+                timeout *= 1.03; 
             } else {
-                timeout = 600;
+                timeout = 400;
             }
         }
         pusher.unsubscribe(ids[0]);
@@ -319,15 +326,41 @@
         newWindow.location.reload();
     };*/
 
+    const animations = new Map();
+    const ellipsisStart = (label, text, time = 900) => {
+        const originalText = label.textContent;
+        let step = 0;
+
+        const ellipsis = () => {
+            animations.set(label, {
+                originalText,
+                // timerId: setTimeout(ellipsis, time / 4),
+            });
+            label.textContent = text + '.'.repeat(step);
+            step += step < 3 ? 1 : -3;
+        }
+        ellipsis();
+    }
+    const ellipsisEnd = label => {
+        const animation = animations.get(label);
+        if (!animation) return;
+        // clearTimeout(animation.timerId);
+        label.textContent = animation.originalText;
+        animations.delete(label);
+    }
+
     const setBusyButtonState = (btn, state) => {
         const innerLabel = btn.querySelector('SPAN');
 
         if (state) {
             btn.classList.add('loading');
-            innerLabel && (innerLabel.textContent = 'Loading...');
+            innerLabel && ellipsisStart(innerLabel, 'Loading');
         } else {
             btn.classList.remove('loading');
-            innerLabel && (innerLabel.textContent = 'Create More of this Style');
+            // const textContent = btn.classList.contains('js-generate-more')
+            //     ? 'Create More of this Style'
+            //     : 'Create different styles';
+            innerLabel && ellipsisEnd(innerLabel);
         }
     };
 
@@ -377,8 +410,8 @@
         }
         window.Pusher.logToConsole = true;
 
-        pusher = new window.Pusher('de22d0c16c3acf27abc0', {
-            cluster: 'eu'
+        pusher = new window.Pusher('19daec24304eedd7aa8a', {
+            cluster: 'mt1'
         });
     }
 
@@ -390,10 +423,12 @@
 
     if (querySearch.length) {            
         /** PAGE LOAD STARTS HERE! */
+
+        console.log('querySearch :>> ', querySearch);
         
-        if (searchHistory[querySearch] && !preventAutoExtend) {
+        if (searchHistory[querySearch]) {
             const requestIds = Object.values(searchHistory[querySearch]).reduce((prev, curr) => prev.concat(curr), []);
-            
+            console.log('requestIds :>> ', requestIds);
             waitImagesResult(requestIds, true)
                 .then((images) => {
                     removeResultsBusyState();
@@ -519,10 +554,10 @@
                     newUniquePrompt = allAvailablePrompts[randomKey];
                 }
 
-                const addedCarousel = addNewCarousel();
+                const addedCarouselWrapper = addNewCarousel().closest('.search__wrapper');
 
-                setResultsBusyState(addedCarousel.closest('.search__wrapper'));
-                setResultsUnavailableState(addedCarousel.closest('.search__wrapper'));
+                setResultsBusyState(addedCarouselWrapper);
+                setResultsUnavailableState(addedCarouselWrapper);
 
                 sendPromptRequest(newUniquePrompt, true)
                     .then(pendimages => pendimages)

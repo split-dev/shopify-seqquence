@@ -934,7 +934,11 @@ input.mobile-facets__checkbox {
   line-height: calc(1 + 0.5 / var(--font-body-scale));
   margin: 0;
 }
-
+@media (max-width: 400px) {
+  .product-count__text {
+    line-height: 1px;
+  }
+}
 .product-count__text.loading {
   visibility: hidden;
 }

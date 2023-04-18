@@ -51,6 +51,20 @@
       
       &.loading {
         cursor: wait;
+        & p {
+          opacity: 0.6;
+        }
+        & p:after {
+          font-size: 16px;
+          overflow: hidden;
+          display: inline-block;
+          vertical-align: bottom;
+          -webkit-animation: ellipsis steps(4,end) 900ms infinite;      
+          animation: ellipsis steps(5,end) 900ms infinite;
+          content: "\2026"; /* ascii code for the ellipsis character */
+          width: 0px;
+          position: absolute;
+        }
         &:after,
         &::after {
           content: '';
@@ -206,11 +220,36 @@
           cursor: wait;
 
           svg {
-            -webkit-animation: pulse 3s infinite ease-in-out;
-            -o-animation: pulse 3s infinite ease-in-out;
-            -ms-animation: pulse 3s infinite ease-in-out;
-            -moz-animation: pulse 3s infinite ease-in-out;
-            animation: pulse 3s infinite ease-in-out;
+            -webkit-animation: pulse 1.8s infinite ease-in-out;
+            -o-animation: pulse 1.8s infinite ease-in-out;
+            -ms-animation: pulse 1.8s infinite ease-in-out;
+            -moz-animation: pulse 1.8s infinite ease-in-out;
+            animation: pulse 1.8s infinite ease-in-out;
+          }
+
+          opacity: 0.6;
+          & span:after {
+            font-size: 16px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: bottom;
+            -webkit-animation: ellipsis steps(4,end) 900ms infinite;      
+            animation: ellipsis steps(5,end) 900ms infinite;
+            content: "\2026"; /* ascii code for the ellipsis character */
+            width: 0px;
+            position: absolute;
+          }
+
+          @keyframes ellipsis {
+            to {
+              padding-right: 1.25em;    
+            }
+          }
+
+          @-webkit-keyframes ellipsis {
+            to {
+              padding-right: 1.25em;    
+            }
           }
         }
       }
@@ -228,6 +267,18 @@
         &.loading {
           cursor: wait;
           color: white !important;
+          opacity: 0.6;
+          & span:after {
+            font-size: 16px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: bottom;
+            -webkit-animation: ellipsis steps(4,end) 900ms infinite;      
+            animation: ellipsis steps(5,end) 900ms infinite;
+            content: "\2026"; /* ascii code for the ellipsis character */
+            width: 0px;
+            position: absolute;
+          }
         }
       }
       &:after,
@@ -351,12 +402,24 @@
         &.loading {
           cursor: wait;
 
+          opacity: 0.6;
+          & span:after {
+            font-size: 16px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: bottom;
+            -webkit-animation: ellipsis steps(4,end) 900ms infinite;      
+            animation: ellipsis steps(5,end) 900ms infinite;
+            content: "\2026"; /* ascii code for the ellipsis character */
+            width: 0px;
+            position: absolute;
+          }
           svg {
-            -webkit-animation: pulse 3s infinite ease-in-out;
-            -o-animation: pulse 3s infinite ease-in-out;
-            -ms-animation: pulse 3s infinite ease-in-out;
-            -moz-animation: pulse 3s infinite ease-in-out;
-            animation: pulse 3s infinite ease-in-out;
+            -webkit-animation: pulse 1.8s infinite ease-in-out;
+            -o-animation: pulse 1.8s infinite ease-in-out;
+            -ms-animation: pulse 1.8s infinite ease-in-out;
+            -moz-animation: pulse 1.8s infinite ease-in-out;
+            animation: pulse 1.8s infinite ease-in-out;
           }
         }
       }

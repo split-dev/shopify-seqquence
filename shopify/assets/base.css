@@ -1952,6 +1952,7 @@ input[type='checkbox'] {
   background-color: #0500FF;
   width: 16px;
   padding: 2px;
+  z-index: 2;
 }
 
 
