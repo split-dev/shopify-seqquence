@@ -6,7 +6,8 @@
     const localSearch = localStorage.getItem(LS_SEARCH_KEY);
     const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
     const S3_HOST = 'https://aipr.s3.amazonaws.com';
-    const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws';
+    // const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
+    const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws/'; // eu_central-1 - for testing
     const searchHistory = localSearch ? JSON.parse(localSearch) : {};
     const REQUESTS_LIMIT = 100;
     // const LS_QUEUE_PRINTIFY_PRODUCTS = 'currentCreatingProduct';
@@ -166,6 +167,7 @@
         const timeout = setTimeout(resolve, ms)
         resolvePusher = data => {
             clearTimeout(timeout);
+            Array.isArray(data) || (data = [data])
             resolve(data);
         }
     });
@@ -186,10 +188,10 @@
             });
         });
 
-        for (let i = 0; i < REQUESTS_LIMIT; i += 1) {
+        for (let retryCounter = 0; retryCounter < REQUESTS_LIMIT; retryCounter += 1) {
             const data = await waitPusher(timeout); // pusher can send data earlier to us
 
-            if (Object.keys(data?.images || {}).length) {
+            if (data?.length) {
                 imagesResponse = data;
             } else {
                 const imagesRequest = await fetch(`${LAMBDA_HOST}/image?requestId=${ids.join(',')}`, {
@@ -206,6 +208,11 @@
                 }
                 imagesResponse = await imagesRequest.json();
             }
+
+            if (imagesResponse[0].nsfw) {
+                document.getElementById('error_message')?.$show();
+                break;
+            }
     
             if (checkImagesFullLoaded(ids.length, imagesResponse)) {
                 console.timeEnd('waitImagesResult');
@@ -215,17 +222,17 @@
                 break;
             }
 
-            if (imagesResponse.length > loadedImages) {
+            if (imagesResponse[0].images.length > loadedImages) {
                 console.log('updateImagesPreviews :>> ', updateImagesPreviews);
                 timeout += 200;
                 updateImagesPreviews(imagesResponse);
                 removeResultsBusyState(); /** images visible */
-                loadedImages = imagesResponse.length;
+                loadedImages = imagesResponse[0].images.length;
             }
 
             console.log(`pending images...next ping in ${(timeout/1000).toFixed(1)} seconds`);
 
-            if (i) {
+            if (retryCounter) {
                 timeout *= 1.03; 
             } else {
                 timeout = 400;
@@ -254,7 +261,8 @@
             body: JSON.stringify({
                 preventAutoExtend,
                 fullPrompt: isFullPrompt && prompt,
-                prompt: querySearch
+                prompt: querySearch,
+                reqDate: Date.now(),
             })
         });
 
@@ -262,6 +270,8 @@
 
         if (sendSearch.status !== 201) {
             console.error(response);
+            document.getElementById('error_message')?.$show()
+
             return false;
         }
 
@@ -287,6 +297,25 @@
         return await waitImagesResult(queuesIds);
     };
 
+    async function createShopifyProduct(imageId, prompt) {
+        console.time('createShopifyProduct');
+        const response = await fetch(`${LAMBDA_HOST}/shopify-product`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                imageId,
+                type: 't-shirt',
+                prompt
+            })
+        });
+        console.log('response :>> ', response.status, response.statusText);
+        console.timeEnd('createShopifyProduct');
+        const json = await response.json();
+        console.log('json :>> ', json);
+        return json;
+    }
     /*const getPrintifyProduct = async (button, imageId, prompt, number, mockupUrl) => {
         console.time('getPrintifyProduct');
 
@@ -445,7 +474,7 @@
                 });
         }
 
-        document.querySelector('.search').addEventListener('click', (e) => {
+        document.querySelector('.search').addEventListener('click', async (e) => {
             let btnTarget;
 
             if (e.target.classList.contains('js-get-product-redirect')) {
@@ -460,7 +489,11 @@
 
             const handle = btnTarget.getAttribute('data-handle');
 
-            if (handle && handle.length) {
+            if (handle) {
+                if (handle.startsWith('not ready')) {
+                    const json = await createShopifyProduct(btnTarget.getAttribute('data-id'));
+                    btnTarget.setAttribute('data-handle', json.handle);
+                }
                 window.open(`/products/${btnTarget.getAttribute('data-handle')}`, '_blank')
             } else {
                 setBusyBuyButtonState(btnTarget, true);

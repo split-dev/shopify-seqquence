@@ -157,6 +157,7 @@
     {% endif %}
   </div>
 </div>
+{%- render 'popup', popup_message: 'Your request is too suggestive. Please try something else.', popup_id: 'error_message' -%}
 
 <script src="{{ 'search-swipers.js' | asset_url }}" defer="defer"></script>
 

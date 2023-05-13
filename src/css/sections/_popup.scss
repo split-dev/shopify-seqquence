@@ -1,0 +1,25 @@
+.popup {
+  position: fixed;
+  display: block;
+  left: 50%;
+  top: 0px;
+  opacity: 0;
+  // visibility: hidden;
+  border: 1px solid #CCEC06;
+  z-index: -1;
+  transform: translate(-50%);
+  background-color: black;
+  color: white;
+  padding: 20px 100px;
+  transition: all ease-in-out 500ms;
+  &.show {
+    opacity: 0.9;
+    z-index: 999;
+    // visibility: visible;
+    top: 100px;
+  }
+  & i {
+    font-size: large;
+    font-style: normal;
+  }
+}
