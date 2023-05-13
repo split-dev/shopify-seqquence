@@ -2,6 +2,15 @@
   <div class="container banner__content banner__content--{{ section.settings.desktop_content_position }} page-width">
     <div class="banner__box content-container content-container--full-width-mobile">
       <div class="banner__form" {{ section.shopify_attributes }}>
+
+      {% if section.settings.tutorial_title != blank %}
+        <a class="hero__tutorial" href="{{ section.settings.tutorial_url }}">
+          <span>{{ section.settings.tutorial_first_word }}</span>
+          {{ section.settings.tutorial_title }}
+          {% render 'icon-link' %}
+        </a>
+      {% endif %}
+
         <form
           action="/pages/search?preventAutoExtend=on"
           type="POST"
@@ -176,6 +185,21 @@
         "type": "video",
         "id": "preloader",
         "label": "Video preloader"
+      },
+      {
+        "type": "text",
+        "id": "tutorial_title",
+        "label": "Tutorial title"
+      },
+      {
+        "type": "text",
+        "id": "tutorial_first_word",
+        "label": "Tutorial first word"
+      },
+      {
+        "type": "url",
+        "id": "tutorial_url",
+        "label": "Tutorial link url"
       },
       {
         "type": "text",

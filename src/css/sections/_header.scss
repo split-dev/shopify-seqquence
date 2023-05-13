@@ -5,7 +5,6 @@
 .header {
     grid-template-columns: auto 1fr auto;
     padding: 36px 90px 32px 56px;
-    gap: 61px;
 
     background: rgba(56, 47, 65, 0.2);
 
@@ -173,6 +172,7 @@
 
         &__utility-links {
             padding: 0;
+            display: none;
         }
     }
 }

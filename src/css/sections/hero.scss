@@ -235,6 +235,44 @@
     .field__input:not(:placeholder-shown)~.field__label {
         top: 10px !important;
     }
+
+    &__tutorial {
+        background: rgba(255, 255, 255, 0.2);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        max-width: 480px;
+        margin: 0 auto;
+        width: 100%;
+        min-height: 34px;
+        text-decoration: none;
+        border-radius: 120px;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        color: $text;
+        @include media-breakpoint-down(sm) {
+            font-size: 11px;
+        } 
+        & svg {
+            margin: 0 10px;
+        }
+        & span {
+            color: $dark;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 20px;
+            background: $text;
+            border-radius: 120px;
+            display: flex;
+            align-items: center;
+            padding: 7px 10px;
+            @include media-breakpoint-down(sm) {
+                font-size: 12px;
+            } 
+        }
+    }
 }
 
 .grecaptcha-badge {
@@ -249,7 +287,7 @@
     // padding-top: 76px;
     .banner__form {
         margin-top: 114px !important;
-        padding-top: 76px !important;
+        padding-top: 40px !important;
 
         @include media-breakpoint-down(sm) {
             margin-top: 114px !important;

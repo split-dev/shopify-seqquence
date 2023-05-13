@@ -283,6 +283,14 @@
           </slider-component>
         {%- endif -%}
       </media-gallery>
+      
+      {% if section.settings.media_bottom_text != blank %}
+        <div class="media__bottom-text">
+          {% render 'icon-eyes' %}
+          <p>{{ section.settings.media_bottom_text }}</p>
+        </div>
+      {% endif %}
+
     </div>
     <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 %} product__info-wrapper--extra-padding{% endif %}">
       <div
@@ -1040,6 +1048,12 @@
             endunless
           -%}
         {%- endfor -%}
+        {% if section.settings.media_bottom_text != blank %}
+          <div class="media__bottom-text">
+            {% render 'icon-eyes' %}
+            <p>{{ section.settings.media_bottom_text }}</p>
+          </div>
+        {% endif %}
       </div>
       </div>
     </div>
@@ -1890,6 +1904,11 @@
       "id": "enable_video_looping",
       "default": false,
       "label": "t:sections.main-product.settings.enable_video_looping.label"
+    },
+    {
+      "type": "text",
+      "id": "media_bottom_text",
+      "label": "Media bottom text"
     }
   ]
 }

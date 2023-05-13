@@ -61,6 +61,15 @@
             <h2 class="banner__heading font-weight-bold letter-spacing-1" {{ block.shopify_attributes }}>
               {{ block.settings.heading | escape }} <span class="banner__heading-accent">{{ block.settings.accent_text | escape }}</span>
             </h2>
+
+            {% if block.settings.tutorial_title != blank %}
+              <a class="hero__tutorial" href="{{ block.settings.tutorial_url }}">
+                <span>{{ block.settings.tutorial_first_word }}</span>
+                {{ block.settings.tutorial_title }}
+                {% render 'icon-link' %}
+              </a>
+            {% endif %}
+
           {%- when 'form' -%}
             <div class="banner__form" {{ block.shopify_attributes }}>
               <form action="/pages/search" type="POST">
@@ -346,6 +355,21 @@
           "type": "text",
           "id": "accent_text",
           "label": "Accent text"
+        },
+        {
+          "type": "text",
+          "id": "tutorial_title",
+          "label": "Tutorial title"
+        },
+        {
+          "type": "text",
+          "id": "tutorial_first_word",
+          "label": "Tutorial first word"
+        },
+        {
+          "type": "url",
+          "id": "tutorial_url",
+          "label": "Tutorial link url"
         }
       ]
     },

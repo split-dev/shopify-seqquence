@@ -13,6 +13,9 @@
       "settings": {
         "product": "mockup-t-shirt",
         "preloader": "shopify:\/\/files\/videos\/AP_progress_animation (1).mp4",
+        "tutorial_title": "What is Artificial Printer and how it works",
+        "tutorial_first_word": "Tutorial",
+        "tutorial_url": "https:\/\/artificialprinter.com\/blogs\/news\/tutorial-what-is-prompting-and-how-to-create-great-images",
         "form_placeholder": "Panda jumping",
         "tshirtplaceholder": "https:\/\/cdn.shopify.com\/s\/files\/1\/0694\/9752\/0433\/files\/t-shirt-mockup.png?v=1675951639",
         "button_text": "Create",

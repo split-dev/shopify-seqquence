@@ -350,6 +350,13 @@
       .button.js-get-product-redirect {
         visibility: hidden;
       }
+
+      @include media-breakpoint-down(sm) {
+        width: 95% !important;
+        margin-right: 0px !important;
+        margin: 0px 10px;
+      }
+
     }
 
     .swiper-button-next {
@@ -431,7 +438,14 @@
 
     @include media-breakpoint-down(sm) {
       margin: 16px auto 0 !important;
-      padding-top: 0px;
+      padding: 0px;
+    }
+  }
+
+  .hero__tutorial {
+    margin-bottom: 36px;
+    @include media-breakpoint-down(sm) {
+      margin-bottom: 16px;
     }
   }
 }

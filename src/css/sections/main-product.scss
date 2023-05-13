@@ -373,6 +373,25 @@
         width: 100%;
         height: auto;
     }
+    .media__bottom-text {
+        position: absolute;
+        bottom: 24%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: $dark;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        padding: 12px 10px;
+        @include media-breakpoint-down(sm) {
+            bottom: 0;
+        }
+        & p {
+            @include media-breakpoint-down(sm) {
+                font-size: 10px;
+            }
+        }
+    }
 }
 .product-media-modal__content {
     img.preview-image {
@@ -388,4 +407,25 @@
         -ms-transform: translateX(-50%);
         -o-transform: translateX(-50%);
     }
+}
+
+.media__bottom-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+    opacity: .8;
+    & svg {
+        margin-right: 7px;
+    }
+    & p {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 15px;
+        color: $text;
+    }
+}
+
+.container-fluid .product .shopify-payment-button__button .size--large::after {
+    content: 'Buy Now With Google Pay';
 }
