@@ -48,6 +48,9 @@
       position: relative;
       max-height: 748px;
       transition: all .5s;
+      @include media-breakpoint-down(sm) {
+        max-height: 100%;
+      }
       
       &.loading {
         cursor: wait;
@@ -304,6 +307,9 @@
     .swiper-wrapper {
       max-width: 1332px;
       margin: 0 auto;
+      @include media-breakpoint-down(sm) {
+        flex-wrap: wrap;
+      }
     }
 
     .swiper-slide {
