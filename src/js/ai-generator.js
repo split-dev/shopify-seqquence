@@ -7,7 +7,7 @@
     const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
     const S3_HOST = 'https://aipr.s3.amazonaws.com';
     // const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
-    const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws/'; // eu_central-1 - for testing
+    const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
     const searchHistory = localSearch ? JSON.parse(localSearch) : {};
     const REQUESTS_LIMIT = 100;
     // const LS_QUEUE_PRINTIFY_PRODUCTS = 'currentCreatingProduct';
@@ -113,9 +113,10 @@
             generateMoreBtn && generateMoreBtn.setAttribute('data-prompt', search);
 
             if (slider) {
+                console.log(1)
                 Object.keys(previewsResult[i]).forEach((key, j) => {
                     const slide = slider.querySelectorAll('.swiper-slide')[j];
-                    
+                    console.log(2, key, previewsResult[i][key])
                     if (slide) {
                         const redirectBtn = slide.querySelector('.js-get-product-redirect');
                         slide.querySelector('.preview-image').style.backgroundImage = `url(${previewsResult[i][key]})`;
@@ -127,7 +128,7 @@
                         slider.swiper.appendSlide(`<div class="swiper-slide customized">
                             <div class="preview-image" style="background-image: url(${previewsResult[i][key]})"></div>
                             <img src="${mockupImg}"/>
-                            <button data-mockup="${mockupUrl}" data-id="${key}" data-handle="${imgs[key].handle || ''}" class="btn btn--secondary ${imgs[key].handle ? '' : 'loading'} js-get-product-redirect button button--secondary"><span>${imgs[key].handle ? 'Buy' : 'Wait..'}</span></button>
+                            <button data-mockup="${mockupUrl}" data-id="${key}" data-handle="${imgs[key].handle || ''}" class="btn btn--secondary ${imgs[key].handle ? '' : 'loading'} js-get-product-redirect button button--secondary"><span>${imgs[key].handle ? 'Buy' : 'Wait'}</span></button>
                         </div>`);
                     }
 
@@ -153,10 +154,15 @@
         console.log('FULL imagesResult :>> ', imagesResult);
     }
 
-    const checkImagesFullLoaded = (length, pendImagesResult) => {
+    const checkImagesFullLoaded = (length, pendImagesResult, cacheRun) => {
         console.log('checkImagesFullLoaded :>> ', pendImagesResult.length, length, pendImagesResult);
         return (pendImagesResult.length === length) && pendImagesResult.every((result) => {
             return result.images && Object.keys(result.images).length && Object.keys(result.images).every((key) => {
+                if (cacheRun) {
+                    console.log('cacheRun - setting not ready');
+                    result.images[key].handle ||= 'not ready';
+                }
+                
                 return result.images[key].handle;
             });
         });
@@ -198,9 +204,9 @@
                     method: 'GET'
                 });
                 if (imagesRequest.status !== 200) {
-                    console.error(imagesResponse);
+                    console.error(imagesRequest.status, imagesRequest.statusText);
 
-                    trackGoogleError(`Error images request ${JSON.stringify(imagesResponse)}`);
+                    trackGoogleError(`Error images request ${JSON.stringify([imagesRequest.status, imagesRequest.statusText])}`);
 
                     pusher.unsubscribe(ids[0]);
 
@@ -214,7 +220,7 @@
                 break;
             }
     
-            if (checkImagesFullLoaded(ids.length, imagesResponse)) {
+            if (checkImagesFullLoaded(ids.length, imagesResponse, cacheRun)) {
                 console.timeEnd('waitImagesResult');
                 console.log('All images ready to buy');
                 // removeResultsBusyState();
@@ -222,12 +228,14 @@
                 break;
             }
 
-            if (imagesResponse[0].images.length > loadedImages) {
+            const loadedCount = imagesResponse.reduce((acc, item) => acc + item.images.length)
+
+            if (loadedCount > loadedImages) {
                 console.log('updateImagesPreviews :>> ', updateImagesPreviews);
                 timeout += 200;
                 updateImagesPreviews(imagesResponse);
                 removeResultsBusyState(); /** images visible */
-                loadedImages = imagesResponse[0].images.length;
+                loadedImages = loadedCount;
             }
 
             console.log(`pending images...next ping in ${(timeout/1000).toFixed(1)} seconds`);
@@ -252,7 +260,7 @@
     const sendPromptRequest = async (prompt, isFullPrompt) => {
         console.time('generateImages with Replicate AI');
 
-        const sendSearch = await fetch(`${API_HOST}/prompt`, {
+        const sendSearch = await fetch(`${LAMBDA_HOST}/prompt`, {
             method: 'POST',
             headers: {
                 "Access-Control-Allow-Origin": "*",
@@ -268,7 +276,7 @@
 
         const response = await sendSearch.json();
 
-        if (sendSearch.status !== 201) {
+        if (![200, 201].includes(sendSearch.status)) {
             console.error(response);
             document.getElementById('error_message')?.$show()
 
@@ -297,7 +305,7 @@
         return await waitImagesResult(queuesIds);
     };
 
-    async function createShopifyProduct(imageId, prompt) {
+    async function createShopifyProduct(imageId) {
         console.time('createShopifyProduct');
         const response = await fetch(`${LAMBDA_HOST}/shopify-product`, {
             method: 'POST',
@@ -307,7 +315,7 @@
             body: JSON.stringify({
                 imageId,
                 type: 't-shirt',
-                prompt
+                prompt: querySearch
             })
         });
         console.log('response :>> ', response.status, response.statusText);
@@ -398,7 +406,7 @@
 
         if (state) {
             btn.classList.add('loading');
-            innerLabel && (innerLabel.textContent = 'Wait...');
+            innerLabel && (innerLabel.textContent = 'Wait');
         } else {
             btn.classList.remove('loading');
             innerLabel && (innerLabel.textContent = 'Buy');
