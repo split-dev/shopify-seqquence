@@ -93,7 +93,10 @@
           background-color: transparent;
           cursor: wait;
         }
-        
+        .swiper-slide {
+          width: 33.3%;
+          margin-right: 30px;
+        }
         .swiper-slide .preview-image {
           display: block !important;
         }
@@ -105,7 +108,7 @@
         .swiper-slide:not(.customized):nth-child(2) .preview-image,
         .swiper-slide.customized + .swiper-slide:not(.customized) .preview-image,
         .swiper-slide.customized + .swiper-slide:not(.customized) + .swiper-slide:not(.customized) .preview-image {
-          background-image: url(https://cdn.shopify.com/s/files/1/0694/9752/0433/files/aisharp.webp?v=1680782705);
+          // background-image: url(https://cdn.shopify.com/s/files/1/0694/9752/0433/files/aisharp.webp?v=1680782705);
         }
       }
       &.unavailable {

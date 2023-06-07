@@ -1315,6 +1315,13 @@
     "name": "t:settings_schema.styles.name",
     "settings": [
       {
+        "type": "text",
+        "id": "loader",
+        "label": "Loader",
+        "info": "Loader",
+        "default": "https://cdn.shopify.com/s/files/1/0694/9752/0433/files/aisharp.webp"
+      },
+      {
         "type": "select",
         "id": "accent_icons",
         "options": [

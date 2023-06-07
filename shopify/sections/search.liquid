@@ -85,24 +85,22 @@
           <p class="js-search-prompt">{{ section.settings.search_description }}</p>
         {% endif %}
       </div>
-      {% assign tshirt_photo_def = section.settings.tshirtplaceholder | image %}
-      {% assign tshirt_photo = section.settings.product.images | first | default: tshirt_photo_def %}
+      {% assign tshirt_photo = section.settings.tshirtplaceholder %}
       <div
         class="swiper js-search-swiper"
-        data-mockup-url="{{ section.settings.product.url }}"
-        data-mockup-src="{{ tshirt_photo | img_url: 'large' }}">
+        data-mockup-src="{{ tshirt_photo }}">
         <div class="swiper-wrapper">
           {% for i in (1..2) %}
             <div class="swiper-slide swiper-slide">
               <div class="preview-image"></div>
-              <img src="{{ tshirt_photo | img_url: 'large' }}" />
-              <button data-mockup="{{ section.settings.product.url }}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+              <img src="{{ tshirt_photo }}" />
+              <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
             </div>
           {% endfor %}
           <div class="swiper-slide swiper-slide">
               <div class="preview-image"></div>
-              <img src="{{ tshirt_photo | img_url: 'large' }}" />
-              <button data-mockup="{{ section.settings.product.url }}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+              <img src="{{ tshirt_photo }}" />
+              <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
           </div>
         </div>
         <div class="swiper__append">
@@ -125,24 +123,23 @@
             <p class="js-search-prompt">{{ section.settings.search_description }}</p>
           {% endif %}
         </div>
-        {% assign tshirt_photo_def = section.settings.tshirtplaceholder | image %}
-        {% assign tshirt_photo = section.settings.product.images | first | default: tshirt_photo_def %}
+        {% assign tshirt_photo = section.settings.tshirtplaceholder %}
+
         <div
           class="swiper js-search-swiper"
-          data-mockup-url="{{ section.settings.product.url }}"
-          data-mockup-src="{{ tshirt_photo | img_url: 'large' }}">
+          data-mockup-src="{{ tshirt_photo }}">
           <div class="swiper-wrapper">
             {% for i in (1..2) %}
               <div class="swiper-slide swiper-slide">
                 <div class="preview-image"></div>
-                <img src="{{ tshirt_photo | img_url: 'large' }}" />
-                <button data-mockup="{{ section.settings.product.url }}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+                <img src="{{ tshirt_photo }}" />
+                <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
               </div>
             {% endfor %}
             <div class="swiper-slide swiper-slide">
                 <div class="preview-image"></div>
-                <img src="{{ tshirt_photo | img_url: 'large' }}" />
-                <button data-mockup="{{ section.settings.product.url }}" class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+                <img src="{{ tshirt_photo }}" />
+                <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
             </div>
           </div>
           <div class="swiper__append">
@@ -170,17 +167,24 @@
 
 <script src="{{ 'search-swipers.js' | asset_url }}" defer="defer"></script>
 
+{%- style -%}
+  .template-search .search__wrapper .swiper-slide:not(.customized):nth-child(1) .preview-image,
+  .template-search .search__wrapper .swiper-slide:not(.customized):nth-child(2) .preview-image,
+  .template-search .search__wrapper .swiper-slide.customized + .swiper-slide:not(.customized) .preview-image,
+  .template-search .search__wrapper .swiper-slide.customized + .swiper-slide:not(.customized) + .swiper-slide:not(.customized) .preview-image {
+    background-image: url({{ settings.loader }});
+  }
+  .template-search .search__wrapper .swiper-slide:last-child .preview-image {
+    background-image: none !important;
+  }
+{%- endstyle -%}
+
 {% schema %}
   {
     "name": "Search grid",
     "tag": "section",
     "class": "section",
     "settings": [
-      {
-        "type": "product",
-        "id": "product",
-        "label": "Default mockup product"
-      },
       {
         "type": "video",
         "id": "preloader",
