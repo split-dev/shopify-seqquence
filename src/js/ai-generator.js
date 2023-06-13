@@ -2,8 +2,8 @@
 const LS_SEARCH_KEY = 'ai-search';
 // const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
 // const S3_HOST = 'https://aipr.s3.amazonaws.com';
-// const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
-const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
+const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
+// const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
 const PUSHER_ID = '19daec24304eedd7aa8a';
 
 const REQUESTS_LIMIT = 100;
@@ -96,7 +96,7 @@ const addNewCarousel = () => {
 
     const slider = searchContainer.querySelector('.js-search-swiper:not(.swiper-initialized)');
 
-    if (window.Swiper) {
+    if (window.Swiper && window.innerWidth >= 768) {
         window.ai_swipers ||= [];
         window.ai_swipers.push(
             new window.Swiper(slider, {
@@ -199,12 +199,14 @@ const updateImagesPreviews = (promptResult) => {
                 }
             });
 
-            if (slider.swiper.slides[slider.swiper.slides.length - 1].classList.contains('customized')) {
-                slider.swiper.appendSlide(`<div class="swiper-slide">
+            const newSlide = `<div class="swiper-slide">
                     <div class="preview-image"></div>
                     <img src="${mockupImg}" />
                     <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
-                </div>`);
+                </div>`;
+
+            if (slider.swiper?.slides[slider.swiper.slides.length - 1].classList.contains('customized')) {
+                slider.swiper.appendSlide(newSlide);
             }
             /* slider.swiper.slideTo(slider.swiper.slides.length); */
         }
@@ -259,9 +261,14 @@ async function waitImagesResult (id, cacheRun) {
     // }
 
     for (let retryCounter = 0; retryCounter < REQUESTS_LIMIT; retryCounter += 1) {
-        imagesResponse = await waitPusher(id, timeout); // pusher can send data earlier to us
-        console.log('imagesResponse :>> ', imagesResponse);
-
+        if (!cacheRun) {
+            imagesResponse = await waitPusher(id, timeout); // pusher can send data earlier to us
+            console.log('imagesResponse :>> ', imagesResponse);
+        } else {
+            cacheRun = false;
+            timeout = 500;
+        }
+        
         if (!imagesResponse) {
             const imagesRequest = await fetch(`${LAMBDA_HOST}/image?requestId=${id}`, {
                 method: 'GET'
