@@ -154,11 +154,16 @@
       font-size: 16px;
       line-height: 20px;
       color: $grey;
+      & a {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 20px;
+        color: $primary;
+      }
     }
     .cart__ctas {
       margin-bottom: 20px;
       & button {
-        max-width: 100%;
         background: rgba(56, 47, 65, 0.2);
         border: 1px solid $primary;
         box-shadow: 0px 0px 16px rgba(204, 236, 6, 0.4);
@@ -169,6 +174,8 @@
         line-height: 26px;
         text-transform: capitalize;
         color: $text;
+        max-width: 36rem;
+        margin-left: auto;
         &:hover {
           box-shadow: 0px 0px 16px rgba(215, 248, 2, 0.8);
         }
@@ -178,6 +185,9 @@
         }
         & svg {
           margin-right: 16px;
+        }
+        @include media-breakpoint-down(sm) {
+          max-width: 100%;
         }
       } 
     }

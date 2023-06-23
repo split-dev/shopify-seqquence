@@ -1356,6 +1356,11 @@
       },
       {
         "type": "text",
+        "id": "social_amazon",
+        "label": "Amazon"
+      },
+      {
+        "type": "text",
         "id": "social_etsy_link",
         "label": "t:settings_schema.social-media.settings.social_etsy_link.label",
         "info": "t:settings_schema.social-media.settings.social_etsy_link.info"

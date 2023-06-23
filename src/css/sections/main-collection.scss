@@ -2,3 +2,11 @@
 // ## SHOPIFY STATIC SECTION: MAIN COLLECTION
 // ==========================================================================
 
+
+.collection-hero__title {
+    margin-top: 105px !important; 
+    margin-bottom: 0px !important; 
+    @include media-breakpoint-down(sm) {
+        margin: 2.5rem 0 !important;
+    } 
+}

@@ -120,6 +120,9 @@
                     &:last-child {
                         margin-right: 0px;
                     }
+                    & svg path {
+                        fill: $light;
+                    }
                 }
             }
         }
