@@ -162,7 +162,7 @@
       }
     }
     .cart__ctas {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       & button {
         background: rgba(56, 47, 65, 0.2);
         border: 1px solid $primary;
@@ -192,10 +192,8 @@
       } 
     }
     .cart__dynamic-checkout-buttons {
-      margin: 0 0 0 auto;
-      @include media-breakpoint-down(sm) {
-        max-width: 100%;
-      }
+      margin: 0 auto;
+      max-width: 100%;
     }
   }
 }

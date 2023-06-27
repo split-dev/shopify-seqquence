@@ -153,6 +153,7 @@
         "type": "header",
         "settings": {
           "menu": "main-menu",
+          "menu_mobile": "mobile-menu",
           "enable_sticky_header": true,
           "mobile_logo_position": "center"
         }

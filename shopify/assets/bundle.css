@@ -5002,8 +5002,19 @@ h3 {
   top: -3px;
   left: 13px;
   letter-spacing: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 36px;
   line-height: 46px;
+}
+.header__logo svg {
+  margin-left: 8px;
+}
+@media (max-width: 767.98px) {
+  .header__logo svg {
+    display: none;
+  }
 }
 @media (max-width: 767px) {
   .header__logo {
@@ -5100,6 +5111,11 @@ h3 {
 }
 .header .menu-drawer__menu li {
   margin: 0 !important;
+  display: flex;
+  align-items: center;
+}
+.header .menu-drawer__menu li:not(:first-child) svg {
+  display: none;
 }
 .header .menu-drawer__menu-item {
   padding: 12px;
@@ -5759,7 +5775,16 @@ input:-webkit-autofill:active {
 .container-fluid .product-form__submit span, .container-sm .product-form__submit span, .container-md .product-form__submit span, .container-lg .product-form__submit span, .container-xl .product-form__submit span {
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: center;
+  width: 100%;
+}
+.container-fluid .product-form__submit span svg, .container-sm .product-form__submit span svg, .container-md .product-form__submit span svg, .container-lg .product-form__submit span svg, .container-xl .product-form__submit span svg {
+  width: 32;
+  height: 32px;
+  margin-right: 10px;
+}
+.container-fluid .product-form__submit span svg path, .container-sm .product-form__submit span svg path, .container-md .product-form__submit span svg path, .container-lg .product-form__submit span svg path, .container-xl .product-form__submit span svg path {
+  fill: #CCEC06;
 }
 .container-fluid .product .shopify-payment-button__button .size--large, .container-sm .product .shopify-payment-button__button .size--large, .container-md .product .shopify-payment-button__button .size--large, .container-lg .product .shopify-payment-button__button .size--large, .container-xl .product .shopify-payment-button__button .size--large {
   background: #0500FF !important;
@@ -5792,7 +5817,7 @@ input:-webkit-autofill:active {
   z-index: 1;
 }
 .container-fluid .product .shopify-payment-button__button .size--large::after, .container-sm .product .shopify-payment-button__button .size--large::after, .container-md .product .shopify-payment-button__button .size--large::after, .container-lg .product .shopify-payment-button__button .size--large::after, .container-xl .product .shopify-payment-button__button .size--large::after {
-  content: "Buy now";
+  content: "34.99 Buy Now!";
   position: static;
   display: block;
   font-weight: 700;
@@ -5866,11 +5891,18 @@ input:-webkit-autofill:active {
   -ms-transform: translateX(-50%);
   -o-transform: translateX(-50%);
 }
+.product--stacked .product__media-item {
+  margin: 20px auto;
+}
+.product--stacked .product__media-item:last-child {
+  max-width: 60% !important;
+}
 .media__bottom-text {
-  display: flex;
+  display: flex !important;
   align-items: center;
   justify-content: center;
   padding-top: 20px;
+  margin-top: 20px;
   opacity: 0.8;
 }
 .media__bottom-text svg {
@@ -5881,6 +5913,14 @@ input:-webkit-autofill:active {
   font-size: 12px;
   line-height: 15px;
   color: #fff;
+}
+@media (max-width: 767.98px) {
+  .media__bottom-text {
+    display: none !important;
+  }
+}
+.product__media-icon {
+  opacity: 1 !important;
 }
 .container-fluid .product .shopify-payment-button__button .size--large::after, .container-sm .product .shopify-payment-button__button .size--large::after, .container-md .product .shopify-payment-button__button .size--large::after, .container-lg .product .shopify-payment-button__button .size--large::after, .container-xl .product .shopify-payment-button__button .size--large::after {
   content: "Buy Now With Google Pay";
@@ -6214,7 +6254,7 @@ input:-webkit-autofill:active {
 @media (max-width: 767.98px) {
   .template-search .search .banner__input {
     height: 70px !important;
-    padding: 33px 16px 23px 64px;
+    padding: 33px 16px 33px 64px;
     font-size: 16px;
   }
 }
@@ -6287,6 +6327,40 @@ input:-webkit-autofill:active {
   .collection-hero__title {
     margin: 2.5rem 0 !important;
   }
+}
+.collection__buy-now {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.collection__buy-now a {
+  padding: 24px 32px;
+  background: rgba(56, 47, 65, 0.2);
+  border: 1px solid #CCEC06;
+  box-shadow: 0px 0px 16px rgba(204, 236, 6, 0.4);
+  border-radius: 2px;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+  text-transform: capitalize;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 250px;
+  text-decoration: none !important;
+  z-index: 20;
+}
+.collection__buy-now a::after {
+  display: none;
+}
+.collection__buy-now a::before {
+  display: none;
+}
+.collection__buy-now a:hover {
+  text-decoration: none !important;
+  box-shadow: 0px 0px 16px rgba(215, 248, 2, 0.8);
+  background-color: rgba(204, 236, 6, 0.6);
 }
 .template-cart .cart__header h1 {
   font-weight: 700;
@@ -6452,7 +6526,7 @@ input:-webkit-autofill:active {
   color: #CCEC06;
 }
 .template-cart .cart__footer .cart__ctas {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .template-cart .cart__footer .cart__ctas button {
   background: rgba(56, 47, 65, 0.2);
@@ -6483,12 +6557,8 @@ input:-webkit-autofill:active {
   }
 }
 .template-cart .cart__footer .cart__dynamic-checkout-buttons {
-  margin: 0 0 0 auto;
-}
-@media (max-width: 767.98px) {
-  .template-cart .cart__footer .cart__dynamic-checkout-buttons {
-    max-width: 100%;
-  }
+  margin: 0 auto;
+  max-width: 100%;
 }
 .grecaptcha-badge {
   z-index: 20;

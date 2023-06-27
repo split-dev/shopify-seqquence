@@ -127,7 +127,7 @@
     .banner__input {
       @include media-breakpoint-down(sm) {
         height: 70px !important;
-        padding: 33px 16px 23px 64px;
+        padding: 33px 16px 33px 64px;
         font-size: 16px;
       }
     }
