@@ -5034,7 +5034,7 @@ h3 {
 .header .list-menu {
   gap: 60px;
 }
-@media screen and (max-width: 1060px) {
+@media screen and (max-width: 1100px) {
   .header .list-menu {
     gap: 20px;
   }
@@ -5093,6 +5093,14 @@ h3 {
     width: 25px;
     height: 25px;
     margin-right: 0;
+  }
+}
+.header__icons-desktop {
+  display: none;
+}
+@media (max-width: 989px) {
+  .header__icons-desktop {
+    display: block;
   }
 }
 .header .icon-hamburger {
@@ -5897,6 +5905,11 @@ input:-webkit-autofill:active {
 .product--stacked .product__media-item:last-child {
   max-width: 60% !important;
 }
+@media (max-width: 767.98px) {
+  .product--stacked .product__media-item:last-child {
+    max-width: 100% !important;
+  }
+}
 .media__bottom-text {
   display: flex !important;
   align-items: center;
@@ -5958,6 +5971,7 @@ input:-webkit-autofill:active {
   position: relative;
   max-height: 748px;
   transition: all 0.5s;
+  margin-bottom: 50px;
 }
 @media (max-width: 767.98px) {
   .template-search .search__wrapper {
@@ -6195,9 +6209,9 @@ input:-webkit-autofill:active {
 }
 .template-search .search .swiper-slide img {
   object-fit: contain;
-  max-width: 80%;
   max-height: initial;
   min-height: auto;
+  max-width: 80%;
   min-width: 100%;
 }
 @media (max-width: 767.98px) {

@@ -70,7 +70,7 @@
     .list-menu {
         gap: 60px;
 
-        @media screen and (max-width: 1060px) {
+        @media screen and (max-width: 1100px) {
             gap: 20px;
         }
     }
@@ -153,6 +153,12 @@
                 width: 25px;
                 height: 25px;
                 margin-right: 0;
+            }
+        }
+        &-desktop {
+            display: none;
+            @media (max-width: 989px) {
+                display: block;
             }
         }
     }

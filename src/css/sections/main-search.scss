@@ -48,6 +48,7 @@
       position: relative;
       max-height: 748px;
       transition: all .5s;
+      margin-bottom: 50px;
       @include media-breakpoint-down(sm) {
         max-height: 100%;
       }
@@ -318,9 +319,9 @@
     .swiper-slide {
       & img {
         object-fit: contain;
-        max-width: 80%;
         max-height: initial;
         min-height: auto;
+        max-width: 80%;
         min-width: 100%;
 
         @include media-breakpoint-down(sm) {

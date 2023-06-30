@@ -110,6 +110,14 @@
           </button>
         </div>
       </div>
+      {% if section.settings.show_more %}
+        <div class="show-more js-show-more">
+          <button class="show-more__btn btn btn--secondary js-get-new-prompt">
+            {% render 'icon-magic' %}
+            <span>{{ section.settings.button_more }}</span>
+          </button>
+        </div>
+      {% endif %}
     </div>
 
     {% comment %} COPY OF UPPER BLOCK BECAUSE OF SWIPER {% endcomment %}
@@ -153,14 +161,6 @@
     </template>
 
     {% comment %} @todo: add functionaity! {% endcomment %}
-    {% if section.settings.show_more %}
-      <div class="show-more js-show-more">
-        <button class="show-more__btn btn btn--secondary js-get-new-prompt">
-          {% render 'icon-magic' %}
-          <span>{{ section.settings.button_more }}</span>
-        </button>
-      </div>
-    {% endif %}
   </div>
 </div>
 {%- render 'popup', popup_message: 'Your request is too suggestive. Please try something else.', popup_id: 'error_message' -%}
