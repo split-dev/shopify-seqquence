@@ -110,14 +110,6 @@
                 <div class="footer__badge-icons">
                   {%- if section.settings.show_social -%}
                   <ul class="footer__list-social list-unstyled list-social" role="list">
-                    {%- if settings.social_amazon != blank -%}
-                    <li class="list-social__item">
-                      <a href="{{ settings.social_amazon }}" class="link list-social__link">
-                        {%- render 'icon-amazon' -%}
-                        <span class="visually-hidden">{{ 'general.social.links.twitter' | t }}</span>
-                      </a>
-                    </li>
-                  {%- endif -%}
                     {%- if settings.social_etsy_link != blank -%}
                     <li class="list-social__item">
                       <a href="{{ settings.social_etsy_link }}" class="link list-social__link">

@@ -7,7 +7,10 @@
           "type": "heading",
           "settings": {
             "heading": "Create your custom AI Art",
-            "accent_text": "T-shirt"
+            "accent_text": "T-shirt",
+            "tutorial_title": "",
+            "tutorial_first_word": "",
+            "tutorial_url": ""
           }
         },
         "a08bebad-5ae5-4f09-afc1-cbc2f88be885": {
@@ -31,9 +34,9 @@
         "38bad702-e83d-4a64-9100-be582b11d73d"
       ],
       "settings": {
-        "image": "shopify:\/\/shop_images\/flying_products_promo_f29e091f-5010-48c8-8397-07e39b8667ba.png",
-        "video": "shopify:\/\/files\/videos\/AP_video_desktop.mp4",
-        "video_mob": "shopify:\/\/files\/videos\/AP_video_mobile.mp4",
+        "image": "shopify:\/\/shop_images\/master.00_00_39_06.Still001.png",
+        "video": "shopify:\/\/files\/videos\/master_FINAL_9.mp4",
+        "video_mob": "shopify:\/\/files\/videos\/master PHONE_5.mp4",
         "image_height": "medium",
         "adapt_height_first_image": true,
         "desktop_content_position": "middle-center",

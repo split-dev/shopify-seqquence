@@ -23,7 +23,9 @@
           }
         },
         "content": {
-          "type": "content"
+          "type": "content",
+          "settings": {
+          }
         }
       },
       "block_order": [
@@ -31,7 +33,12 @@
         "title",
         "share",
         "content"
-      ]
+      ],
+      "custom_css": [
+        ".comment-form h2 {padding-bottom: 2rem;}"
+      ],
+      "settings": {
+      }
     }
   },
   "order": [

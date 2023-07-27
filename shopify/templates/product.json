@@ -81,8 +81,7 @@
         "gallery_layout": "stacked",
         "mobile_thumbnails": "hide",
         "hide_variants": false,
-        "enable_video_looping": false,
-        "media_bottom_text": "All images are 4 times sharper when printed"
+        "enable_video_looping": false
       }
     },
     "product-recommendations": {
