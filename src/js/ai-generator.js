@@ -2,10 +2,10 @@
 const LS_SEARCH_KEY = 'ai-search';
 // const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
 // const S3_HOST = 'https://aipr.s3.amazonaws.com';
-const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
-// const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
+// const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
+const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
 const PUSHER_ID = '19daec24304eedd7aa8a';
-
+const GENERATION_STEP = 3;
 const REQUESTS_LIMIT = 100;
 const querySearch = new URL(document.location).searchParams.get('search') || '';
 const preventAutoExtend = (new URL(document.location).searchParams.get('preventAutoExtend') === "on");
@@ -100,13 +100,13 @@ const addNewCarousel = () => {
         window.ai_swipers ||= [];
         window.ai_swipers.push(
             new window.Swiper(slider, {
-                slidesPerView: 3.5,
-                spaceBetween: 30,
+                slidesPerView: 3,
+                spaceBetween: 35,
                 freeMode: true,
                 mousewheel: true,
                 breakpoints: {
                     767: {
-                        slidesPerView: 3.5
+                        slidesPerView: 3
                     },
                     320: {
                         slidesPerView: 1.2,
@@ -187,7 +187,7 @@ const updateImagesPreviews = (promptResult) => {
                     slider.swiper.appendSlide(`<div class="swiper-slide customized">
                         <div class="preview-image" style="background-image: url(${img.generatedImg})"></div>
                         <img src="${mockupImg}"/>
-                        <button data-id="${img.id}" data-handle="${img.handle || ''}" class="btn btn--secondary ${img.handle ? '' : 'loading'} js-get-product-redirect button button--secondary"><span>${img.handle ? 'Buy' : 'Wait'}</span></button>
+                        <button data-id="${img.id}" data-handle="${img.handle || ''}" class="btn btn--secondary ${img.handle ? '' : 'loading'} js-get-product-redirect button button--secondary"><span>${img.handle ? 'Buy Now!' : 'Wait'}</span></button>
                     </div>`);
                 }
 
@@ -202,12 +202,12 @@ const updateImagesPreviews = (promptResult) => {
             const newSlide = `<div class="swiper-slide">
                     <div class="preview-image"></div>
                     <img src="${mockupImg}" />
-                    <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+                    <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy Now!</span></button>
                 </div>`;
 
-            if (slider.swiper?.slides[slider.swiper.slides.length - 1].classList.contains('customized')) {
-                slider.swiper.appendSlide(newSlide);
-            }
+            // if (slider.swiper?.slides[slider.swiper.slides.length - 1].classList.contains('customized')) {
+            //     slider.swiper.appendSlide(newSlide);
+            // }
             /* slider.swiper.slideTo(slider.swiper.slides.length); */
         }
     });
@@ -318,7 +318,7 @@ async function waitImagesResult (id, cacheRun) {
     }
     pusher.unsubscribe(id);
 
-    if (imagesResponse.images.length === 0) {
+    if (imagesResponse.images && imagesResponse.images.length === 0) {
         trackGoogleError(`Can't get images. Probably DB connection error`);
     }
 
@@ -444,7 +444,7 @@ const setBusyBuyButtonState = (btn, state) => {
         innerLabel && (innerLabel.textContent = 'Wait');
     } else {
         btn.classList.remove('loading');
-        innerLabel && (innerLabel.textContent = 'Buy');
+        innerLabel && (innerLabel.textContent = 'Buy Now!');
     }
 };
 
@@ -576,18 +576,18 @@ function handleGenerateMore(event) {
     if (!moreBtn) return;
 
     const carousel = moreBtn.closest('.search__wrapper');
-    const slider = moreBtn.closest('.js-search-swiper');
+    const slider = carousel.querySelector('.js-search-swiper');
     const mockupImg = slider.getAttribute('data-mockup-src');
 
     console.log('mockupImg :>> ', mockupImg);
 
     if (moreBtn.classList.contains('loading')) return false;
 
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < GENERATION_STEP; i++) {
         slider.swiper.appendSlide(`<div class="swiper-slide">
                     <div class="preview-image"></div>
                     <img src="${mockupImg}" />
-                    <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+                    <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy Now!</span></button>
                 </div>`);
     }
 

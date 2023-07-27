@@ -29,7 +29,7 @@
                 autocomplete="search"
                 placeholder="{{ section.settings.form_placeholder | escape }}"
                 required>
-              <span class="banner__icon-search">{% render 'icon-search' %}</span>
+              <span class="banner__icon-search">{% render 'icon-magic2' %}</span>
               {% comment %}
               <label class="banner__label field__label color-text-white text-20px font-weight-bold">
                 {{ section.settings.form_placeholder | escape }}
@@ -72,6 +72,34 @@
 
             <span>Do not auto-extend prompt</span>
           </label>
+
+          <!--@TODO: UNCOMMENT FOR PRODUCT TYPES FUNCTIONALITY-->
+          {% comment %} <radiogroup class="product_type_filter">
+            <label class="product_type">
+              <input type="radio" name="product_type" value="u-t-shirt" checked/>
+              <span>Unisex T-shirt</span>
+            </label>
+            <label class="product_type">
+              <input type="radio" name="product_type" value="women-tee"/>
+              <span>Women Tee</span>
+            </label>
+            <label class="product_type">
+              <input type="radio" name="product_type" value="kids-tee"/>
+              <span>Kids Tee</span>
+            </label>
+            <label class="product_type">
+              <input type="radio" name="product_type" value="hoodie"/>
+              <span>Hoodie</span>
+            </label>
+            <label class="product_type">
+              <input type="radio" name="product_type" value="sweatshirt"/>
+              <span>Sweatshirt</span>
+            </label>
+            <label class="product_type">
+              <input type="radio" name="product_type" value="smartphone-case"/>
+              <span>Smartphone Case</span>
+            </label>
+          </radiogroup> {% endcomment %}
         </form>
       </div>
     </div>
@@ -90,25 +118,20 @@
         class="swiper js-search-swiper"
         data-mockup-src="{{ tshirt_photo }}">
         <div class="swiper-wrapper">
-          {% for i in (1..2) %}
+          {% for i in (1..3) %}
             <div class="swiper-slide swiper-slide">
               <div class="preview-image"></div>
               <img src="{{ tshirt_photo }}" />
-              <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+              <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy Now!</span></button>
             </div>
           {% endfor %}
-          <div class="swiper-slide swiper-slide">
-              <div class="preview-image"></div>
-              <img src="{{ tshirt_photo }}" />
-              <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
-          </div>
         </div>
-        <div class="swiper__append">
-          <button type="button" class="append-2-slides js-generate-more">
-            <span>Create More of this Style</span>
-            {% render 'create-more-icon' %}
-          </button>
-        </div>
+      </div>
+      <div class="swiper__append">
+        <button type="button" class="append-2-slides js-generate-more">
+          {% render 'create-more-icon' %}
+          <span>Create More of this Style</span>
+        </button>
       </div>
     </div>
 
@@ -129,25 +152,20 @@
           class="swiper js-search-swiper"
           data-mockup-src="{{ tshirt_photo }}">
           <div class="swiper-wrapper">
-            {% for i in (1..2) %}
+            {% for i in (1..3) %}
               <div class="swiper-slide swiper-slide">
                 <div class="preview-image"></div>
                 <img src="{{ tshirt_photo }}" />
-                <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
+                <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy Now!</span></button>
               </div>
             {% endfor %}
-            <div class="swiper-slide swiper-slide">
-                <div class="preview-image"></div>
-                <img src="{{ tshirt_photo }}" />
-                <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy</span></button>
-            </div>
           </div>
-          <div class="swiper__append">
-            <button type="button" class="append-2-slides js-generate-more">
-              <span>Create More of this Style</span>
-              {% render 'create-more-icon' %}
-            </button>
-          </div>
+        </div>
+        <div class="swiper__append">
+          <button type="button" class="append-2-slides js-generate-more">
+            {% render 'create-more-icon' %}
+            <span>Create More of this Style</span>
+          </button>
         </div>
       </div>
     </template>
@@ -156,7 +174,7 @@
     {% if section.settings.show_more %}
       <div class="show-more js-show-more">
         <button class="show-more__btn btn btn--secondary js-get-new-prompt">
-          {% render 'icon-magic' %}
+          {% render 'icon-magic-dark' %}
           <span>{{ section.settings.button_more }}</span>
         </button>
       </div>
@@ -168,14 +186,10 @@
 <script src="{{ 'search-swipers.js' | asset_url }}" defer="defer"></script>
 
 {%- style -%}
-  .template-search .search__wrapper .swiper-slide:not(.customized):nth-child(1) .preview-image,
-  .template-search .search__wrapper .swiper-slide:not(.customized):nth-child(2) .preview-image,
+  .template-search .search__wrapper .swiper-slide:not(.customized) .preview-image,
   .template-search .search__wrapper .swiper-slide.customized + .swiper-slide:not(.customized) .preview-image,
   .template-search .search__wrapper .swiper-slide.customized + .swiper-slide:not(.customized) + .swiper-slide:not(.customized) .preview-image {
     background-image: url({{ settings.loader }});
-  }
-  .template-search .search__wrapper .swiper-slide:last-child .preview-image {
-    background-image: none !important;
   }
 {%- endstyle -%}
 
