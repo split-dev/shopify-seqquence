@@ -35,6 +35,13 @@ function bindHanlers() {
     });
 }
 
+function appendItem(parentElement, itemHtml) {
+    const tempContainer = document.createElement('div');
+
+    tempContainer.innerHTML = itemHtml;
+    parentElement.appendChild(tempContainer.firstChild);
+}
+
 function init() {
     if (!searchForm || !searchViews.length) return;
 
@@ -94,33 +101,9 @@ const addNewCarousel = () => {
 
     searchDomTemplate.before(newSearchDom);
 
-    const slider = searchContainer.querySelector('.js-search-swiper:not(.swiper-initialized)');
+    const newProductsList = searchContainer.querySelector('.search__wrapper:last-of-type .js-search-products');
 
-    if (window.Swiper && window.innerWidth >= 768) {
-        window.ai_swipers ||= [];
-        window.ai_swipers.push(
-            new window.Swiper(slider, {
-                slidesPerView: 3,
-                spaceBetween: 35,
-                freeMode: true,
-                mousewheel: true,
-                breakpoints: {
-                    767: {
-                        slidesPerView: 3
-                    },
-                    320: {
-                        slidesPerView: 1.2,
-                    }
-                },
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-            })
-        );
-    }
-
-    return slider;
+    return newProductsList;
 };
 
 const updateImagesPreviews = (promptResult) => {
@@ -161,10 +144,11 @@ const updateImagesPreviews = (promptResult) => {
             searchResultDomCarousels = document.querySelectorAll('.js-search-view .search__wrapper');
         }
 
-        const slider = searchResultDomCarousels[i].querySelector('.js-search-swiper');
+        const slider = searchResultDomCarousels[i].querySelector('.js-search-products .products-wrapper');
         const searchPrompt = searchResultDomCarousels[i].querySelector('.js-search-prompt');
         const generateMoreBtn = searchResultDomCarousels[i].querySelector('.js-generate-more');
-        const mockupImg = slider.getAttribute('data-mockup-src');
+        console.log('Products slider', slider);
+        const mockupImg = slider.parentNode.getAttribute('data-mockup-src');
 
         console.log('searchPrompt,search :>> ', searchPrompt, search);
         searchPrompt && (searchPrompt.textContent = search);
@@ -173,7 +157,7 @@ const updateImagesPreviews = (promptResult) => {
         if (slider) {
             console.log(1)
             imgs.forEach((img, j) => {
-                const slide = slider.querySelectorAll('.swiper-slide')[j];
+                const slide = slider.querySelectorAll('.products-item')[j];
                 console.log(2, img)
                 if (slide) {
                     const redirectBtn = slide.querySelector('.js-get-product-redirect');
@@ -184,7 +168,7 @@ const updateImagesPreviews = (promptResult) => {
                     img.handle || redirectBtn.classList.add('loading');
                     slide.classList.add('customized');
                 } else {
-                    slider.swiper.appendSlide(`<div class="swiper-slide customized">
+                    appendItem(slider, `<div class="products-item customized">
                         <div class="preview-image" style="background-image: url(${img.generatedImg})"></div>
                         <img src="${mockupImg}"/>
                         <button data-id="${img.id}" data-handle="${img.handle || ''}" class="btn btn--secondary ${img.handle ? '' : 'loading'} js-get-product-redirect button button--secondary"><span>${img.handle ? 'Buy Now!' : 'Wait'}</span></button>
@@ -198,17 +182,6 @@ const updateImagesPreviews = (promptResult) => {
                     slide && setBusyBuyButtonState(slide.querySelector('.btn'), false);
                 }
             });
-
-            const newSlide = `<div class="swiper-slide">
-                    <div class="preview-image"></div>
-                    <img src="${mockupImg}" />
-                    <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy Now!</span></button>
-                </div>`;
-
-            // if (slider.swiper?.slides[slider.swiper.slides.length - 1].classList.contains('customized')) {
-            //     slider.swiper.appendSlide(newSlide);
-            // }
-            /* slider.swiper.slideTo(slider.swiper.slides.length); */
         }
     });
 }
@@ -350,6 +323,7 @@ async function sendPromptRequest(prompt, isFullPrompt) {
             fullPrompt: isFullPrompt && prompt,
             prompt: querySearch,
             reqDate,
+            count: GENERATION_STEP,
         })
     });
 
@@ -486,7 +460,7 @@ async function handleOpenProduct(event) {
     if (event.target.classList.contains('js-get-product-redirect')) {
         btnTarget = event.target;
     } else if (event.target.tagName.toLowerCase() === 'img') {
-        btnTarget = event.target.closest('.swiper-slide').querySelector('.js-get-product-redirect');
+        btnTarget = event.target.closest('.products-item').querySelector('.js-get-product-redirect');
     }
 
     if (!btnTarget || btnTarget.classList.contains('loading')) {
@@ -576,15 +550,13 @@ function handleGenerateMore(event) {
     if (!moreBtn) return;
 
     const carousel = moreBtn.closest('.search__wrapper');
-    const slider = carousel.querySelector('.js-search-swiper');
-    const mockupImg = slider.getAttribute('data-mockup-src');
-
-    console.log('mockupImg :>> ', mockupImg);
+    const slider = carousel.querySelector('.js-search-products .products-wrapper');
+    const mockupImg = slider.parentNode.getAttribute('data-mockup-src');
 
     if (moreBtn.classList.contains('loading')) return false;
 
     for (let i = 0; i < GENERATION_STEP; i++) {
-        slider.swiper.appendSlide(`<div class="swiper-slide">
+        appendItem(slider, `<div class="products-item">
                     <div class="preview-image"></div>
                     <img src="${mockupImg}" />
                     <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy Now!</span></button>
