@@ -133,6 +133,45 @@
                             </div>
                           {%- endif -%}
                         {%- endfor -%}
+
+                        <div class="cart-item__price-wrapper cart-item__price-wrapper--mobile">
+                          {%- if item.original_line_price != item.final_line_price -%}
+                            <dl class="cart-item__discounted-prices">
+                              <dt class="visually-hidden">
+                                {{ 'products.product.price.regular_price' | t }}
+                              </dt>
+                              <dd>
+                                <s class="cart-item__old-price price price--end">
+                                  {{ item.original_line_price | money }}
+                                </s>
+                              </dd>
+                              <dt class="visually-hidden">
+                                {{ 'products.product.price.sale_price' | t }}
+                              </dt>
+                              <dd class="price price--end">
+                                {{ item.final_line_price | money }}
+                              </dd>
+                            </dl>
+                          {%- else -%}
+                            <span class="price price--end">
+                              {{ item.original_line_price | money }}
+                            </span>
+                          {%- endif -%}
+    
+                          {%- if item.variant.available and item.unit_price_measurement -%}
+                            <div class="unit-price caption">
+                              <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
+                              {{ item.variant.unit_price | money }}
+                              <span aria-hidden="true">/</span>
+                              <span class="visually-hidden">&nbsp;{{ 'accessibility.unit_price_separator' | t }}&nbsp;</span>
+                              {%- if item.variant.unit_price_measurement.reference_value != 1 -%}
+                                {{- item.variant.unit_price_measurement.reference_value -}}
+                              {%- endif -%}
+                              {{ item.variant.unit_price_measurement.reference_unit }}
+                            </div>
+                          {%- endif -%}
+                        </div>
+                        
                       </dl>
 
                       <p class="product-option">{{ item.selling_plan_allocation.selling_plan.name }}</p>
@@ -147,6 +186,7 @@
                       {%- endfor -%}
                     </ul>
                   </td>
+                  
 
                   <td class="cart-item__totals right medium-hide large-up-hide">
                     <div class="loading-overlay hidden">

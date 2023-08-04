@@ -6540,10 +6540,18 @@ input:-webkit-autofill:active {
   border-spacing: 0 1em;
 }
 @media (max-width: 767.98px) {
+  .template-cart .cart__items .cart-items thead {
+    display: none;
+  }
+}
+@media (max-width: 767.98px) {
   .template-cart .cart__items .cart-items thead tr {
     border: none;
     margin-bottom: 0px;
   }
+}
+.template-cart .cart__items .cart-items thead tr th {
+  color: #B7ACC3;
 }
 .template-cart .cart__items .cart-item {
   background: rgba(56, 47, 65, 0.2);
@@ -6556,6 +6564,7 @@ input:-webkit-autofill:active {
 }
 .template-cart .cart__items .cart-item__media {
   padding-left: 20px;
+  padding-bottom: 2rem;
 }
 @media (max-width: 767.98px) {
   .template-cart .cart__items .cart-item__media {
@@ -6563,12 +6572,20 @@ input:-webkit-autofill:active {
     padding-left: 2rem;
   }
 }
+@media (max-width: 749px) {
+  .template-cart .cart__items .cart-item__media {
+    margin: 0 auto;
+    max-width: 100%;
+    padding-left: 0;
+    padding-bottom: 0;
+  }
+}
 .template-cart .cart__items .cart-item__details a {
   font-weight: 700;
   font-size: 20px;
   line-height: 26px;
   color: #fff;
-  padding-bottom: 16px;
+  padding-bottom: 8px;
 }
 .template-cart .cart__items .cart-item__details .product-option {
   font-weight: 400;
@@ -6595,6 +6612,13 @@ input:-webkit-autofill:active {
     min-width: 110px;
   }
 }
+@media (max-width: 749px) {
+  .template-cart .cart__items .cart-item__image-container img {
+    max-width: 263px;
+    width: 100%;
+    margin: 0 auto;
+  }
+}
 .template-cart .cart__items .cart-item .quantity__input {
   font-weight: 700;
   font-size: 16px;
@@ -6613,6 +6637,7 @@ input:-webkit-autofill:active {
     position: absolute;
     right: 0px;
     padding-top: 2rem !important;
+    display: none;
   }
 }
 .template-cart .cart__items .cart-item__price-wrapper .price {
@@ -6621,6 +6646,14 @@ input:-webkit-autofill:active {
   line-height: 20px;
   text-align: right;
   color: #fff;
+}
+.template-cart .cart__items .cart-item__price-wrapper--mobile {
+  display: none;
+}
+@media (max-width: 767.98px) {
+  .template-cart .cart__items .cart-item__price-wrapper--mobile {
+    display: flex;
+  }
 }
 .template-cart .cart__items .cart-item > td + td {
   padding-bottom: 4rem;
