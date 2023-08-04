@@ -157,8 +157,8 @@
         ],
         "settings": {
           "menu": "main-menu",
-          "enable_sticky_header": true,
           "menu_mobile": "mobile-menu",
+          "enable_sticky_header": true,
           "mobile_logo_position": "center"
         }
       },
