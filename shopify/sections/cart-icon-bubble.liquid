@@ -1,10 +1,4 @@
-{%- liquid
-  if cart == empty
-    render 'icon-cart-empty'
-  else
-    render 'icon-cart'
-  endif
--%}
+{%- render 'icon-cart-empty-old' -%}
 <span class="text text-uppercase text-16px-all">{{ 'templates.cart.cart' | t }}</span>
 {%- if cart != empty -%}
   <div class="cart-count-bubble">

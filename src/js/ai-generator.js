@@ -171,7 +171,7 @@ const updateImagesPreviews = (promptResult) => {
                     appendItem(slider, `<div class="products-item customized">
                         <div class="preview-image" style="background-image: url(${img.generatedImg})"></div>
                         <img src="${mockupImg}"/>
-                        <button data-id="${img.id}" data-handle="${img.handle || ''}" class="btn btn--secondary ${img.handle ? '' : 'loading'} js-get-product-redirect button button--secondary"><span>${img.handle ? 'Buy Now!' : 'Wait'}</span></button>
+                        <button data-id="${img.id}" data-handle="${img.handle || ''}" class="btn btn--secondary ${img.handle ? '' : 'loading'} js-get-product-redirect button button--secondary"><span>${img.handle ? '$34.99 Buy Now!' : 'Wait'}</span></button>
                     </div>`);
                 }
 
@@ -418,7 +418,7 @@ const setBusyBuyButtonState = (btn, state) => {
         innerLabel && (innerLabel.textContent = 'Wait');
     } else {
         btn.classList.remove('loading');
-        innerLabel && (innerLabel.textContent = 'Buy Now!');
+        innerLabel && (innerLabel.textContent = '$34.99 Buy Now!');
     }
 };
 
@@ -559,7 +559,7 @@ function handleGenerateMore(event) {
         appendItem(slider, `<div class="products-item">
                     <div class="preview-image"></div>
                     <img src="${mockupImg}" />
-                    <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy Now!</span></button>
+                    <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>$34.99 Buy Now!</span></button>
                 </div>`);
     }
 

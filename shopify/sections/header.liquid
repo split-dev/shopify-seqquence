@@ -305,13 +305,7 @@
             <div class="header__icons">
 
               <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
-                {%- liquid
-                  if cart == empty
-                    render 'icon-cart-empty-old'
-                  else
-                    render 'icon-cart-old'
-                  endif
-                -%}
+                {%- render 'icon-cart-empty-old' -%}
                 <span class="text text-uppercase text-16px-all">{{ 'templates.cart.cart' | t }}</span>
                 {%- if cart != empty -%}
                   <div class="cart-count-bubble">
@@ -330,13 +324,7 @@
     <div class="header__icons header__icons-desktop">
 
       <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
-        {%- liquid
-          if cart == empty
-            render 'icon-cart-empty-old'
-          else
-            render 'icon-cart-old'
-          endif
-        -%}
+        {%- render 'icon-cart-empty-old' -%}
         <span class="text text-uppercase text-16px-all">{{ 'templates.cart.cart' | t }}</span>
         {%- if cart != empty -%}
           <div class="cart-count-bubble">

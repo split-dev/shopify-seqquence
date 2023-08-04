@@ -5074,7 +5074,7 @@ h3 {
   margin-right: 8px;
 }
 .header__icons svg path {
-  fill: #CCEC06;
+  stroke: #CCEC06;
 }
 .header__icons .cart-count-bubble {
   color: #000;
@@ -5828,7 +5828,7 @@ input:-webkit-autofill:active {
   z-index: 1;
 }
 .container-fluid .product .shopify-payment-button__button .size--large::after, .container-sm .product .shopify-payment-button__button .size--large::after, .container-md .product .shopify-payment-button__button .size--large::after, .container-lg .product .shopify-payment-button__button .size--large::after, .container-xl .product .shopify-payment-button__button .size--large::after {
-  content: "34.99 Buy Now!";
+  content: "$34.99 Buy Now!";
   position: static;
   display: block;
   font-weight: 700;
