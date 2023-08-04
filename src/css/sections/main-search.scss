@@ -41,14 +41,47 @@
     display: none;
   }
 
-  .search {
-    &__wrapper {
-      // padding: 50px 0px 50px 20px;
-      padding: 50px 0px 30px 0px;
+  .product_type_filter {
+    display: flex;
+    flex-direction: row;
+    margin-top: 24px;
+    .product_type {
+      display: block;
+      margin-right: 16px;
+      height: 44px;
       position: relative;
-      max-height: 748px;
+      cursor: pointer;
+      input {
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
+        &:checked + span {
+          background: var(--primary, #CCEC06);
+          color: #16111B;
+        }
+      }
+      span {
+        border-radius: 2px;
+        font-size: 16px;
+        line-height: 1.2;
+        font-weight: 400;
+        display: block;
+        width: 100%;
+        height: 100%;
+        padding: 12px 16px;
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+
+  .search {
+    margin-bottom: 100px;
+    &__wrapper {
+      padding: 50px 0px 0px 0px;
+      position: relative;
       transition: all .5s;
-      margin-bottom: 50px;
+      margin-bottom: 0px;
       @include media-breakpoint-down(sm) {
         max-height: 100%;
       }
@@ -94,61 +127,66 @@
           background-color: transparent;
           cursor: wait;
         }
-        .swiper-slide {
-          width: 33.3%;
-          margin-right: 30px;
-        }
-        .swiper-slide .preview-image {
+        .products-item .preview-image {
           display: block !important;
         }
-        .swiper-slide:not(.customized):nth-child(1),
-        .swiper-slide.customized + .swiper-slide:not(.customized) {
+        .products-item:not(.customized):nth-child(1),
+        .products-item.customized + .products-item:not(.customized) {
           cursor: wait !important;
         }
-        .swiper-slide:not(.customized):nth-child(1) .preview-image,
-        .swiper-slide:not(.customized):nth-child(2) .preview-image,
-        .swiper-slide.customized + .swiper-slide:not(.customized) .preview-image,
-        .swiper-slide.customized + .swiper-slide:not(.customized) + .swiper-slide:not(.customized) .preview-image {
-          // background-image: url(https://cdn.shopify.com/s/files/1/0694/9752/0433/files/aisharp.webp?v=1680782705);
+        .products-item:not(.customized):after,
+        .products-item.customized + .products-item:not(.customized):after {
+          display: block;
+          margin: -54px auto 30px;
+          width: 100%;
+          text-align: center;
+          content: 'Creating t-shirt...';
+          text-transform: capitalize;
+          color: #FFF;
+          text-align: center;
+          font-family: $font-family-base;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 400;
+          @media (max-width: 768px) {
+            margin-top: -30px;
+            margin-top: -60px;
+            margin-bottom: 50px;
+          }
         }
       }
       &.unavailable {
-        .swiper-slide:nth-last-child(1),
-        .swiper-slide:nth-last-child(2),
-        .swiper-slide:nth-last-child(3) {
+        .products-item:not(.customized) {
           cursor: wait;
         }
         
-        .swiper-slide:nth-last-child(1) img,
-        .swiper-slide:nth-last-child(2) img,
-        .swiper-slide:nth-last-child(3) img {
+        .products-item:not(.customized) img {
           cursor: wait !important;
           pointer-events: none;
         }
-        .swiper-slide:nth-last-child(1) .js-get-product-redirect,
-        .swiper-slide:nth-last-child(2) .js-get-product-redirect,
-        .swiper-slide:nth-last-child(3) .js-get-product-redirect {
+        .products-item:not(.customized) .js-get-product-redirect {
           cursor: wait !important;
           pointer-events: none;
         }
-        .swiper-slide:nth-last-child(1) .js-get-product-redirect:after,
-        .swiper-slide:nth-last-child(2) .js-get-product-redirect:after,
-        .swiper-slide:nth-last-child(3) .js-get-product-redirect:after {
+        .products-item:not(.customized) .js-get-product-redirect:after {
           content: 'Wait';
           position: absolute;
           background: #16111b;
-          line-height: 47px;
+          line-height: 50px;
           width: 97%;
           height: 96%;
         }
       }
-      .swiper-slide.customized {
+      .products-item.customized {
         cursor: pointer;
-        padding-bottom: 20px;
         text-align: center;
         .button.js-get-product-redirect {
           visibility: visible;
         }
+      }
+
+      & + .search__wrapper {
+        margin-top: 150px;
       }
     }
 
@@ -156,6 +194,7 @@
       max-width: 1379px;
       padding: 0px 20px 20px 20px;
       margin: 0 auto !important;
+      display: none;
 
       @include media-breakpoint-down(sm) {
         padding: 0px 20px 20px 20px;
@@ -182,10 +221,15 @@
       }
     }
 
-    .swiper__append {
+    .products__append {
       position: absolute;
-      top: 50%;
-      right: 100px;
+      top: calc(100%);
+      width: auto;
+      right: auto;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: -20px;
+      min-width: 370px;
       background: rgba(56, 47, 65, 0.2);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
@@ -194,33 +238,41 @@
       align-items: center;
       justify-content: center;
       z-index: 20;
-      transform: translateY(-50%);
+      border-radius: 2px;
 
-      @include media-breakpoint-down(sm) {
-        right: 20px;
-        top: 80%;
+      @media (max-width: 840px) {
+        top: calc(100% + 90px);
+        max-width: 360px;
+        min-width: auto;
+        width: 90%;
+        margin-left: 0;
+        margin-top: 0;
+        font-size: 20px;
+        svg {
+          width: 32px;
+          height: 32px;
+        }
       }
 
       & button {
-        padding: 16px;
+        padding: 24px 32px 24px 32px;
+        height: 72px;
         font-style: normal;
         font-weight: 700;
         font-size: 20px;
+        width: 100%;
         line-height: 26px;
         color: $text;
         display: flex;
         align-items: center;
         justify-content: center;
-        max-width: 223px;
-
-        @include media-breakpoint-down(sm) {
-          max-width: 176px;
-          text-align: left;
-        }
+        background: var(--accent, #0500FF);
 
         & svg {
           transform-origin: center;
-          margin-left: 24px;
+          margin-right: 16px;
+          width: 40px;
+          height: 40px;
         }
 
         &.loading {
@@ -237,6 +289,7 @@
           opacity: 0.6;
           & span:after {
             font-size: 16px;
+            top: 19px;
             overflow: hidden;
             display: inline-block;
             vertical-align: bottom;
@@ -262,13 +315,20 @@
       }
     }
 
-    .swiper {
+    .products-list {
+      max-width: 1630px;
+      margin: 0 auto -20px auto;
       .button--secondary {
         max-height: 30px;
         min-height: 30px;
-        min-width: 90px;
-        max-width: 90px;
-        margin: 20px auto 0 auto;
+        font-size: 20px;
+        min-width: auto;
+        font-weight: 500;
+        line-height: 1;
+        max-width: auto;
+        padding: 11px 32px;
+        box-sizing: content-box;
+        margin: 26px auto 0 auto;
         display: block;
         text-align: center;
         &.loading {
@@ -306,17 +366,25 @@
         background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(22, 17, 27, 0.8) 35%);
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#16111b", GradientType=1);
       }
-    }
 
-    .swiper-wrapper {
-      max-width: 1332px;
-      margin: 0 auto;
-      @include media-breakpoint-down(sm) {
-        flex-wrap: wrap;
+      @media (max-width: 840px) {
+        margin-bottom: auto;
       }
     }
 
-    .swiper-slide {
+    .products-wrapper {
+      max-width: 1630px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .products-item {
+      width: 33.33333%;
+      max-width: 550px;
+      position: relative;
+      padding: 0 15px 80px 15px;
       & img {
         object-fit: contain;
         max-height: initial;
@@ -363,14 +431,9 @@
 
       @include media-breakpoint-down(sm) {
         width: 95% !important;
-        margin-right: 0px !important;
-        margin: 0px 10px;
+        padding-bottom: 45px;
       }
 
-    }
-
-    .swiper-button-next {
-      display: block !important;
     }
 
     .banner__content {
@@ -379,6 +442,7 @@
     }
 
     .banner__input {
+      padding: 35px 220px 35px 104px;
       @include media-breakpoint-down(sm) {
         height: 70px !important;
         padding: 33px 16px 33px 64px;
@@ -387,8 +451,12 @@
     }
 
     .banner__icon-search {
+      width: 40px;
+      left: 32px;
+      height: 40px;
       @include media-breakpoint-down(sm) {
-        top: 25px;
+        top: 16px;
+        left: 16px;
       }
     }
 
@@ -402,6 +470,7 @@
       max-width: 1379px;
       // padding: 10px 20px 120px 20px;
       margin: 0 auto !important;
+      position: relative;
 
       &__btn {
         display: flex;
@@ -409,11 +478,22 @@
         justify-content: center;
         margin: 0 auto;
         max-width: 370px;
-        width: 100%;
+        width: 90%;
+        padding: 24px 32px 24px 32px;
+        height: 72px;
+        position: absolute;
+        left: auto;
+        right: 50%;
+        margin-right: 16px;
+        background: var(--primary, #CCEC06);
+        box-shadow: none;
+        color: #16111B;
 
         & svg {
           margin-right: 16px;
           transform-origin: center;
+          width: 40px;
+          height: 40px;
         }
 
         &.loading {
@@ -439,6 +519,29 @@
             animation: pulse 1.8s infinite ease-in-out;
           }
         }
+
+        @media (max-width: 840px) {
+          position: static;
+          max-width: 360px;
+          width: 90%;
+          margin: 0 auto;
+          font-size: 20px;
+          svg {
+            width: 32px;
+            height: 32px;
+          }
+        }
+      }
+    }
+  }
+
+  .search__wrapper:last-of-type {
+    .products__append {
+      margin-left: 16px;
+      transform: translateX(0px);
+      @media (max-width: 840px) {
+        margin-left: 0;
+        transform: translateX(-50%);
       }
     }
   }

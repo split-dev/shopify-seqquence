@@ -1319,7 +1319,7 @@
         "id": "loader",
         "label": "Loader",
         "info": "Loader",
-        "default": "https:\/\/cdn.shopify.com\/s\/files\/1\/0694\/9752\/0433\/files\/aisharp.webp"
+        "default": "https://cdn.shopify.com/s/files/1/0694/9752/0433/files/aisharp.webp"
       },
       {
         "type": "select",
@@ -1353,6 +1353,11 @@
       {
         "type": "header",
         "content": "t:settings_schema.social-media.settings.header.content"
+      },
+      {
+        "type": "text",
+        "id": "social_amazon",
+        "label": "Amazon"
       },
       {
         "type": "text",
