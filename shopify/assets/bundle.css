@@ -6489,7 +6489,7 @@ input:-webkit-autofill:active {
   margin: 0 auto;
   max-width: 250px;
   text-decoration: none !important;
-  z-index: 20;
+  z-index: 2;
 }
 .collection__buy-now a::after {
   display: none;
