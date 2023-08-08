@@ -19,7 +19,7 @@
             height: 100vh;
             // border: 1px solid red;
             position: relative;
-            top: -114px;
+            // top: -114px;
 
             @media screen and (max-width: 1400px) {
                 // height: auto;
@@ -45,9 +45,6 @@
 
             // position: absolute;
             // top: calc(39% - 250px);
-            @media screen and (max-width: 1200px) {
-                margin-top: 50px;
-            }
         }
 
         &__media {
@@ -110,7 +107,7 @@
             }
 
             @include media-breakpoint-down(md) {
-                margin-top: 27px !important;
+                margin-top: 10px !important;
             }
 
             @include media-breakpoint-down(xs) {

@@ -5261,16 +5261,10 @@ h3 {
   padding: 0 !important;
   height: 100vh;
   position: relative;
-  top: -114px;
 }
 .hero .banner__box {
   max-width: none !important;
   padding: 0 !important;
-}
-@media screen and (max-width: 1200px) {
-  .hero .banner__box {
-    margin-top: 50px;
-  }
 }
 .hero .banner__media {
   background: none;
@@ -5331,7 +5325,7 @@ h3 {
 }
 @media (max-width: 1053.98px) {
   .hero .banner__form {
-    margin-top: 27px !important;
+    margin-top: 10px !important;
   }
 }
 @media (max-width: 575.98px) {
