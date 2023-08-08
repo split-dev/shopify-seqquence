@@ -5267,6 +5267,11 @@ h3 {
   max-width: none !important;
   padding: 0 !important;
 }
+@media screen and (max-width: 1200px) {
+  .hero .banner__box {
+    margin-top: 50px;
+  }
+}
 .hero .banner__media {
   background: none;
 }
@@ -5302,6 +5307,7 @@ h3 {
 @media screen and (max-width: 1221px) {
   .hero .banner__heading {
     line-height: 138px;
+    font-size: 100px;
   }
 }
 @media (max-width: 1053.98px) {
@@ -5908,13 +5914,13 @@ input:-webkit-autofill:active {
 .product--stacked .product__media-item:last-child {
   max-width: 60% !important;
 }
-@media (max-width: 767.98px) {
+@media (max-width: 575.98px) {
   .product--stacked .product__media-item:last-child {
     max-width: 100% !important;
   }
 }
 .media__bottom-text {
-  display: flex !important;
+  display: none !important;
   align-items: center;
   justify-content: center;
   padding-top: 20px;
@@ -5930,16 +5936,19 @@ input:-webkit-autofill:active {
   line-height: 15px;
   color: #fff;
 }
-@media (max-width: 767.98px) {
-  .media__bottom-text {
-    display: none !important;
-  }
-}
 .product__media-icon {
   opacity: 1 !important;
 }
 .container-fluid .product .shopify-payment-button__button .size--large::after, .container-sm .product .shopify-payment-button__button .size--large::after, .container-md .product .shopify-payment-button__button .size--large::after, .container-lg .product .shopify-payment-button__button .size--large::after, .container-xl .product .shopify-payment-button__button .size--large::after {
   content: "Buy Now With Google Pay";
+}
+.product:not(.product--columns) .product__media-list .product__media-item:first-child .media__bottom-text, .product:not(.product--columns) .product__media-list .product__media-item--full .media__bottom-text {
+  display: flex !important;
+}
+@media (max-width: 767.98px) {
+  .product:not(.product--columns) .product__media-list .product__media-item:first-child .media__bottom-text, .product:not(.product--columns) .product__media-list .product__media-item--full .media__bottom-text {
+    display: none !important;
+  }
 }
 .cart-notification {
   background: #000;
@@ -6599,6 +6608,17 @@ input:-webkit-autofill:active {
 }
 .template-cart .cart__items .cart-item__details .product-option dd {
   color: #fff;
+}
+@media (max-width: 767.98px) {
+  .template-cart .cart__items .cart-item__details .product-option {
+    padding-bottom: 8px;
+    margin-top: 0px;
+  }
+}
+@media (max-width: 767.98px) {
+  .template-cart .cart__items .cart-item__details dl {
+    margin-top: 0px;
+  }
 }
 .template-cart .cart__items .cart-item__image-container {
   background-color: transparent;

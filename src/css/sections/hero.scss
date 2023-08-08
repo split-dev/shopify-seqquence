@@ -45,6 +45,9 @@
 
             // position: absolute;
             // top: calc(39% - 250px);
+            @media screen and (max-width: 1200px) {
+                margin-top: 50px;
+            }
         }
 
         &__media {
@@ -83,6 +86,7 @@
             margin: 0 auto;
             @media screen and (max-width: 1221px) {
                 line-height: 138px;
+                font-size: 100px; 
             }
 
             @include media-breakpoint-down(md) {

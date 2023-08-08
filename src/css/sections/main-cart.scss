@@ -96,6 +96,15 @@
           & dd {
             color: $text;
           }
+          @include media-breakpoint-down(sm) {
+            padding-bottom: 8px;
+            margin-top: 0px;
+          }
+        }
+        & dl {
+          @include media-breakpoint-down(sm) {
+            margin-top: 0px;
+          }
         }
       }
       &__image-container {

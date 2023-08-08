@@ -106,6 +106,12 @@
                     endif
                     render 'product-thumbnail', media: media, media_count: media_count, position: media_position, desktop_layout: section.settings.gallery_layout, mobile_layout: section.settings.mobile_thumbnails, loop: section.settings.enable_video_looping, modal_id: section.id, xr_button: true, media_width: media_width, lazy_load: lazy_load
                   -%}
+                  {% if section.settings.media_bottom_text != blank %}
+                  <div class="media__bottom-text">
+                    {% render 'icon-eyes' %}
+                    <p>{{ section.settings.media_bottom_text }}</p>
+                  </div>
+                {% endif %}
                 </li>
               {%- endunless -%}
             {%- endfor -%}
