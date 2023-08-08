@@ -5945,7 +5945,7 @@ input:-webkit-autofill:active {
 .product:not(.product--columns) .product__media-list .product__media-item:first-child .media__bottom-text, .product:not(.product--columns) .product__media-list .product__media-item--full .media__bottom-text {
   display: flex !important;
 }
-@media (max-width: 767.98px) {
+@media (max-width: 749px) {
   .product:not(.product--columns) .product__media-list .product__media-item:first-child .media__bottom-text, .product:not(.product--columns) .product__media-list .product__media-item--full .media__bottom-text {
     display: none !important;
   }
