@@ -141,6 +141,12 @@
             </button>
           </div>
         </slider-component>
+        {% if section.settings.media_bottom_text != blank %}
+          <div class="media__bottom-text">
+            {% render 'icon-eyes' %}
+            <p>{{ section.settings.media_bottom_text }}</p>
+          </div>
+        {% endif %}
         {%- if first_3d_model -%}
           <button
             class="button button--full-width product__xr-button"
@@ -383,6 +389,23 @@
                     </div>
                   </details>
                 </div>
+              {% elsif block.settings.heading == 'Materials' %}
+                <div class="product__accordion accordion quick-add-hidden" {{ block.shopify_attributes }}>
+                  <details id="Details-{{ block.id }}-{{ section.id }}">
+                    <summary>
+                      <div class="summary__title">
+                        {% render 'icon-accordion', icon: block.settings.icon %}
+                        <h2 class="h4 accordion__title color-text-white text-20px-all font-weight-bold">
+                          {{ block.settings.heading | default: block.settings.page.title }}
+                        </h2>
+                      </div>
+                      {% render 'icon-caret-new' %}
+                    </summary>
+                    <div class="accordion__content color-grey text-16px-all" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
+                      {{ section.settings.materials }}
+                    </div>
+                  </details>
+                </div>
               {% elsif block.settings.heading == 'Care Instructions' %}
                 <div class="product__accordion accordion quick-add-hidden" {{ block.shopify_attributes }}>
                   <details id="Details-{{ block.id }}-{{ section.id }}">
@@ -396,7 +419,24 @@
                       {% render 'icon-caret-new' %}
                     </summary>
                     <div class="accordion__content color-grey text-16px-all" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
-                      {{ product.description }}
+                      {{ section.settings.care_instructions }}
+                    </div>
+                  </details>
+                </div>
+              {% elsif block.settings.heading == 'Dimensions' %}
+                <div class="product__accordion accordion quick-add-hidden" {{ block.shopify_attributes }}>
+                  <details id="Details-{{ block.id }}-{{ section.id }}">
+                    <summary>
+                      <div class="summary__title">
+                        {% render 'icon-accordion', icon: block.settings.icon %}
+                        <h2 class="h4 accordion__title color-text-white text-20px-all font-weight-bold">
+                          {{ block.settings.heading | default: block.settings.page.title }}
+                        </h2>
+                      </div>
+                      {% render 'icon-caret-new' %}
+                    </summary>
+                    <div class="accordion__content color-grey text-16px-all" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
+                      {{ section.settings.dimensions }}
                     </div>
                   </details>
                 </div>
@@ -1931,6 +1971,24 @@
       "type": "text",
       "id": "media_bottom_text",
       "label": "Media bottom text"
+    },
+    {
+      "type": "text",
+      "id": "care_instructions",
+      "label": "Care Instructions text",
+      "default": "Non-chlorine: bleach as needed; Tumble dry: low heat; Iron, steam or dry: medium heat; Machine wash: cold (max 30C or 90F); Do not dryclean."
+    },
+    {
+      "type": "text",
+      "id": "materials",
+      "label": "Materials text",
+      "default": "100% Airlume combed and ringspun cotton"
+    },
+    {
+      "type": "text",
+      "id": "dimensions",
+      "label": "Dimensions text",
+      "default": "Retail fit; \n\r Runs true to size"
     }
   ]
 }

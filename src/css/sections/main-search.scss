@@ -188,6 +188,11 @@
       & + .search__wrapper {
         margin-top: 150px;
       }
+      @media (max-width: 768px) {
+        &:not(:last-of-type) .products__append {
+          top: 100% !important;
+        }
+      }
     }
 
     &__header {
@@ -237,7 +242,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 20;
+      z-index: 1;
       border-radius: 2px;
 
       @media (max-width: 840px) {
@@ -271,8 +276,8 @@
         & svg {
           transform-origin: center;
           margin-right: 16px;
-          width: 40px;
-          height: 40px;
+          width: 30px;
+          height: 30px;
         }
 
         &.loading {
@@ -311,6 +316,12 @@
               padding-right: 1.25em;    
             }
           }
+        }
+
+        @media (max-width: 840px) {
+          font-size: 18px;
+          padding-left: 22px;
+          padding-right: 22px;
         }
       }
     }

@@ -461,3 +461,15 @@
         }
     }
 }
+
+
+slider-component + .media__bottom-text {
+    display: none;
+}
+@media (max-width: 749px) {
+    slider-component + .media__bottom-text {
+        display: flex !important;
+        font-size: 12px !important;
+        margin-top: 0;
+    }
+}
