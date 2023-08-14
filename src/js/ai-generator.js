@@ -268,6 +268,7 @@ async function waitImagesResult (id, cacheRun) {
             console.log('All images ready to buy');
             // removeResultsBusyState();
             removeResultsUnavailableState(); /** can buy */
+            setBusyButtonState(generateNewSearchPrompt, false);
             break;
         }
 
