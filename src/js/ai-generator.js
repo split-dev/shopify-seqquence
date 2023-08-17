@@ -2,10 +2,10 @@
 const LS_SEARCH_KEY = 'ai-search';
 // const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
 // const S3_HOST = 'https://aipr.s3.amazonaws.com';
-// const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
-const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
+const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
+// const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
 const PUSHER_ID = '19daec24304eedd7aa8a';
-const GENERATION_STEP = 3;
+const GENERATION_COUNT = 3;
 const REQUESTS_LIMIT = 100;
 const querySearch = new URL(document.location).searchParams.get('search') || '';
 const preventAutoExtend = (new URL(document.location).searchParams.get('preventAutoExtend') === "on");
@@ -324,7 +324,7 @@ async function sendPromptRequest(prompt, isFullPrompt) {
             fullPrompt: isFullPrompt && prompt,
             prompt: querySearch,
             reqDate,
-            count: GENERATION_STEP,
+            count: GENERATION_COUNT,
         })
     });
 
@@ -556,7 +556,7 @@ function handleGenerateMore(event) {
 
     if (moreBtn.classList.contains('loading')) return false;
 
-    for (let i = 0; i < GENERATION_STEP; i++) {
+    for (let i = 0; i < GENERATION_COUNT; i++) {
         appendItem(slider, `<div class="products-item">
                     <div class="preview-image"></div>
                     <img src="${mockupImg}" />

@@ -11,6 +11,7 @@
     "deploy": "run-s webpack:build && cd shopify && shopify theme push",
     "deploy3": "run-s webpack:build && shopify theme push -s artificial-printer --path shopify",
     "deploy:new": "run-s webpack:build && cd shopify && shopify theme push --unpublished",
+    "deploy3:new": "run-s webpack:build && shopify theme push --unpublished --path shopify",
     "webpack:watch": "cross-env NODE_ENV=development BROWSERSLIST_ENV=development BROWSERSLIST_CONFIG=.config/.browserslistrc webpack --config .config/webpack/webpack.dev.js --watch --progress",
     "webpack:prodw": "cross-env NODE_ENV=production BROWSERSLIST_ENV=production BROWSERSLIST_CONFIG=.config/.browserslistrc webpack --config .config/webpack/webpack.prod.js --watch --progress",
     "webpack:build": "cross-env NODE_ENV=production BROWSERSLIST_ENV=production BROWSERSLIST_CONFIG=.config/.browserslistrc webpack --config .config/webpack/webpack.prod.js --progress",
