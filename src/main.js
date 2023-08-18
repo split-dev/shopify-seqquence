@@ -44,10 +44,23 @@ document.addEventListener('DOMContentLoaded', function () {
           const trgLabel = trgButton ? trgButton.querySelector('.dropdown-label') : null;
 
           trgLabel && (trgLabel.innerHTML = item.innerText);
-          trgButton && trgButton.classList.toggle('active');
-          trgButton.querySelector('input[type="hidden"]').value = item.getAttribute('data-val');
+          trgButton && trgButton.classList.toggle('active', false);
+          const hiddenVal = trgButton.querySelector('input[type="hidden"]');
+          hiddenVal && (hiddenVal.value = item.getAttribute('data-val'));
         }
       })
     }))
   }
+  document.body.addEventListener('click', (e) => {
+    const trg = e.target;
+
+    if (!(trg.classList.contains('dropdown-items') || trg.closest('.dropdown-items') || 
+        trg.classList.contains('dropdown-toggle') || trg.closest('.dropdown-toggle'))) {
+      const activeDropdowns = document.querySelectorAll('.dropdown-toggle.active');
+
+      activeDropdowns.forEach((dropdown) => {
+        dropdown.classList.remove('active');
+      })
+    }
+  })
 });

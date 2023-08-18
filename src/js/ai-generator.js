@@ -8,6 +8,7 @@ const PUSHER_ID = '19daec24304eedd7aa8a';
 const GENERATION_COUNT = 3;
 const REQUESTS_LIMIT = 100;
 const querySearch = new URL(document.location).searchParams.get('search') || '';
+const queryProductType = new URL(document.location).searchParams.get('productType') || '';
 const preventAutoExtend = (new URL(document.location).searchParams.get('preventAutoExtend') === "on");
 
 // VARIABLES
@@ -21,6 +22,7 @@ let pusher;
 // BIND ELEMENTS CONTROLS
 const searchForm = document.getElementById('aiSearch');
 const searchViews = document.querySelectorAll('.js-search-view');
+const productTypeLabel = document.querySelector('.product_type_label span');
 /** Buttom on the page bottom for generating new search carousels */
 const generateNewSearchPrompt = document.querySelector('.js-get-new-prompt');
 const searchDomTemplate = document.querySelector('.js-search-dom-template');
@@ -47,6 +49,9 @@ function init() {
 
     searchForm.querySelector('input[name="search"]').value = querySearch;
     searchForm.querySelector('input[name="preventAutoExtend"]').checked = preventAutoExtend;
+    searchForm.querySelector('input[name="productType"][value="'+queryProductType+'"]').checked = true;
+    productTypeLabel.innerHTML = searchForm.querySelector('input[name="productType"][value="'+queryProductType+'"]').closest('LABEL').innerText;
+
     getAvailablePrompts()
         .then(json => {
             allAvailablePrompts = json;
@@ -321,6 +326,7 @@ async function sendPromptRequest(prompt, isFullPrompt) {
         },
         body: JSON.stringify({
             preventAutoExtend,
+            productType: queryProductType,
             fullPrompt: isFullPrompt && prompt,
             prompt: querySearch,
             reqDate,
@@ -364,7 +370,7 @@ async function createShopifyProduct(imageId) {
         },
         body: JSON.stringify({
             imageId,
-            type: 't-shirt',
+            type: queryProductType, /* t-shirt ? */
             prompt: querySearch
         })
     });

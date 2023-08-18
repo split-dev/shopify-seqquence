@@ -73,32 +73,39 @@
             <span>Do not auto-extend prompt</span>
           </label>
 
-          <radiogroup class="product_type_filter">
-            <label class="product_type">
-              <input type="radio" name="productType" value="UCTS" checked/>
-              <span>Unisex T-shirt</span>
+          <fieldset>
+            <label class="product_type_label dropdown-toggle">
+              <span class="dropdown-label"></span>
+              {% render 'icon-caret' %}
             </label>
-            <label class="product_type">
-              <input type="radio" name="productType" value="FCTS"/>
-              <span>Women Tee</span>
-            </label>
-            <label class="product_type">
-              <input type="radio" name="productType" value="KCTS"/>
-              <span>Kids Tee</span>
-            </label>
-            <label class="product_type">
-              <input type="radio" name="productType" value="HOOD"/>
-              <span>Hoodie</span>
-            </label>
-            <label class="product_type">
-              <input type="radio" name="productType" value="UHCS"/>
-              <span>Sweatshirt</span>
-            </label>
-            <label class="product_type">
-              <input type="radio" name="productType" value="CASE"/>
-              <span>Smartphone Case</span>
-            </label>
-          </radiogroup>
+            <radiogroup class="product_type_filter dropdown-items" data-target=".product_type_label">
+              <label class="product_type" data-val="UCTS">
+                <input type="radio" name="productType" value="UCTS" checked/>
+                <span>Unisex T-shirt</span>
+              </label>
+              <label class="product_type" data-val="FCTS">
+                <input type="radio" name="productType" value="FCTS"/>
+                <span>Women Tee</span>
+              </label>
+              <label class="product_type" data-val="KCTS">
+                <input type="radio" name="productType" value="KCTS"/>
+                <span>Kids Tee</span>
+              </label>
+              <label class="product_type" data-val="HOOD">
+                <input type="radio" name="productType" value="HOOD"/>
+                <span>Hoodie</span>
+              </label>
+              <label class="product_type" data-val="UHCS">
+                <input type="radio" name="productType" value="UHCS"/>
+                <span>Sweatshirt</span>
+              </label>
+              <label class="product_type" data-val="CASE">
+                <input type="radio" name="productType" value="CASE"/>
+                <span>Smartphone Case</span>
+              </label>
+            </radiogroup>
+          </fieldset>
+          
         </form>
       </div>
     </div>
