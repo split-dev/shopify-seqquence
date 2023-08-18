@@ -18,7 +18,7 @@
           <div class="banner__field-wrapper">
             <div class="banner__field field">
               <input
-                id="NewsletterForm--{{ section.id }}"
+                id="GenerateForm--{{ section.id }}"
                 type="text"
                 name="search"
                 class="banner__input field__input color-text-white text-20px-all"
@@ -73,33 +73,32 @@
             <span>Do not auto-extend prompt</span>
           </label>
 
-          <!--@TODO: UNCOMMENT FOR PRODUCT TYPES FUNCTIONALITY-->
-          {% comment %} <radiogroup class="product_type_filter">
+          <radiogroup class="product_type_filter">
             <label class="product_type">
-              <input type="radio" name="product_type" value="u-t-shirt" checked/>
+              <input type="radio" name="productType" value="UCTS" checked/>
               <span>Unisex T-shirt</span>
             </label>
             <label class="product_type">
-              <input type="radio" name="product_type" value="women-tee"/>
+              <input type="radio" name="productType" value="FCTS"/>
               <span>Women Tee</span>
             </label>
             <label class="product_type">
-              <input type="radio" name="product_type" value="kids-tee"/>
+              <input type="radio" name="productType" value="KCTS"/>
               <span>Kids Tee</span>
             </label>
             <label class="product_type">
-              <input type="radio" name="product_type" value="hoodie"/>
+              <input type="radio" name="productType" value="HOOD"/>
               <span>Hoodie</span>
             </label>
             <label class="product_type">
-              <input type="radio" name="product_type" value="sweatshirt"/>
+              <input type="radio" name="productType" value="UHCS"/>
               <span>Sweatshirt</span>
             </label>
             <label class="product_type">
-              <input type="radio" name="product_type" value="smartphone-case"/>
+              <input type="radio" name="productType" value="CASE"/>
               <span>Smartphone Case</span>
             </label>
-          </radiogroup> {% endcomment %}
+          </radiogroup>
         </form>
       </div>
     </div>

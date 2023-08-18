@@ -77,7 +77,7 @@
                   <div class="banner__field field">
                     <input type="hidden" value="on" name="preventAutoExtend">
                     <input
-                      id="NewsletterForm--{{ section.id }}"
+                      id="GenerateForm--{{ section.id }}"
                       type="text"
                       name="search"
                       class="banner__input field__input color-text-white text-20px-all"
@@ -91,11 +91,19 @@
                     >
                     <span class="banner__icon-search">{% render 'icon-search' %}</span>
                     
-                    {% comment %}
-                    <label class="banner__label field__label color-text-white text-20px font-weight-bold">
-                      {{ block.settings.form_placeholder | escape }}
-                    </label>
-                    {% endcomment %}
+                    <div class="banner__select dropdown-toggle">
+                      <input type="hidden" name="productType" value="UCTS"/>
+                      <span class="dropdown-label">Unisex T-Shirt</span>
+                      {% render 'icon-caret' %}
+                    </div>
+                    <div class="banner__select--options dropdown-items" data-target=".banner__select">
+                      <span data-val="UCTS" class="active">Unisex T-Shirt</span>
+                      <span data-val="FCTS">Women Tee</span>
+                      <span data-val="KCTS">Kids Tee</span>
+                      <span data-val="HOOD">Hoodie</span>
+                      <span data-val="UHCS">Sweatshirt</span>
+                      <span data-val="CASE">Smartphone case</span>
+                    </div>
 
                     <button type="submit" class="btn btn--primary banner__button field__button" id="SearchSubmit">
                       {% render 'icon-magic-wand' %}
