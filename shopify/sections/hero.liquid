@@ -132,24 +132,26 @@
 
 <script>
 (function (){
-  var videoBanner = document.querySelector(window.innerWidth > 600 ? '.js-banner__video' : '.js-banner__video-mobile');
   var inputBanner = document.querySelector('.hero input[name="search"]');
-  
+  var searchSubmit = document.querySelector('#SearchSubmit');
+  var promptUpdateDelay = 2300;
   var prompts = [
-    ['family of pandas', 1500],
-    ['cool metal robot', 2400],
-    ['dog royal portrait'],
-    ['cute cat photo'],
-    ['beautiful girl as pocahontas', 3000]
+    'family of pandas',
+    'cool metal robot',
+    'dog royal portrait',
+    'cute cat photo',
+    'beautiful girl as pocahontas'
   ];
   var i = 0;
 
   function updatePrompt() {
     var prompt = prompts[i];
-
+    var currVal = inputBanner.value;
     if (!prompt) return;
 
-    var characters = prompt[0].split("");
+    inputBanner.setAttribute('data-place-value', currVal.length ? currVal : prompt);
+
+    var characters = prompt.split("");
     var delayPerChar = 500 / characters.length;
     var charIndex = 0;
 
@@ -165,7 +167,7 @@
     }
 
     updatePrompt.timeoutType = setTimeout(charTyper, delayPerChar);
-    updatePrompt.timeoutPrompt = setTimeout(updatePrompt, prompt[1] || 2300);
+    updatePrompt.timeoutPrompt = setTimeout(updatePrompt, promptUpdateDelay);
     updatePrompt.stop = function () {
       clearTimeout(updatePrompt.timeoutPrompt);
       clearTimeout(updatePrompt.timeoutType);
@@ -173,38 +175,15 @@
     }
   }
 
-  if (videoBanner) {
-    videoBanner.addEventListener('loadeddata', function () {
-      updatePrompt();
-    });
-    videoBanner.addEventListener('timeupdate', function () {
-      var cTime = this.currentTime;
+  inputBanner.addEventListener('focus', function() {
+    inputBanner.value = inputBanner.getAttribute('data-place-value');
+  });
 
-      if (Math.ceil(cTime) === this.duration) {
-        videoBanner.pause();
-        videoBanner.currentTime = 0;
-        updatePrompt.stop();
+  searchSubmit.addEventListener('mousedown', function() {
+    inputBanner.value = inputBanner.getAttribute('data-place-value');
+  });
 
-        setTimeout(function() {
-          videoBanner.play();
-          updatePrompt();
-        }, 10);
-      }
-    });
-  }
-
-  function handleVisibilityChange() {
-    if (document.visibilityState === 'visible') {
-      videoBanner.play();
-      updatePrompt();
-    } else {
-      videoBanner.pause();
-      videoBanner.currentTime = 0;
-      updatePrompt.stop();
-    }
-  }
-
-  document.addEventListener('visibilitychange', handleVisibilityChange);
+  updatePrompt();
 })()
 </script>
 
