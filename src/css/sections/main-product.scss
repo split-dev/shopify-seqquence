@@ -402,6 +402,7 @@
         }
     }
 }
+
 .product-media-modal__content {
     img.preview-image {
         position: absolute;
@@ -415,6 +416,10 @@
         -moz-transform: translateX(-50%);
         -ms-transform: translateX(-50%);
         -o-transform: translateX(-50%);
+    }
+
+    img.global-media-settings {
+        max-width: 100vw;
     }
 }
 
