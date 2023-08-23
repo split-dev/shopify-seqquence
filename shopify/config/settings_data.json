@@ -404,5 +404,10 @@
         }
       }
     }
+  },
+  "platform_customizations": {
+    "custom_css": [
+      "a#cart-link[aria-label=\"Cart\"] SPAN, a#cart-link[aria-label=\"Cart\"] SVG {width: 32px !important; height: 32px !important;}"
+    ]
   }
 }

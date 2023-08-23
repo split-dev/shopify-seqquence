@@ -21,7 +21,6 @@ let pusher;
 
 // BIND ELEMENTS CONTROLS
 const searchForm = document.getElementById('aiSearch');
-const searchInput = searchForm.querySelector('input[name="search"]');
 const searchViews = document.querySelectorAll('.js-search-view');
 const productTypeLabel = document.querySelector('.product_type_label span');
 /** Buttom on the page bottom for generating new search carousels */
@@ -36,6 +35,9 @@ function bindHanlers() {
     searchViews?.forEach((searchView) => {
         searchView.addEventListener('click', handleGenerateMore);
     });
+    
+    const searchInput = searchForm.querySelector('input[name="search"]');
+
     searchInput.addEventListener('input', () => {
         if (searchInput.value.length === 0) {
             searchInput.value = searchInput.placeholder;
@@ -280,6 +282,9 @@ async function waitImagesResult (id, cacheRun) {
             // removeResultsBusyState();
             removeResultsUnavailableState(); /** can buy */
             setBusyButtonState(generateNewSearchPrompt, false);
+            document.querySelectorAll('.js-generate-more').forEach((moreBtn) => {
+                setBusyButtonState(moreBtn, false);
+            });
             break;
         }
 
