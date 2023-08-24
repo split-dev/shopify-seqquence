@@ -150,7 +150,7 @@
 
 
   .search {
-    margin-bottom: 100px;
+    margin-bottom: 130px;
     &__wrapper {
       padding: 50px 0px 0px 0px;
       position: relative;
@@ -159,7 +159,30 @@
       @include media-breakpoint-down(sm) {
         max-height: 100%;
       }
-      
+      .products-item:not(.customized):nth-child(1),
+      .products-item.customized + .products-item:not(.customized) {
+        cursor: wait !important;
+      }
+      .products-item:not(.customized):after,
+      .products-item.customized + .products-item:not(.customized):after {
+        display: block;
+        margin: -54px auto 30px;
+        width: 100%;
+        text-align: center;
+        content: 'Creating t-shirt...';
+        text-transform: capitalize;
+        color: #FFF;
+        text-align: center;
+        font-family: $font-family-base;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        @media (max-width: 768px) {
+          margin-top: -30px;
+          margin-top: -60px;
+          margin-bottom: 50px;
+        }
+      }
       &.loading {
         cursor: wait;
         & p {
@@ -203,30 +226,6 @@
         }
         .products-item .preview-image {
           display: block !important;
-        }
-        .products-item:not(.customized):nth-child(1),
-        .products-item.customized + .products-item:not(.customized) {
-          cursor: wait !important;
-        }
-        .products-item:not(.customized):after,
-        .products-item.customized + .products-item:not(.customized):after {
-          display: block;
-          margin: -54px auto 30px;
-          width: 100%;
-          text-align: center;
-          content: 'Creating t-shirt...';
-          text-transform: capitalize;
-          color: #FFF;
-          text-align: center;
-          font-family: $font-family-base;
-          font-size: 16px;
-          font-style: normal;
-          font-weight: 400;
-          @media (max-width: 768px) {
-            margin-top: -30px;
-            margin-top: -60px;
-            margin-bottom: 50px;
-          }
         }
       }
       &.unavailable {
