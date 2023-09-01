@@ -7,7 +7,7 @@ const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east
 const PUSHER_ID = '19daec24304eedd7aa8a';
 const GENERATION_COUNT = 3;
 const REQUESTS_LIMIT = 100;
-const querySearch = new URL(document.location).searchParams.get('search') || '';
+const querySearch = new URL(document.location).searchParams.get('search') || 'Panda jumping';
 const queryProductType = new URL(document.location).searchParams.get('productType') || '';
 const preventAutoExtend = (new URL(document.location).searchParams.get('preventAutoExtend') === "on");
 
