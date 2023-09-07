@@ -121,19 +121,22 @@
                     >
                     <span class="banner__icon-search">{% render 'icon-search' %}</span>
 
-                    <div class="banner__select dropdown-toggle">
-                      <input type="hidden" name="productType" value="UCTS">
-                      <span class="dropdown-label">Unisex T-Shirt</span>
-                      {% render 'icon-caret' %}
-                    </div>
-                    <div class="banner__select--options dropdown-items" data-target=".banner__select">
-                      <span data-val="UCTS" class="active">Unisex T-Shirt</span>
-                      <span data-val="FCTS">Women Tee</span>
-                      <span data-val="KCTS">Kids Tee</span>
-                      <span data-val="HOOD">Hoodie</span>
-                      <span data-val="UHCS">Sweatshirt</span>
-                      <span data-val="CASE">Smartphone case</span>
-                    </div>
+                    {% comment %} @TODO: uncomment for product types: {% endcomment %}
+                    {% comment %}
+                      <div class="banner__select dropdown-toggle">
+                        <input type="hidden" name="productType" value="UCTS">
+                        <span class="dropdown-label">Unisex T-Shirt</span>
+                        {% render 'icon-caret' %}
+                      </div>
+                      <div class="banner__select--options dropdown-items" data-target=".banner__select">
+                        <span data-val="UCTS" class="active">Unisex T-Shirt</span>
+                        <span data-val="FCTS">Women Tee</span>
+                        <span data-val="KCTS">Kids Tee</span>
+                        <span data-val="HOOD">Hoodie</span>
+                        <span data-val="UHCS">Sweatshirt</span>
+                        <span data-val="CASE">Smartphone case</span>
+                      </div>
+                    {% endcomment %}
 
                     <button type="submit" class="btn btn--primary banner__button field__button" id="SearchSubmit">
                       {% render 'icon-magic-wand' %}

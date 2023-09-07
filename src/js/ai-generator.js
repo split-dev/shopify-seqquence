@@ -57,8 +57,8 @@ function init() {
 
     searchForm.querySelector('input[name="search"]').value = querySearch;
     searchForm.querySelector('input[name="preventAutoExtend"]').checked = preventAutoExtend;
-    searchForm.querySelector('input[name="productType"][value="'+queryProductType+'"]').checked = true;
-    productTypeLabel.innerHTML = searchForm.querySelector('input[name="productType"][value="'+queryProductType+'"]').closest('LABEL').innerText;
+    queryProductType && queryProductType.length && (searchForm.querySelector('input[name="productType"][value="'+queryProductType+'"]').checked = true);
+    productTypeLabel && (productTypeLabel.innerHTML = searchForm.querySelector('input[name="productType"][value="'+queryProductType+'"]').closest('LABEL').innerText);
 
     getAvailablePrompts()
         .then(json => {
