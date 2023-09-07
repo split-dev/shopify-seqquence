@@ -6692,6 +6692,11 @@ slider-component + .media__bottom-text {
   line-height: 46px;
   color: #fff;
 }
+.template-cart .copy-text {
+  font-size: 16px;
+  line-height: 20px;
+  color: #B7ACC3;
+}
 .template-cart .caption-with-letter-spacing {
   font-weight: 700;
   font-size: 16px;
@@ -6700,11 +6705,11 @@ slider-component + .media__bottom-text {
   text-transform: uppercase;
 }
 .template-cart .caption-with-letter-spacing:first-child {
-  padding-left: 48px !important;
+  padding-left: 0px !important;
 }
 @media (max-width: 767.98px) {
   .template-cart .caption-with-letter-spacing:first-child {
-    padding-left: 20px !important;
+    display: none;
   }
 }
 .template-cart .caption-with-letter-spacing:last-child {
@@ -6715,12 +6720,19 @@ slider-component + .media__bottom-text {
     padding-right: 20px !important;
   }
 }
+.template-cart .cart-item .cart-item__quantity, .template-cart .cart-items .cart-items__heading--wide {
+  padding-left: 0 !important;
+}
+.template-cart .cart-items td {
+  padding: 32px !important;
+}
 .template-cart .cart__items {
   border: none;
   padding-bottom: 0px;
 }
 .template-cart .cart__items th {
   border: none;
+  padding-bottom: 0 !important;
 }
 .template-cart .cart__items .cart-items {
   border-collapse: separate;
@@ -6772,7 +6784,7 @@ slider-component + .media__bottom-text {
   font-size: 20px;
   line-height: 26px;
   color: #fff;
-  padding-bottom: 8px;
+  padding-bottom: 16px;
 }
 .template-cart .cart__items .cart-item__details .product-option {
   font-weight: 400;
@@ -6792,6 +6804,9 @@ slider-component + .media__bottom-text {
     padding-bottom: 8px;
     margin-top: 0px;
   }
+}
+.template-cart .cart__items .cart-item__details dl {
+  margin-top: 16px !important;
 }
 @media (max-width: 767.98px) {
   .template-cart .cart__items .cart-item__details dl {
@@ -6861,6 +6876,9 @@ slider-component + .media__bottom-text {
     padding: 0rem 2rem 2rem 2rem;
   }
 }
+.template-cart .cart__footer {
+  padding-bottom: 100px !important;
+}
 .template-cart .cart__footer .cart__blocks {
   width: 52rem;
 }
@@ -6927,6 +6945,11 @@ slider-component + .media__bottom-text {
 .template-cart .cart__footer .cart__dynamic-checkout-buttons {
   margin: 0 auto;
   max-width: 100%;
+}
+@media (max-width: 767.98px) {
+  .template-cart .cart__footer {
+    padding-bottom: 32px !important;
+  }
 }
 .grecaptcha-badge {
   z-index: 20;
