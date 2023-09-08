@@ -242,7 +242,7 @@
       } 
     }
     .cart__dynamic-checkout-buttons {
-      margin: 0 auto;
+      margin: 24px auto 0 auto;
       max-width: 100%;
     }
     @include media-breakpoint-down(sm) {
