@@ -50,11 +50,20 @@
   margin-bottom: 0.6rem;
 }
 
+.blog-articles .card__content,
 .blog-articles .article-card .card__information,
 .blog__posts .article-card .card__information {
+  padding-left: 0;
+  padding-right: 0;
+}
+/*
+.article-card-wrapper .card, .contains-card--article {
+  padding: 2rem;
+}
+.main-blog h1.title--primary {
   padding-left: 2rem;
   padding-right: 2rem;
-}
+}*/
 
 .article-card__info {
   padding-top: 0.4rem;
