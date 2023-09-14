@@ -324,6 +324,7 @@
             {%- when 'title' -%}
               <div class="product__title" {{ block.shopify_attributes }}>
                 <h1 class="text-36px-24px font-weight-bold">{{ product.title | escape }}</h1>
+                <span class="color-grey text-16px-all">by Artificial Printer</span>
                 <a href="{{ product.url }}" class="product__title">
                   <h2 class="h1">
                     {{ product.title | escape }}
@@ -563,6 +564,35 @@
                         {%- endfor -%}
                       </fieldset>
                     {%- endfor -%}
+
+                    {% assign tags_string = product.tags | join: ' ' %}
+
+                    {% if tags_string contains "Children's Clothing" %}
+                      {% assign sizes = 'XS,S,M,L,XL' | split: ',' %}
+                    {% else %}
+                      {% assign sizes = 'S,M,L,XL,XXL' | split: ',' %}
+                    {% endif %}
+
+                    {% unless product.options_by_name['size'] %} 
+                      <fieldset class="js product-form__input">
+                        <legend class="form__label text-20px-all color-text-white font-weight-bold">Size</legend>
+
+                        {%- for value in sizes -%}
+                          <input
+                            type="radio"
+                            id="{{ section.id }}-size-{{ forloop.index0 }}"
+                            name="properties[size]"
+                            value="{{ value | escape }}"
+                            form="{{ product_form_id }}"
+                            {% if forloop.index0 == 0 %} checked {% endif %}
+                          >
+                          <label class="form__select" for="{{ section.id }}-size-{{ forloop.index0 }}">
+                            {{ value }}
+                          </label>
+                        {%- endfor -%}
+                      </fieldset>
+                    {% endunless %}
+
                     <script type="application/json">
                       {{ product.variants | json }}
                     </script>
