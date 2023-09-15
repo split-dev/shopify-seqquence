@@ -1224,6 +1224,10 @@ summary::-webkit-details-marker {
   overflow: hidden;
 }
 
+.article-card-wrapper .media {
+  background-color: rgba(var(--color-background), 0.1);
+}
+
 .media--transparent {
   background-color: transparent;
 }
