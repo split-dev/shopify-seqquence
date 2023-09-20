@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
     dropdowns.forEach((dr) => {
       dr.addEventListener('click', (e) => {
         e.currentTarget.classList.toggle('active');
+        document.body.classList.toggle('no-scroll');
       });
     });
   }
@@ -60,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       activeDropdowns.forEach((dropdown) => {
         dropdown.classList.remove('active');
+        document.body.classList.remove('no-scroll');
       })
     }
   })

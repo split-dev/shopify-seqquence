@@ -4893,6 +4893,9 @@ progress {
 [aria-disabled=true] {
   cursor: default;
 }
+.no-scroll {
+  overflow: hidden;
+}
 @media print {
   *,
 *::before,
@@ -5005,21 +5008,28 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 36px;
-  line-height: 46px;
+  font-size: 29px;
+  line-height: 33px;
+  font-family: "Android101", sans-serif !important;
 }
 .header__logo svg {
-  margin-left: 8px;
+  margin-right: 8px;
 }
 @media (max-width: 767.98px) {
   .header__logo svg {
     display: none;
   }
 }
-@media (max-width: 767px) {
+@media (max-width: 1200px) {
+  .header__logo {
+    font-size: 25px;
+  }
+}
+@media (max-width: 767.98px) {
   .header__logo {
     font-size: 20px;
-    line-height: 26px;
+    line-height: 23px;
+    color: white;
     top: 3px;
     left: 17px;
   }

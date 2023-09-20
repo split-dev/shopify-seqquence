@@ -42,3 +42,12 @@
     font-style: normal;
     font-display: swap;
 }
+
+@font-face {
+    font-family: 'Android101';
+    src: url('android-101-webfont.woff2') format('woff2'),
+         url('android-101-webfont.woff') format('woff'),
+         url('android-101-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

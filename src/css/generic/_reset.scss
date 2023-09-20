@@ -278,3 +278,8 @@ progress {
 [aria-disabled='true'] {
   cursor: default;
 }
+
+
+.no-scroll {
+  overflow: hidden;
+}
