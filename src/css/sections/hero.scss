@@ -111,7 +111,10 @@
             }
 
             @include media-breakpoint-down(xs) {
-                padding: 0 15px;
+                padding: 0 0;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                width: 100%;
             }
         }
 
@@ -300,6 +303,8 @@
 
             svg {
                 margin-right: 16px;
+                width: 40px;
+                height: 40px;
             }
 
             @include media-breakpoint-down(md) {
@@ -307,6 +312,12 @@
                 width: 100%;
             }
 
+            @include media-breakpoint-down(sm) {
+                svg {
+                    width: 32px;
+                    height: 32px;
+                }
+            }
             @include media-breakpoint-down(xs) {
                 height: 54px;
             }

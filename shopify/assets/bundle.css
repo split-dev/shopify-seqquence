@@ -5340,7 +5340,10 @@ h3 {
 }
 @media (max-width: 575.98px) {
   .hero .banner__form {
-    padding: 0 15px;
+    padding: 0 0;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100%;
   }
 }
 .hero .banner__field::before, .hero .banner__field::after {
@@ -5509,11 +5512,19 @@ h3 {
 }
 .hero .banner__button svg {
   margin-right: 16px;
+  width: 40px;
+  height: 40px;
 }
 @media (max-width: 1053.98px) {
   .hero .banner__button {
     position: static;
     width: 100%;
+  }
+}
+@media (max-width: 767.98px) {
+  .hero .banner__button svg {
+    width: 32px;
+    height: 32px;
   }
 }
 @media (max-width: 575.98px) {
