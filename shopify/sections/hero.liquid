@@ -202,6 +202,15 @@
       };
     }
 
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) {
+        inputBanner.value = '';
+        updatePrompt.stop();
+      } else {
+        updatePrompt();
+      }
+    });
+
     inputBanner.addEventListener('focus', function () {
       inputBanner.value = '';
     });
