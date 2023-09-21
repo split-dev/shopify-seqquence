@@ -24,7 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
     dropdowns.forEach((dr) => {
       dr.addEventListener('click', (e) => {
         e.currentTarget.classList.toggle('active');
-        document.body.classList.toggle('no-scroll');
+        if (window.innerWidth < 768) {
+          document.body.classList.add('no-scroll');
+        }
       });
     });
   }
@@ -39,6 +41,8 @@ document.addEventListener('DOMContentLoaded', function () {
           it.classList.remove('active');
         });
         item.classList.add('active');
+
+        document.body.classList.remove('no-scroll');
 
         if (trgButtonSel) {
           const trgButton = document.querySelector(trgButtonSel);
@@ -61,8 +65,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
       activeDropdowns.forEach((dropdown) => {
         dropdown.classList.remove('active');
-        document.body.classList.remove('no-scroll');
-      })
+      });
+      document.body.classList.remove('no-scroll');
     }
   })
 });

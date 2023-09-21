@@ -8,8 +8,9 @@ const PUSHER_ID = '19daec24304eedd7aa8a';
 const GENERATION_COUNT = 3;
 const REQUESTS_LIMIT = 100;
 const querySearch = new URL(document.location).searchParams.get('search') || 'Panda jumping';
-const queryProductType = new URL(document.location).searchParams.get('productType') || '';
+const queryProductType = new URL(document.location).searchParams.get('productType') || 'UCTS';
 const preventAutoExtend = (new URL(document.location).searchParams.get('preventAutoExtend') === "on");
+const DEFAULT_T_SHIRT = 'UCTS';
 
 // VARIABLES
 const searchHistory = JSON.parse(localStorage.getItem(LS_SEARCH_KEY) || '{}');
@@ -57,8 +58,13 @@ function init() {
 
     searchForm.querySelector('input[name="search"]').value = querySearch;
     searchForm.querySelector('input[name="preventAutoExtend"]').checked = preventAutoExtend;
-    queryProductType && queryProductType.length && (searchForm.querySelector('input[name="productType"][value="'+queryProductType+'"]').checked = true);
-    productTypeLabel && (productTypeLabel.innerHTML = searchForm.querySelector('input[name="productType"][value="'+queryProductType+'"]').closest('LABEL').innerText);
+
+    if (queryProductType && queryProductType.length) {
+        const selectedTypeCheckbox = searchForm.querySelector('input[name="productType"][value="'+queryProductType+'"]');
+
+        selectedTypeCheckbox.checked = true;
+        productTypeLabel && (productTypeLabel.innerHTML = searchForm.querySelector('input[name="productType"][value="'+queryProductType+'"]').closest('LABEL').innerText);
+    }
 
     getAvailablePrompts()
         .then(json => {
@@ -107,6 +113,12 @@ const trackGoogleError = (err) => {
         'value': err
     });
 };
+
+function getSelectedProductType() {
+    const selectedTypeCheckbox = searchForm.querySelector('input[name="productType"]:checked');
+
+    return selectedTypeCheckbox ? selectedTypeCheckbox.value : DEFAULT_T_SHIRT;
+}
 
 const addNewCarousel = () => {
     const newSearchDom = searchDomTemplate.content.cloneNode(true);
@@ -337,7 +349,7 @@ async function sendPromptRequest(prompt, isFullPrompt) {
         },
         body: JSON.stringify({
             preventAutoExtend,
-            productType: queryProductType,
+            productType: getSelectedProductType(),
             fullPrompt: isFullPrompt && prompt,
             prompt: querySearch,
             reqDate,
@@ -381,7 +393,7 @@ async function createShopifyProduct(imageId) {
         },
         body: JSON.stringify({
             imageId,
-            type: queryProductType, /* t-shirt ? */
+            type: getSelectedProductType(), /* t-shirt ? */
             prompt: querySearch
         })
     });

@@ -132,7 +132,7 @@
                       <span data-val="KCTS">Kids Tee</span>
                       <span data-val="HOOD">Hoodie</span>
                       <span data-val="UHCS">Sweatshirt</span>
-                      <span data-val="CASE">Smartphone case</span>
+                      {% comment %} <span data-val="CASE">Smartphone case</span> {% endcomment %}
                     </div>
 
                     <button type="submit" class="btn btn--primary banner__button field__button" id="SearchSubmit">
@@ -212,7 +212,9 @@
     });
 
     inputBanner.addEventListener('focus', function () {
-      inputBanner.value = '';
+      if (prompts.some((pr) => pr.indexOf(inputBanner.value) > -1)) {
+        inputBanner.value = '';
+      }
     });
 
     searchSubmit.addEventListener('mousedown', function () {
