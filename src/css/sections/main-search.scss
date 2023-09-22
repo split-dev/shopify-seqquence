@@ -492,23 +492,46 @@
         }
       }
 
+      .preview-container {
+        position: relative;
+      }
+
       .preview-image {
         background-position: 50% top;
         background-size: contain;
         display: block;
-        height: 209px;
         pointer-events: none;
         left: 50%;
         position: absolute;
-        top: 40%;
+        top: 22%;
         width: 38%;
         height: 50%;
-        transform: translate(-50%,-50%);
-        -webkit-transform: translate(-50%,-50%);
-        -moz-transform: translate(-50%,-50%);
-        -ms-transform: translate(-50%,-50%);
-        -o-transform: translate(-50%,-50%);
+        transform: translate(-50%,0%);
+        -webkit-transform: translate(-50%,0%);
+        -moz-transform: translate(-50%,0%);
+        -ms-transform: translate(-50%,0%);
+        -o-transform: translate(-50%,0%);
         z-index: 2;
+        &[data-preview-format="UCTS"] {
+          width: 38%;
+          top: 22%;
+        }
+        &[data-preview-format="FCTS"] {
+          width: 46%;
+          top: 21%;
+        }
+        &[data-preview-format="KCTS"] {
+          width: 30%;
+          top: 22%;
+        }
+        &[data-preview-format="HOOD"] {
+          width: 30%;
+          top: 24%;
+        }
+        &[data-preview-format="UHCS"] {
+          width: 40%;
+          top: 24%;
+        }
       }
 
       .button.js-get-product-redirect {

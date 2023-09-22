@@ -2,8 +2,8 @@
 const LS_SEARCH_KEY = 'ai-search';
 // const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
 // const S3_HOST = 'https://aipr.s3.amazonaws.com';
-const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
-// const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
+// const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
+const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
 const PUSHER_ID = '19daec24304eedd7aa8a';
 const GENERATION_COUNT = 3;
 const REQUESTS_LIMIT = 100;
@@ -43,7 +43,19 @@ function bindHanlers() {
         if (searchInput.value.length === 0) {
             searchInput.value = searchInput.placeholder;
         }
-    })
+    });
+
+    const productTypeRadio = searchForm.querySelector('radiogroup.product_type_filter');
+
+    productTypeRadio.addEventListener('change', (e) => {
+        var reqProductType = e.target.value;
+        var requestedPreviewMockup = window.productImages[reqProductType] || window.productImages.UCTS;
+
+        document.querySelectorAll('.preview-mockup').forEach(function (_mock) {
+            _mock.src = requestedPreviewMockup.White;
+            _mock.parentNode.querySelector('.preview-image').setAttribute('data-preview-format', reqProductType);
+        });
+    });
 }
 
 function appendItem(parentElement, itemHtml) {
@@ -117,7 +129,7 @@ const trackGoogleError = (err) => {
 function getSelectedProductType() {
     const selectedTypeCheckbox = searchForm.querySelector('input[name="productType"]:checked');
 
-    return selectedTypeCheckbox ? selectedTypeCheckbox.value : DEFAULT_T_SHIRT;
+    return selectedTypeCheckbox?.value || queryProductType || DEFAULT_T_SHIRT;
 }
 
 const addNewCarousel = () => {
@@ -173,7 +185,8 @@ const updateImagesPreviews = (promptResult) => {
         const searchPrompt = searchResultDomCarousels[i].querySelector('.js-search-prompt');
         const generateMoreBtn = searchResultDomCarousels[i].querySelector('.js-generate-more');
         console.log('Products slider', slider);
-        const mockupImg = slider.parentNode.getAttribute('data-mockup-src');
+        const reqProductType = getSelectedProductType();
+        const requestedPreviewMockup = window.productImages[reqProductType] || window.productImages.UCTS;
 
         console.log('searchPrompt,search :>> ', searchPrompt, search);
         searchPrompt && (searchPrompt.textContent = search);
@@ -194,8 +207,10 @@ const updateImagesPreviews = (promptResult) => {
                     slide.classList.add('customized');
                 } else {
                     appendItem(slider, `<div class="products-item customized">
-                        <div class="preview-image" style="background-image: url(${img.generatedImg})"></div>
-                        <img src="${mockupImg}"/>
+                        <div class="preview-container">
+                            <div class="preview-image" data-preview-format="${reqProductType}" style="background-image: url(${img.generatedImg})"></div>
+                            <img class="preview-mockup" src="${requestedPreviewMockup.White}"/>
+                        </div>
                         <button data-id="${img.id}" data-handle="${img.handle || ''}" class="btn btn--secondary ${img.handle ? '' : 'loading'} js-get-product-redirect button button--secondary"><span>${img.handle ? '$34.99 Buy Now!' : 'Wait'}</span></button>
                     </div>`);
                 }
@@ -581,14 +596,19 @@ function handleGenerateMore(event) {
 
     const carousel = moreBtn.closest('.search__wrapper');
     const slider = carousel.querySelector('.js-search-products .products-wrapper');
-    const mockupImg = slider.parentNode.getAttribute('data-mockup-src');
+    const reqProductType = getSelectedProductType();
+    const requestedPreviewMockup = window.productImages[reqProductType] || window.productImages.UCTS;
 
+    console.log(reqProductType);
+    console.log(requestedPreviewMockup);
     if (moreBtn.classList.contains('loading')) return false;
 
     for (let i = 0; i < GENERATION_COUNT; i++) {
         appendItem(slider, `<div class="products-item">
-                    <div class="preview-image"></div>
-                    <img src="${mockupImg}" />
+                    <div class="preview-container">
+                        <div class="preview-image" data-preview-format="${reqProductType}"></div>
+                        <img class="preview-mockup" src="${requestedPreviewMockup.White}"/>
+                    </div>
                     <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>$34.99 Buy Now!</span></button>
                 </div>`);
     }
