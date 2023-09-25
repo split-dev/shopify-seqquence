@@ -11,6 +11,7 @@ const querySearch = new URL(document.location).searchParams.get('search') || 'Pa
 const queryProductType = new URL(document.location).searchParams.get('productType') || 'UCTS';
 const preventAutoExtend = (new URL(document.location).searchParams.get('preventAutoExtend') === "on");
 const DEFAULT_T_SHIRT = 'UCTS';
+const DEFAULT_COLOR = 'White';
 
 // VARIABLES
 const searchHistory = JSON.parse(localStorage.getItem(LS_SEARCH_KEY) || '{}');
@@ -29,6 +30,32 @@ const generateNewSearchPrompt = document.querySelector('.js-get-new-prompt');
 const searchDomTemplate = document.querySelector('.js-search-dom-template');
 const errorMessagePopup = document.getElementById('error_message')
 
+
+function actualisePreviewMockups(reqProductType) {
+    reqProductType = reqProductType || getSelectedProductType();
+
+    const requestedPreviewMockup = window.productImages[reqProductType] || window.productImages.UCTS;
+    const productColorSel = document.querySelectorAll('.product_color_filter .product_radiobutton input:checked');
+  
+    document.querySelectorAll('.preview-mockup').forEach((_mock) => {
+      const selectedColor = productColorSel.length > 0 ? productColorSel[0].value : null;
+      const availableColors = Object.keys(requestedPreviewMockup);
+      const randColor = availableColors[Math.floor(Math.random() * availableColors.length)] || DEFAULT_COLOR;
+      const _color = requestedPreviewMockup[selectedColor] ? selectedColor : randColor;
+
+      _mock.src = requestedPreviewMockup[_color];
+      _mock.parentNode.querySelector('.preview-image').setAttribute('data-preview-format', reqProductType);
+      _mock.parentNode.querySelector('.preview-image').setAttribute('data-preview-color', _color);
+    });
+  
+    document.querySelectorAll('.product_color_filter .product_radiobutton').forEach((rdbtn) => {
+      rdbtn.classList.remove('hidden');
+      if (!requestedPreviewMockup[rdbtn.getAttribute('data-val')]) {
+        rdbtn.classList.add('hidden');
+      }
+    });
+}
+
 // BIND HANDLERS
 function bindHanlers() {
     document.querySelector('.search')?.addEventListener('click', handleOpenProduct);
@@ -46,17 +73,18 @@ function bindHanlers() {
     });
 
     const productTypeRadio = searchForm.querySelector('radiogroup.product_type_filter');
+    const productColorRadio = document.querySelector('radiogroup.product_color_filter');
 
     productTypeRadio.addEventListener('change', (e) => {
-        var reqProductType = e.target.value;
-        var requestedPreviewMockup = window.productImages[reqProductType] || window.productImages.UCTS;
-
-        document.querySelectorAll('.preview-mockup').forEach(function (_mock) {
-            _mock.src = requestedPreviewMockup.White;
-            _mock.parentNode.querySelector('.preview-image').setAttribute('data-preview-format', reqProductType);
-        });
-    });
+        const reqProductType = e.target.value;
+        
+        actualisePreviewMockups(reqProductType);
+    });   
+    productColorRadio.addEventListener('change', () => {
+        actualisePreviewMockups();
+    });    
 }
+
 
 function appendItem(parentElement, itemHtml) {
     const tempContainer = document.createElement('div');
@@ -99,7 +127,6 @@ function init() {
             Promise.all(requestIds.map(id => waitImagesResult(id, true)))
                 .then((images) => {
                     removeResultsBusyState();
-                    console.log('Got images from LS :>> ', ...images);
                 })
                 .catch(console.error);
             
@@ -109,7 +136,6 @@ function init() {
             sendPromptRequest(querySearch, false)
                 .then(images => {
                     removeResultsBusyState();
-                    console.log('Got images from Replicate API :>> ', images);
                 })
                 .catch(console.error);
         }
@@ -132,6 +158,12 @@ function getSelectedProductType() {
     return selectedTypeCheckbox?.value || queryProductType || DEFAULT_T_SHIRT;
 }
 
+function getSelectedProductColor() {
+    const selectedColorCheckbox = searchForm.querySelector('input[name="productColor"]:checked');
+
+    return selectedColorCheckbox?.value || DEFAULT_COLOR;
+}
+
 const addNewCarousel = () => {
     const newSearchDom = searchDomTemplate.content.cloneNode(true);
     const searchContainer = generateNewSearchPrompt.closest('.js-search-view');
@@ -144,7 +176,6 @@ const addNewCarousel = () => {
 };
 
 const updateImagesPreviews = (promptResult) => {
-    console.log('promptResult', promptResult)
     searchResultDomCarousels = document.querySelectorAll('.js-search-view .search__wrapper');
 
     if (promptResult.error) {
@@ -154,8 +185,7 @@ const updateImagesPreviews = (promptResult) => {
         const prevResults = allPromptResults.get(promptResult.prompt)?.filter(result => {
             return !ids.includes(result.id)
         });
-        console.log('allPromptResults.get(result.prompt) :>> ', allPromptResults.get(promptResult.prompt), prevResults);
-        console.log('result.images :>> ', promptResult.images);
+        
         const imgs = [
             ...prevResults || [],
             ...promptResult.images,
@@ -165,16 +195,11 @@ const updateImagesPreviews = (promptResult) => {
 
     const promptSearchesIterator = allPromptResults.keys();
     const uniqueSearches = Array.from(promptSearchesIterator);
-    console.log('allPromptResults :>> ', promptSearchesIterator, uniqueSearches);
 
     uniqueSearches.forEach((search, i) => {
         let imgs = allPromptResults.get(search);
 
-        console.log('imgs :>> ', imgs);
-
         imgs = imgs?.filter(img => img && img.generatedImg);
-
-        console.log('imgs', imgs)
 
         if (!searchResultDomCarousels[i]) {
             addNewCarousel();
@@ -184,19 +209,14 @@ const updateImagesPreviews = (promptResult) => {
         const slider = searchResultDomCarousels[i].querySelector('.js-search-products .products-wrapper');
         const searchPrompt = searchResultDomCarousels[i].querySelector('.js-search-prompt');
         const generateMoreBtn = searchResultDomCarousels[i].querySelector('.js-generate-more');
-        console.log('Products slider', slider);
         const reqProductType = getSelectedProductType();
-        const requestedPreviewMockup = window.productImages[reqProductType] || window.productImages.UCTS;
 
-        console.log('searchPrompt,search :>> ', searchPrompt, search);
         searchPrompt && (searchPrompt.textContent = search);
         generateMoreBtn && generateMoreBtn.setAttribute('data-prompt', search);
 
         if (slider) {
-            console.log(1)
             imgs.forEach((img, j) => {
                 const slide = slider.querySelectorAll('.products-item')[j];
-                console.log(2, img)
                 if (slide) {
                     const redirectBtn = slide.querySelector('.js-get-product-redirect');
                     slide.querySelector('.preview-image').style.backgroundImage = `url(${img.generatedImg})`;
@@ -209,7 +229,7 @@ const updateImagesPreviews = (promptResult) => {
                     appendItem(slider, `<div class="products-item customized">
                         <div class="preview-container">
                             <div class="preview-image" data-preview-format="${reqProductType}" style="background-image: url(${img.generatedImg})"></div>
-                            <img class="preview-mockup" src="${requestedPreviewMockup.White}"/>
+                            <img class="preview-mockup"/>
                         </div>
                         <button data-id="${img.id}" data-handle="${img.handle || ''}" class="btn btn--secondary ${img.handle ? '' : 'loading'} js-get-product-redirect button button--secondary"><span>${img.handle ? '$34.99 Buy Now!' : 'Wait'}</span></button>
                     </div>`);
@@ -222,15 +242,15 @@ const updateImagesPreviews = (promptResult) => {
                     slide && setBusyBuyButtonState(slide.querySelector('.btn'), false);
                 }
             });
+
+            actualisePreviewMockups(reqProductType);
         }
     });
 }
 
 const checkImagesFullLoaded = (pendImagesResult, cacheRun) => {
-    console.log('checkImagesFullLoaded :>> ', pendImagesResult);
     return pendImagesResult?.images?.length && pendImagesResult.images.every(image => {
         if (cacheRun) {
-            console.log('cacheRun - setting not ready');
             image.handle ||= 'not ready';
         }
         
@@ -276,7 +296,6 @@ async function waitImagesResult (id, cacheRun) {
     for (let retryCounter = 0; retryCounter < REQUESTS_LIMIT; retryCounter += 1) {
         if (!cacheRun) {
             imagesResponse = await waitPusher(id, timeout); // pusher can send data earlier to us
-            console.log('imagesResponse :>> ', imagesResponse);
         } else {
             cacheRun = false;
             timeout = 500;
@@ -305,7 +324,6 @@ async function waitImagesResult (id, cacheRun) {
 
         if (checkImagesFullLoaded(imagesResponse, cacheRun)) {
             console.timeEnd('waitImagesResult');
-            console.log('All images ready to buy');
             // removeResultsBusyState();
             removeResultsUnavailableState(); /** can buy */
             setBusyButtonState(generateNewSearchPrompt, false);
@@ -318,14 +336,11 @@ async function waitImagesResult (id, cacheRun) {
         const loadedCount = imagesResponse?.images?.filter(item => item.generatedImg).length || 0;
 
         if (loadedCount > loadedImages) {
-            console.log('updateImagesPreviews :>> ', updateImagesPreviews);
             timeout += 1000;
             updateImagesPreviews(imagesResponse);
             removeResultsBusyState(); /** images visible */
             loadedImages = loadedCount;
         }
-
-        console.log(`pending images...next ping in ${(timeout/1000).toFixed(1)} seconds`);
 
         if (retryCounter) {
             timeout *= 1.03; 
@@ -352,7 +367,6 @@ async function sendPromptRequest(prompt, isFullPrompt) {
 
     channel.bind('1', function (data) {
         // we can handle updates here
-        console.log('<< pusher >>', data);
         resolvePusher(data.requestId, data)
     });
 
@@ -381,7 +395,6 @@ async function sendPromptRequest(prompt, isFullPrompt) {
         return false;
     }
 
-    console.log('response :>> ', response);
 
     response.forEach(r => {
         searchHistory[querySearch] ||= {};
@@ -399,8 +412,8 @@ async function sendPromptRequest(prompt, isFullPrompt) {
     return Promise.all(response.map(r => waitImagesResult(r.id)))
 }
 
-async function createShopifyProduct(imageId) {
-    console.time('createShopifyProduct');
+async function createShopifyProduct(imageId, color) {
+    console.time('createShopifyProduct', color || getSelectedProductColor());
     const response = await fetch(`${LAMBDA_HOST}/shopify-product`, {
         method: 'POST',
         headers: {
@@ -408,14 +421,14 @@ async function createShopifyProduct(imageId) {
         },
         body: JSON.stringify({
             imageId,
-            type: getSelectedProductType(), /* t-shirt ? */
+            type: getSelectedProductType(),
+            productVariant: color || getSelectedProductColor(),
             prompt: querySearch
         })
     });
-    console.log('response :>> ', response.status, response.statusText);
     console.timeEnd('createShopifyProduct');
     const json = await response.json();
-    console.log('json :>> ', json);
+
     return json;
 }
 
@@ -511,12 +524,14 @@ async function handleOpenProduct(event) {
     if (!btnTarget || btnTarget.classList.contains('loading')) {
         return false;
     }
-
+    
+    const colorElem = btnTarget.closest('.products-item').querySelector('[data-preview-color]');
     const handle = btnTarget.getAttribute('data-handle');
 
     if (handle) {
         if (handle.startsWith('not ready')) {
-            const json = await createShopifyProduct(btnTarget.getAttribute('data-id'));
+            const json = await createShopifyProduct(btnTarget.getAttribute('data-id'), colorElem?.getAttribute('data-preview-color') || DEFAULT_COLOR);
+
             btnTarget.setAttribute('data-handle', json.handle);
         }
         window.open(`/products/${btnTarget.getAttribute('data-handle')}`, '_blank')
@@ -578,12 +593,12 @@ async function handleGenerateNewStyle() {
 
     setResultsBusyState(addedCarouselWrapper);
     setResultsUnavailableState(addedCarouselWrapper);
+    actualisePreviewMockups();
 
     sendPromptRequest(newUniquePrompt, true)
-        .then(images => {
+        .then(() => {
             setBusyButtonState(generateNewSearchPrompt, false);
             removeResultsBusyState();
-            console.log('Got images from Replicate API :>> ', images);
         });
 }
 
@@ -597,22 +612,20 @@ function handleGenerateMore(event) {
     const carousel = moreBtn.closest('.search__wrapper');
     const slider = carousel.querySelector('.js-search-products .products-wrapper');
     const reqProductType = getSelectedProductType();
-    const requestedPreviewMockup = window.productImages[reqProductType] || window.productImages.UCTS;
 
-    console.log(reqProductType);
-    console.log(requestedPreviewMockup);
     if (moreBtn.classList.contains('loading')) return false;
 
     for (let i = 0; i < GENERATION_COUNT; i++) {
         appendItem(slider, `<div class="products-item">
                     <div class="preview-container">
                         <div class="preview-image" data-preview-format="${reqProductType}"></div>
-                        <img class="preview-mockup" src="${requestedPreviewMockup.White}"/>
+                        <img class="preview-mockup"/>
                     </div>
                     <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>$34.99 Buy Now!</span></button>
                 </div>`);
     }
 
+    actualisePreviewMockups(reqProductType);
     setResultsBusyState(carousel);
     setResultsUnavailableState(carousel);
     setBusyButtonState(moreBtn, true);

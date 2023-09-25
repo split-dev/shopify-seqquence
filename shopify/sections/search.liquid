@@ -83,32 +83,117 @@
               {% render 'icon-caret' %}
             </label>
             <radiogroup class="product_type_filter dropdown-items" data-target=".product_type_label">
-              <label class="product_type" data-val="UCTS">
+              <label class="product_radiobutton" data-val="UCTS">
                 <input type="radio" name="productType" value="UCTS" checked>
                 <span>Unisex T-shirt</span>
               </label>
-              <label class="product_type" data-val="FCTS">
+              <label class="product_radiobutton" data-val="FCTS">
                 <input type="radio" name="productType" value="FCTS">
                 <span>Women Tee</span>
               </label>
-              <label class="product_type" data-val="KCTS">
+              <label class="product_radiobutton" data-val="KCTS">
                 <input type="radio" name="productType" value="KCTS">
                 <span>Kids Tee</span>
               </label>
-              <label class="product_type" data-val="HOOD">
+              <label class="product_radiobutton" data-val="HOOD">
                 <input type="radio" name="productType" value="HOOD">
                 <span>Hoodie</span>
               </label>
-              <label class="product_type" data-val="UHCS">
+              <label class="product_radiobutton" data-val="UHCS">
                 <input type="radio" name="productType" value="UHCS">
                 <span>Sweatshirt</span>
               </label>
               {% comment %}
-                <label class="product_type" data-val="CASE">
+                <label class="product_radiobutton" data-val="CASE">
                   <input type="radio" name="productType" value="CASE">
                   <span>Smartphone Case</span>
                 </label>
               {% endcomment %}
+            </radiogroup>
+          </fieldset>
+
+          <fieldset>
+            <label class="product_color_label dropdown-toggle">
+              <span class="dropdown-label"></span>
+              {% render 'icon-caret' %}
+            </label>
+            <radiogroup class="product_color_filter dropdown-items" data-target=".product_color_label">
+              <label class="product_radiobutton" data-val="White">
+                <input type="radio" name="productColor" value="White">
+                <span>White</span>
+              </label>
+              <label class="product_radiobutton" data-val="Athletic Heather">
+                <input type="radio" name="productColor" value="Athletic Heather">
+                <span>Athletic Heather</span>
+              </label>
+              <label class="product_radiobutton" data-val="Dark Heather">
+                <input type="radio" name="productColor" value="Dark Heather">
+                <span>Dark Heather</span>
+              </label>
+              <label class="product_radiobutton" data-val="Black">
+                <input type="radio" name="productColor" value="Black">
+                <span>Black</span>
+              </label>
+              <label class="product_radiobutton" data-val="Azalea">
+                <input type="radio" name="productColor" value="Azalea">
+                <span>Azalea</span>
+              </label>
+              <label class="product_radiobutton" data-val="Charcoal">
+                <input type="radio" name="productColor" value="Charcoal">
+                <span>Charcoal</span>
+              </label>
+              <label class="product_radiobutton" data-val="Irish Green">
+                <input type="radio" name="productColor" value="Irish Green">
+                <span>Irish Green</span>
+              </label>
+              <label class="product_radiobutton" data-val="Light Blue">
+                <input type="radio" name="productColor" value="Light Blue">
+                <span>Light Blue</span>
+              </label>
+              <label class="product_radiobutton" data-val="Light Pink">
+                <input type="radio" name="productColor" value="Light Pink">
+                <span>Light Pink</span>
+              </label>
+              <label class="product_radiobutton" data-val="Daisy">
+                <input type="radio" name="productColor" value="Daisy">
+                <span>Daisy</span>
+              </label>
+              <label class="product_radiobutton" data-val="Kelly">
+                <input type="radio" name="productColor" value="Kelly">
+                <span>Kelly</span>
+              </label>
+              <label class="product_radiobutton" data-val="Orange">
+                <input type="radio" name="productColor" value="Orange">
+                <span>Orange</span>
+              </label>
+              <label class="product_radiobutton" data-val="Navy">
+                <input type="radio" name="productColor" value="Navy">
+                <span>Navy</span>
+              </label>
+              <label class="product_radiobutton" data-val="Pink">
+                <input type="radio" name="productColor" value="Pink">
+                <span>Pink</span>
+              </label>
+              <label class="product_radiobutton" data-val="Red">
+                <input type="radio" name="productColor" value="Red">
+                <span>Red</span>
+              </label>
+              <label class="product_radiobutton" data-val="Royal">
+                <input type="radio" name="productColor" value="Royal">
+                <span>Royal</span>
+              </label>
+              <label class="product_radiobutton" data-val="True Royal">
+                <input type="radio" name="productColor" value="True Royal">
+                <span>True Royal</span>
+              </label>
+              <label class="product_radiobutton" data-val="Sand">
+                <input type="radio" name="productColor" value="Sand">
+                <span>Sand</span>
+              </label>
+              <label class="product_radiobutton" data-val="Sport Grey">
+                <input type="radio" name="productColor" value="Sport Grey">
+                <span>Sport Grey</span>
+              </label>
             </radiogroup>
           </fieldset>
         </form>
@@ -214,6 +299,27 @@
 
 <script>
   (function () {
+    window.productColors = [
+      'White',
+      'Athletic Heather',
+      'Dark Heather',
+      'Black',
+      'Azalea',
+      'Charcoal',
+      'Irish Green',
+      'Light Blue',
+      'Light Pink',
+      'Daisy',
+      'Kelly',
+      'Orange',
+      'Navy',
+      'Pink',
+      'Red',
+      'Royal',
+      'True Royal',
+      'Sand',
+      'Sport Grey',
+    ];
     window.productImages = {
       UCTS: {
         'Athletic Heather':
@@ -233,7 +339,7 @@
         Black: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_black_front.webp',
         Charcoal: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_charcoal_front.webp',
         Daisy: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_daisy_front.webp',
-        Irishgreen: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_irishgreen_front.webp',
+        'Irish Green': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_irishgreen_front.webp',
         Navy: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_navy_front.webp',
         Red: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_red_front.webp',
         'Sport Grey': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_sportgrey_front.webp',
@@ -276,10 +382,25 @@
     };
     var reqProductType = new URL(document.location).searchParams.get('productType') || 'UCTS';
     var requestedPreviewMockup = productImages[reqProductType] || productImages.UCTS;
+    var previewMocks = document.querySelectorAll('.preview-mockup');
 
-    document.querySelectorAll('.preview-mockup').forEach(function (_mock) {
-      _mock.src = requestedPreviewMockup.White;
-      _mock.parentNode.querySelector('.preview-image').setAttribute('data-preview-format', reqProductType);
+    for (var i = 0; i < previewMocks.length; i++) {
+      var availableColors = Object.keys(requestedPreviewMockup);
+      var randColor = availableColors[Math.floor(Math.random() * availableColors.length)] || 'White';
+      var mock = previewMocks[i];
+
+      console.log(randColor, requestedPreviewMockup[randColor]);
+      mock.src = requestedPreviewMockup[randColor];
+
+      var previewImage = mock.parentNode.querySelector('.preview-image');
+      previewImage.setAttribute('data-preview-format', reqProductType);
+    }
+
+    document.querySelectorAll('.product_color_filter .product_radiobutton').forEach(function (rdbtn) {
+      rdbtn.classList.remove('hidden');
+      if (!requestedPreviewMockup[rdbtn.getAttribute('data-val')]) {
+        rdbtn.classList.add('hidden');
+      }
     });
   })();
 </script>
