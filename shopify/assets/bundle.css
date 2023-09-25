@@ -5008,28 +5008,28 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 29px;
-  line-height: 33px;
-  font-family: "Android101", sans-serif !important;
+  font-size: 36px;
+  line-height: 46px;
 }
 .header__logo svg {
-  margin-right: 8px;
+  margin-left: 8px;
 }
 @media (max-width: 767.98px) {
   .header__logo svg {
     display: none;
   }
 }
-@media (max-width: 1200px) {
+@media (max-width: 990px) {
   .header__logo {
-    font-size: 25px;
+    max-width: 80%;
+    margin: 0 auto;
+    width: 100%;
   }
 }
-@media (max-width: 767.98px) {
+@media (max-width: 767px) {
   .header__logo {
     font-size: 20px;
-    line-height: 23px;
-    color: white;
+    line-height: 26px;
     top: 3px;
     left: 17px;
   }
@@ -6570,7 +6570,7 @@ slider-component + .media__bottom-text {
 }
 .template-search .search .banner__content {
   height: auto !important;
-  padding: 0px !important;
+  padding: 0px 16px !important;
 }
 .template-search .search .banner__input {
   padding: 35px 220px 35px 104px;

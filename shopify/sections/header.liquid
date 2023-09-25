@@ -249,9 +249,15 @@
       </header-drawer>
     {%- endif -%}
 
-    <a href="{{ routes.root_url }}" class="header__logo color-text-accent font-weight-bold"> 
-      {% render 'icon-logo-header' %}
+  {%comment %} NEW LOGO: {% endcomment %}
+    {% comment %} <a href="{{ routes.root_url }}" class="header__logo color-text-accent font-weight-bold"> 
+      {% render 'icon-logo-header-new' %}
       {{ shop.name }}
+    </a> {% endcomment %}
+
+    <a href="{{ routes.root_url }}" class="header__logo color-text-accent font-weight-bold"> 
+      {{ shop.name }}
+      {% render 'icon-logo-header' %}
     </a>
 
     {%- if section.settings.menu != blank -%}
