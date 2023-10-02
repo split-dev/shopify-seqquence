@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
         e.currentTarget.classList.toggle('active');
         if (window.innerWidth < 768) {
           document.body.classList.add('no-scroll');
+          document.body.parentElement.classList.add('no-scroll');
         }
       });
     });
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
         item.classList.add('active');
 
         document.body.classList.remove('no-scroll');
+        document.body.parentElement.classList.remove('no-scroll');
 
         if (trgButtonSel) {
           const trgButton = document.querySelector(trgButtonSel);
@@ -67,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
         dropdown.classList.remove('active');
       });
       document.body.classList.remove('no-scroll');
+      document.body.parentElement.classList.remove('no-scroll');
     }
   })
 });
