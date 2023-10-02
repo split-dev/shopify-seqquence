@@ -1,8 +1,9 @@
 (() => {
     const isProductPage = window.location.pathname.includes('/product') && document.body.classList.contains('template-product');
     // const isCartPage = window.location.pathname.includes('/cart');
-    const REQUESTS_LIMIT = 270;
-    const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
+    const REQUESTS_LIMIT = 99;
+    // const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
+    const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
     const queryPhotoKey = new URL(document.location).searchParams.get('key') || '';
     const photosData = new Map();
     const LS_QUEUE_PRINTIFY_PRODUCTS = 'currentCreatingProduct';
@@ -103,7 +104,7 @@
         if (!key) return;
 
         for (let i = 0; i < REQUESTS_LIMIT; i += 1) {
-            const imagesRequest = await fetch(`${API_HOST}/image?imageId=${key}`, {
+            const imagesRequest = await fetch(`${LAMBDA_HOST}/image?imageId=${key}`, {
                 method: 'GET'
             });
     
