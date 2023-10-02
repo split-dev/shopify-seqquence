@@ -1,25 +1,36 @@
 // CONSTANTS
-const LS_SEARCH_KEY = 'ai-search';
-// const API_HOST = 'https://lime-filthy-duckling.cyclic.app';
 // const S3_HOST = 'https://aipr.s3.amazonaws.com';
 // const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
 const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
 const PUSHER_ID = '19daec24304eedd7aa8a';
 const GENERATION_COUNT = 3;
-const REQUESTS_LIMIT = 100;
-const querySearch = new URL(document.location).searchParams.get('search') || 'Panda jumping';
+const DEFAULT_QUERY_SEARCH = 'Panda jumping';
+
+const querySearch = new URL(document.location).searchParams.get('search') || DEFAULT_QUERY_SEARCH;
 const queryProductType = new URL(document.location).searchParams.get('productType') || 'UCTS';
 const preventAutoExtend = (new URL(document.location).searchParams.get('preventAutoExtend') === "on");
 const DEFAULT_T_SHIRT = 'UCTS';
 const DEFAULT_COLOR = 'White';
 
+const LS_SEARCH_KEY = 'ai-search';
+
+const WAIT_AI_FIRST = 4000;
+const WAIT_AI_CACHE = 500;
+const WAIT_AI_NEXT = 2000;
+
+const REQUESTS_LIMIT = 30;
+const WAIT_AI_FIRST_RETRY = 667;
+const WAIT_AI_RETRY_INCREASE = 1.08;
+
 // VARIABLES
-const searchHistory = JSON.parse(localStorage.getItem(LS_SEARCH_KEY) || '{}');
+let searchHistory = JSON.parse(localStorage.getItem(LS_SEARCH_KEY) || '{}');
+
 const allPromptResults = new Map();
 
 let allAvailablePrompts;
 let searchResultDomCarousels = document.querySelectorAll('.js-search-view .search__wrapper');
 let pusher;
+const animations = new Map();
 
 // BIND ELEMENTS CONTROLS
 const searchForm = document.getElementById('aiSearch');
@@ -30,6 +41,8 @@ const generateNewSearchPrompt = document.querySelector('.js-get-new-prompt');
 const searchDomTemplate = document.querySelector('.js-search-dom-template');
 const errorMessagePopup = document.getElementById('error_message')
 
+// INIT PAGE LOAD PROCESSING - FIRST PROMPT
+init();
 
 function actualisePreviewMockups(reqProductType) {
     reqProductType = reqProductType || getSelectedProductType();
@@ -66,7 +79,7 @@ function bindHanlers() {
     
     const searchInput = searchForm.querySelector('input[name="search"]');
 
-    searchInput.addEventListener('input', () => {
+    searchInput.addEventListener('blur', () => {
         if (searchInput.value.length === 0) {
             searchInput.value = searchInput.placeholder;
         }
@@ -83,6 +96,23 @@ function bindHanlers() {
     productColorRadio.addEventListener('change', () => {
         actualisePreviewMockups();
     });    
+
+    window.addEventListener("storage", function (e) {
+        console.log('storage event :>> ', e);
+        if (e.key === LS_SEARCH_KEY) {
+            searchHistory = JSON.parse(e.newValue)
+            if (querySearch.length && searchHistory[querySearch]) {
+                Object.entries(searchHistory[querySearch]).forEach(([prompt, requestData]) => {
+                    if (typeof requestData[0] === 'string') {
+                        requestData = requestData.map(id => ({ id }))
+                        prompt = prompt.slice(querySearch.length)
+                        searchHistory[querySearch][prompt] = requestData;
+                        delete searchHistory[querySearch][querySearch + prompt]
+                    }
+                })
+            }
+        }
+    });
 }
 
 
@@ -121,14 +151,35 @@ function init() {
     if (querySearch.length) {
         // GET CACHED
         if (searchHistory[querySearch]) {
-            const requestIds = Object.values(searchHistory[querySearch])
-                .reduce((prev, curr) => prev.concat(curr), []);
+            Promise.all(Object.entries(searchHistory[querySearch]).map(([prompt, requestData]) => {
+                if (typeof requestData[0] === 'string') {
+                    requestData = requestData.map(id => ({ id }))
+                    prompt = prompt.slice(querySearch.length)
+                    searchHistory[querySearch][prompt] = requestData;
+                    delete searchHistory[querySearch][querySearch + prompt]
+                }
+                console.log('requestData :>> ', requestData);
+                return Promise.all(requestData.map(r => {
+                    if (r.images) {
+                        updateImagesPreviews({
+                            prompt: querySearch + prompt,
+                            images: r.images
+                        })
+                    } else {
+                        return waitImagesResult(r.id, true)
+                    }
+                }))
+            })).then((images) => {
+                removeResultsBusyState();
+            }).catch(console.error);
+            // const requestIds = Object.values(searchHistory[querySearch])
+            //     .reduce((prev, curr) => prev.concat(curr), []);
 
-            Promise.all(requestIds.map(id => waitImagesResult(id, true)))
-                .then((images) => {
-                    removeResultsBusyState();
-                })
-                .catch(console.error);
+            // Promise.all(requestIds.map(id => waitImagesResult(id, true)))
+            //     .then((images) => {
+            //         removeResultsBusyState();
+            //     })
+            //     .catch(console.error);
             
         // GENERATE
         } else {
@@ -164,7 +215,7 @@ function getSelectedProductColor() {
     return selectedColorCheckbox?.value || DEFAULT_COLOR;
 }
 
-const addNewCarousel = () => {
+function addNewCarousel () {
     const newSearchDom = searchDomTemplate.content.cloneNode(true);
     const searchContainer = generateNewSearchPrompt.closest('.js-search-view');
 
@@ -173,9 +224,9 @@ const addNewCarousel = () => {
     const newProductsList = searchContainer.querySelector('.search__wrapper:last-of-type .js-search-products');
 
     return newProductsList;
-};
+}
 
-const updateImagesPreviews = (promptResult) => {
+function updateImagesPreviews (promptResult) {
     searchResultDomCarousels = document.querySelectorAll('.js-search-view .search__wrapper');
 
     if (promptResult.error) {
@@ -236,7 +287,7 @@ const updateImagesPreviews = (promptResult) => {
                 }
 
                 if (!img.handle?.length) {
-                    console.error('No product handle found');
+                    console.warn('No product handle found');
                     slide && setBusyBuyButtonState(slide.querySelector('.btn'), true);
                 } else {
                     slide && setBusyBuyButtonState(slide.querySelector('.btn'), false);
@@ -248,7 +299,7 @@ const updateImagesPreviews = (promptResult) => {
     });
 }
 
-const checkImagesFullLoaded = (pendImagesResult, cacheRun) => {
+function checkImagesFullLoaded (pendImagesResult, cacheRun) {
     return pendImagesResult?.images?.length && pendImagesResult.images.every(image => {
         if (cacheRun) {
             image.handle ||= 'not ready';
@@ -256,8 +307,6 @@ const checkImagesFullLoaded = (pendImagesResult, cacheRun) => {
         
         return image.handle;
     });
-    // return pendImagesResult.every(result => {
-    // });
 }
 
 const timeouts = {};
@@ -265,22 +314,25 @@ function resolvePusher(id, data) {
     timeouts[id]?.resolve(data);
     updateImagesPreviews(data);
 }
-const waitPusher = (id, ms) => new Promise(resolve => {
-    const timeout = setTimeout(resolve, ms);
+function waitPusher (id, ms) {
+    return new Promise(resolve => {
+        const timeout = setTimeout(resolve, ms);
 
-    timeouts[id] = {
-        resolve(data) {
-            clearTimeout(timeout);
-            Array.isArray(data) || (data = [data])
-            resolve(data);
+        timeouts[id] = {
+            resolve(data) {
+                clearTimeout(timeout);
+                Array.isArray(data) || (data = [data])
+                resolve(data);
+            }
         }
-    }
-});
+    });
+}
+
 async function waitImagesResult (id, cacheRun) {
     console.time('waitImagesResult', id, cacheRun);
 
     let imagesResponse;
-    let timeout = cacheRun ? 1 : 4000; // 3s for AI and 1s for crop
+    let timeout = cacheRun ? 1 : WAIT_AI_FIRST; // 3s for AI and 1s for crop
     let loadedImages = 0;
 
     // if (!cacheRun) {
@@ -294,11 +346,11 @@ async function waitImagesResult (id, cacheRun) {
     // }
 
     for (let retryCounter = 0; retryCounter < REQUESTS_LIMIT; retryCounter += 1) {
-        if (!cacheRun) {
-            imagesResponse = await waitPusher(id, timeout); // pusher can send data earlier to us
-        } else {
+        if (cacheRun) {
             cacheRun = false;
-            timeout = 500;
+            timeout = WAIT_AI_CACHE;
+        } else {
+            imagesResponse = await waitPusher(id, timeout); // pusher can send data earlier to us
         }
         
         if (!imagesResponse) {
@@ -321,8 +373,18 @@ async function waitImagesResult (id, cacheRun) {
             errorMessagePopup?.$show();
             break;
         }
-
+        const loadedCount = imagesResponse?.images?.filter(item => item.generatedImg).length || 0;
+        
         if (checkImagesFullLoaded(imagesResponse, cacheRun)) {
+            const extendedPrompt = imagesResponse.prompt.slice(querySearch.length);
+            
+            const item = searchHistory[querySearch][extendedPrompt].find(item => item.id === imagesResponse.requestId)
+            item.images = imagesResponse.images.map(({ id, handle, generatedImg }) => {
+                return {
+                    id, handle, generatedImg
+                }
+            })
+            localStorage.setItem(LS_SEARCH_KEY, JSON.stringify(searchHistory))
             console.timeEnd('waitImagesResult');
             // removeResultsBusyState();
             removeResultsUnavailableState(); /** can buy */
@@ -333,19 +395,17 @@ async function waitImagesResult (id, cacheRun) {
             break;
         }
 
-        const loadedCount = imagesResponse?.images?.filter(item => item.generatedImg).length || 0;
-
         if (loadedCount > loadedImages) {
-            timeout += 1000;
+            timeout = WAIT_AI_NEXT;
             updateImagesPreviews(imagesResponse);
             removeResultsBusyState(); /** images visible */
             loadedImages = loadedCount;
         }
 
-        if (retryCounter) {
-            timeout *= 1.03; 
+        if (retryCounter === 0) {
+            timeout = WAIT_AI_FIRST_RETRY;
         } else {
-            timeout = 400;
+            timeout *= WAIT_AI_RETRY_INCREASE; 
         }
     }
     pusher.unsubscribe(id);
@@ -398,8 +458,10 @@ async function sendPromptRequest(prompt, isFullPrompt) {
 
     response.forEach(r => {
         searchHistory[querySearch] ||= {};
-        searchHistory[querySearch][r.input.prompt] ||= [];
-        searchHistory[querySearch][r.input.prompt].push(r.id);
+        const extendedPrompt = r.input.prompt.slice(querySearch.length)
+
+        searchHistory[querySearch][extendedPrompt] ||= [];
+        searchHistory[querySearch][extendedPrompt].push({ id: r.id });
         if (r.result) {
             resolvePusher(r.id, r.result);
         }
@@ -432,8 +494,7 @@ async function createShopifyProduct(imageId, color) {
     return json;
 }
 
-const animations = new Map();
-const ellipsisStart = (label, text) => {
+function ellipsisStart (label, text) {
     const originalText = label.textContent;
     let step = 0;
 
@@ -446,14 +507,14 @@ const ellipsisStart = (label, text) => {
     }
     ellipsis();
 }
-const ellipsisEnd = label => {
+function ellipsisEnd (label) {
     const animation = animations.get(label);
     if (!animation) return;
     label.textContent = animation.originalText;
     animations.delete(label);
 }
 
-const setBusyButtonState = (btn, state) => {
+function setBusyButtonState (btn, state) {
     const innerLabel = btn.querySelector('SPAN');
 
     if (state) {
@@ -466,9 +527,9 @@ const setBusyButtonState = (btn, state) => {
         //     : 'Create different styles';
         innerLabel && ellipsisEnd(innerLabel);
     }
-};
+}
 
-const setBusyBuyButtonState = (btn, state) => {
+function setBusyBuyButtonState (btn, state) {
     const innerLabel = btn.querySelector('SPAN');
 
     if (state) {
@@ -478,31 +539,31 @@ const setBusyBuyButtonState = (btn, state) => {
         btn.classList.remove('loading');
         innerLabel && (innerLabel.textContent = '$34.99 Buy Now!');
     }
-};
+}
 
-const setResultsBusyState = (_carousel) => {
+function setResultsBusyState (_carousel) {
     _carousel
         ? _carousel.classList.add('loading')
             : document.querySelectorAll('.js-search-view .search__wrapper').forEach(carousel => {
             carousel.classList.add('loading');
         });
-};
+}
 
-const removeResultsBusyState = (_carousel) => {
+function removeResultsBusyState (_carousel) {
     _carousel
         ? _carousel.classList.remove('loading')
         : document.querySelectorAll('.js-search-view .search__wrapper').forEach(carousel => {
             carousel.classList.remove('loading');
         });
-};
+}
 
-const removeResultsUnavailableState = (_carousel) => {
+function removeResultsUnavailableState (_carousel) {
     _carousel
         ? _carousel.classList.remove('unavailable')
         : document.querySelectorAll('.js-search-view .search__wrapper').forEach(carousel => {
             carousel.classList.remove('unavailable');
         });
-};
+}
 
 function setResultsUnavailableState (_carousel) {
     _carousel
@@ -649,5 +710,6 @@ function pusherInit() {
     });
 }
 
-// INIT PAGE LOAD PROCESSING - FIRST PROMPT
-init();
+function debug(...args) {
+    console.log(...args)
+}
