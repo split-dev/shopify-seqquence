@@ -125,7 +125,7 @@ function init() {
                 .reduce((prev, curr) => prev.concat(curr), []);
 
             Promise.all(requestIds.map(id => waitImagesResult(id, true)))
-                .then((images) => {
+                .then(() => {
                     removeResultsBusyState();
                 })
                 .catch(console.error);
@@ -134,7 +134,7 @@ function init() {
         } else {
             setResultsUnavailableState();
             sendPromptRequest(querySearch, false)
-                .then(images => {
+                .then(() => {
                     removeResultsBusyState();
                 })
                 .catch(console.error);
@@ -231,7 +231,7 @@ const updateImagesPreviews = (promptResult) => {
                             <div class="preview-image" data-preview-format="${reqProductType}" style="background-image: url(${img.generatedImg})"></div>
                             <img class="preview-mockup"/>
                         </div>
-                        <button data-id="${img.id}" data-handle="${img.handle || ''}" class="btn btn--secondary ${img.handle ? '' : 'loading'} js-get-product-redirect button button--secondary"><span>${img.handle ? '$34.99 Buy Now!' : 'Wait'}</span></button>
+                        <button data-id="${img.id}" data-handle="${img.handle || ''}" class="btn btn--secondary ${img.handle ? '' : 'loading'} js-get-product-redirect button button--secondary"><span>${img.handle ? 'Buy Now!' : 'Wait'}</span></button>
                     </div>`);
                 }
 
@@ -476,7 +476,7 @@ const setBusyBuyButtonState = (btn, state) => {
         innerLabel && (innerLabel.textContent = 'Wait');
     } else {
         btn.classList.remove('loading');
-        innerLabel && (innerLabel.textContent = '$34.99 Buy Now!');
+        innerLabel && (innerLabel.textContent = 'Buy Now!');
     }
 };
 
@@ -524,6 +524,8 @@ async function handleOpenProduct(event) {
     if (!btnTarget || btnTarget.classList.contains('loading')) {
         return false;
     }
+
+    setBusyBuyButtonState(btnTarget, true);
     
     const colorElem = btnTarget.closest('.products-item').querySelector('[data-preview-color]');
     const handle = btnTarget.getAttribute('data-handle');
@@ -534,9 +536,8 @@ async function handleOpenProduct(event) {
 
             btnTarget.setAttribute('data-handle', json.handle);
         }
+        setBusyBuyButtonState(btnTarget, false);
         window.open(`/products/${btnTarget.getAttribute('data-handle')}`, '_blank')
-    } else {
-        setBusyBuyButtonState(btnTarget, true);
     }
 }
 
@@ -621,7 +622,7 @@ function handleGenerateMore(event) {
                         <div class="preview-image" data-preview-format="${reqProductType}"></div>
                         <img class="preview-mockup"/>
                     </div>
-                    <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>$34.99 Buy Now!</span></button>
+                    <button class="btn btn--secondary js-get-product-redirect button button--secondary"><span>Buy Now!</span></button>
                 </div>`);
     }
 

@@ -29,7 +29,10 @@
         -%}
         <div class="footer__blocks-wrapper">
           {%- for block in section.blocks -%}
-            <div class="footer-block {% if block.type == 'link_list' %} footer-block--menu{% endif %}" {{ block.shopify_attributes }}>
+            <div
+              class="footer-block {% if block.type == 'link_list' %} footer-block--menu{% endif %}"
+              {{ block.shopify_attributes }}
+            >
               {%- if block.settings.heading != blank -%}
                 <h2 class="footer-block__heading">{{- block.settings.heading | escape -}}</h2>
               {%- endif -%}
@@ -44,14 +47,17 @@
                     <ul class="footer-block__details-content list-unstyled">
                       {%- for link in block.settings.menu.links -%}
                         <li>
-                          <a href="{{ link.url }}" class="text-16px-all link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}">
+                          <a
+                            href="{{ link.url }}"
+                            class="text-16px-all link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}"
+                          >
                             {{ link.title }}
                           </a>
                         </li>
                       {%- endfor -%}
                     </ul>
                   {%- endif -%}
-                {%- endcase -%}
+              {%- endcase -%}
             </div>
           {%- endfor -%}
         </div>
@@ -88,124 +94,141 @@
                     required
                   >
                   {% comment %}
-                  <label class="field__label" for="NewsletterForm--{{ section.id }}">
-                    {{ 'newsletter.label' | t }}
-                  </label>
+                    <label class="field__label" for="NewsletterForm--{{ section.id }}">
+                      {{ 'newsletter.label' | t }}
+                    </label>
                   {% endcomment %}
 
-                  <button type="submit" class="newsletter-form__button field__button" name="commit" id="Subscribe" aria-label="{{ 'newsletter.button_label' | t }}">
+                  <button
+                    type="submit"
+                    class="newsletter-form__button field__button"
+                    name="commit"
+                    id="Subscribe"
+                    aria-label="{{ 'newsletter.button_label' | t }}"
+                  >
                     {% render 'icon-arrow-right' %}
                   </button>
                 </div>
                 {%- if form.errors -%}
-                  <small class="newsletter-form__message form__message" id="ContactFooter-error">{% render 'icon-error' %}{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</small>
+                  <small class="newsletter-form__message form__message" id="ContactFooter-error">
+                    {%- render 'icon-error' -%}
+                    {{- form.errors.translated_fields.email | capitalize }}
+                    {{ form.errors.messages.email -}}
+                  </small>
                 {%- endif -%}
 
-              <div class="footer__badge">
-                <div class="footer__badge-img">
-                  <a href="{{ section.settings.footer_badge_url }}" target="_blank">
-                    {% render 'icon-badge' %}
-                  </a>
+                <div class="footer__badge">
+                  <div class="footer__badge-img">
+                    <a href="{{ section.settings.footer_badge_url }}" target="_blank">
+                      {% render 'icon-badge' %}
+                    </a>
+                  </div>
+                  <div class="footer__badge-icons">
+                    {%- if section.settings.show_social -%}
+                      <ul class="footer__list-social list-unstyled list-social" role="list">
+                        {%- if settings.social_amazon != blank -%}
+                          <li class="list-social__item">
+                            <a href="{{ settings.social_amazon }}" class="link list-social__link">
+                              {%- render 'icon-amazon' -%}
+                              <span class="visually-hidden">{{ 'general.social.links.twitter' | t }}</span>
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- if settings.social_etsy_link != blank -%}
+                          <li class="list-social__item">
+                            <a href="{{ settings.social_etsy_link }}" class="link list-social__link">
+                              {%- render 'icon-etsy' -%}
+                              <span class="visually-hidden">{{ 'general.social.links.twitter' | t }}</span>
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- if settings.social_instagram_link != blank -%}
+                          <li class="list-social__item">
+                            <a href="{{ settings.social_instagram_link }}" class="link list-social__link">
+                              {%- render 'icon-instagram' -%}
+                              <span class="visually-hidden">{{ 'general.social.links.instagram' | t }}</span>
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- if settings.social_twitter_link != blank -%}
+                          <li class="list-social__item">
+                            <a href="{{ settings.social_twitter_link }}" class="link list-social__link">
+                              {%- render 'icon-twitter' -%}
+                              <span class="visually-hidden">{{ 'general.social.links.twitter' | t }}</span>
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- if settings.social_facebook_link != blank -%}
+                          <li class="list-social__item">
+                            <a href="{{ settings.social_facebook_link }}" class="link list-social__link">
+                              {%- render 'icon-facebook' -%}
+                              <span class="visually-hidden">{{ 'general.social.links.facebook' | t }}</span>
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- if settings.social_pinterest_link != blank -%}
+                          <li class="list-social__item">
+                            <a href="{{ settings.social_pinterest_link }}" class="link list-social__link">
+                              {%- render 'icon-pinterest' -%}
+                              <span class="visually-hidden">{{ 'general.social.links.pinterest' | t }}</span>
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- if settings.social_tiktok_link != blank -%}
+                          <li class="list-social__item">
+                            <a href="{{ settings.social_tiktok_link }}" class="link list-social__link">
+                              {%- render 'icon-tiktok' -%}
+                              <span class="visually-hidden">{{ 'general.social.links.tiktok' | t }}</span>
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- if settings.social_tumblr_link != blank -%}
+                          <li class="list-social__item">
+                            <a href="{{ settings.social_tumblr_link }}" class="link list-social__link">
+                              {%- render 'icon-tumblr' -%}
+                              <span class="visually-hidden">{{ 'general.social.links.tumblr' | t }}</span>
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- if settings.social_snapchat_link != blank -%}
+                          <li class="list-social__item">
+                            <a href="{{ settings.social_snapchat_link }}" class="link list-social__link">
+                              {%- render 'icon-snapchat' -%}
+                              <span class="visually-hidden">{{ 'general.social.links.snapchat' | t }}</span>
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- if settings.social_youtube_link != blank -%}
+                          <li class="list-social__item">
+                            <a href="{{ settings.social_youtube_link }}" class="link list-social__link">
+                              {%- render 'icon-youtube' -%}
+                              <span class="visually-hidden">{{ 'general.social.links.youtube' | t }}</span>
+                            </a>
+                          </li>
+                        {%- endif -%}
+                        {%- if settings.social_vimeo_link != blank -%}
+                          <li class="list-social__item">
+                            <a href="{{ settings.social_vimeo_link }}" class="link list-social__link">
+                              {%- render 'icon-vimeo' -%}
+                              <span class="visually-hidden">{{ 'general.social.links.vimeo' | t }}</span>
+                            </a>
+                          </li>
+                        {%- endif -%}
+                      </ul>
+                    {%- endif -%}
+                  </div>
                 </div>
-                <div class="footer__badge-icons">
-                  {%- if section.settings.show_social -%}
-                  <ul class="footer__list-social list-unstyled list-social" role="list">
-                    {%- if settings.social_amazon != blank -%}
-                      <li class="list-social__item">
-                        <a href="{{ settings.social_amazon }}" class="link list-social__link">
-                          {%- render 'icon-amazon' -%}
-                          <span class="visually-hidden">{{ 'general.social.links.twitter' | t }}</span>
-                        </a>
-                      </li>
-                    {%- endif -%}
-                    {%- if settings.social_etsy_link != blank -%}
-                    <li class="list-social__item">
-                      <a href="{{ settings.social_etsy_link }}" class="link list-social__link">
-                        {%- render 'icon-etsy' -%}
-                        <span class="visually-hidden">{{ 'general.social.links.twitter' | t }}</span>
-                      </a>
-                    </li>
-                  {%- endif -%}
-                  {%- if settings.social_instagram_link != blank -%}
-                    <li class="list-social__item">
-                      <a href="{{ settings.social_instagram_link }}" class="link list-social__link" >
-                        {%- render 'icon-instagram' -%}
-                        <span class="visually-hidden">{{ 'general.social.links.instagram' | t }}</span>
-                      </a>
-                    </li>
-                  {%- endif -%}
-                    {%- if settings.social_twitter_link != blank -%}
-                      <li class="list-social__item">
-                        <a href="{{ settings.social_twitter_link }}" class="link list-social__link" >
-                          {%- render 'icon-twitter' -%}
-                          <span class="visually-hidden">{{ 'general.social.links.twitter' | t }}</span>
-                        </a>
-                      </li>
-                    {%- endif -%}
-                    {%- if settings.social_facebook_link != blank -%}
-                      <li class="list-social__item">
-                        <a href="{{ settings.social_facebook_link }}" class="link list-social__link" >
-                          {%- render 'icon-facebook' -%}
-                          <span class="visually-hidden">{{ 'general.social.links.facebook' | t }}</span>
-                        </a>
-                      </li>
-                    {%- endif -%}
-                    {%- if settings.social_pinterest_link != blank -%}
-                      <li class="list-social__item">
-                        <a href="{{ settings.social_pinterest_link }}" class="link list-social__link" >
-                          {%- render 'icon-pinterest' -%}
-                          <span class="visually-hidden">{{ 'general.social.links.pinterest' | t }}</span>
-                        </a>
-                      </li>
-                    {%- endif -%}
-                    {%- if settings.social_tiktok_link != blank -%}
-                      <li class="list-social__item">
-                        <a href="{{ settings.social_tiktok_link }}" class="link list-social__link" >
-                          {%- render 'icon-tiktok' -%}
-                          <span class="visually-hidden">{{ 'general.social.links.tiktok' | t }}</span>
-                        </a>
-                      </li>
-                    {%- endif -%}
-                    {%- if settings.social_tumblr_link != blank -%}
-                      <li class="list-social__item">
-                        <a href="{{ settings.social_tumblr_link }}" class="link list-social__link" >
-                          {%- render 'icon-tumblr' -%}
-                          <span class="visually-hidden">{{ 'general.social.links.tumblr' | t }}</span>
-                        </a>
-                      </li>
-                    {%- endif -%}
-                    {%- if settings.social_snapchat_link != blank -%}
-                      <li class="list-social__item">
-                        <a href="{{ settings.social_snapchat_link }}" class="link list-social__link" >
-                          {%- render 'icon-snapchat' -%}
-                          <span class="visually-hidden">{{ 'general.social.links.snapchat' | t }}</span>
-                        </a>
-                      </li>
-                    {%- endif -%}
-                    {%- if settings.social_youtube_link != blank -%}
-                      <li class="list-social__item">
-                        <a href="{{ settings.social_youtube_link }}" class="link list-social__link" >
-                          {%- render 'icon-youtube' -%}
-                          <span class="visually-hidden">{{ 'general.social.links.youtube' | t }}</span>
-                        </a>
-                      </li>
-                    {%- endif -%}
-                    {%- if settings.social_vimeo_link != blank -%}
-                      <li class="list-social__item">
-                        <a href="{{ settings.social_vimeo_link }}" class="link list-social__link" >
-                          {%- render 'icon-vimeo' -%}
-                          <span class="visually-hidden">{{ 'general.social.links.vimeo' | t }}</span>
-                        </a>
-                      </li>
-                    {%- endif -%}
-                  </ul>
-                {%- endif -%}
-                </div>
-              </div>
-
               </div>
               {%- if form.posted_successfully? -%}
-                <h3 class="newsletter-form__message newsletter-form__message--success form__message" id="ContactFooter-success" tabindex="-1" autofocus>{% render 'icon-success' %}{{ 'newsletter.success' | t }}</h3>
+                <h3
+                  class="newsletter-form__message newsletter-form__message--success form__message"
+                  id="ContactFooter-success"
+                  tabindex="-1"
+                  autofocus
+                >
+                  {% render 'icon-success' -%}
+                  {{- 'newsletter.success' | t }}
+                </h3>
               {%- endif -%}
             {%- endform -%}
           </div>
@@ -213,6 +236,9 @@
       </div>
     </div>
   {%- endif -%}
+  <div class="copyright text-center mt-5">
+    <small>Artificial Printer. All rights reserved © {{ 'now' | date: '%Y' }}</small>
+  </div>
 </footer>
 
 {% javascript %}
@@ -228,7 +254,7 @@
       this.elements.button.addEventListener('focusout', this.closeSelector.bind(this));
       this.addEventListener('keyup', this.onContainerKeyUp.bind(this));
 
-      this.querySelectorAll('a').forEach(item => item.addEventListener('click', this.onItemClick.bind(this)));
+      this.querySelectorAll('a').forEach((item) => item.addEventListener('click', this.onItemClick.bind(this)));
     }
 
     hidePanel() {
@@ -253,7 +279,10 @@
     openSelector() {
       this.elements.button.focus();
       this.elements.panel.toggleAttribute('hidden');
-      this.elements.button.setAttribute('aria-expanded', (this.elements.button.getAttribute('aria-expanded') === 'false').toString());
+      this.elements.button.setAttribute(
+        'aria-expanded',
+        (this.elements.button.getAttribute('aria-expanded') === 'false').toString()
+      );
     }
 
     closeSelector(event) {

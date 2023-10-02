@@ -17,7 +17,7 @@
         "tutorial_url": "https:\/\/artificialprinter.com\/blogs\/news\/tutorial-what-is-prompting-and-how-to-create-great-images",
         "form_placeholder": "Panda jumping",
         "button_text": "Create",
-        "search_title": "Brought you by  the prompt:",
+        "search_title": "",
         "search_description": "We are generating images, usually it takes around 10 seconds",
         "show_more": true,
         "button_more": "Create different styles"
