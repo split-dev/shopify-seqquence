@@ -1,7 +1,7 @@
 // CONSTANTS
 // const S3_HOST = 'https://aipr.s3.amazonaws.com';
-// const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
-const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
+const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
+// const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
 const PUSHER_ID = '19daec24304eedd7aa8a';
 const GENERATION_COUNT = 3;
 const DEFAULT_QUERY_SEARCH = 'Panda jumping';
@@ -44,21 +44,23 @@ const errorMessagePopup = document.getElementById('error_message')
 // INIT PAGE LOAD PROCESSING - FIRST PROMPT
 init();
 
-function actualisePreviewMockups(reqProductType) {
+function actualisePreviewMockups(reqProductType, changeColors) {
     reqProductType = reqProductType || getSelectedProductType();
 
     const requestedPreviewMockup = window.productImages[reqProductType] || window.productImages.UCTS;
     const productColorSel = document.querySelectorAll('.product_color_filter .product_radiobutton input:checked');
   
     document.querySelectorAll('.preview-mockup').forEach((_mock) => {
-      const selectedColor = productColorSel.length > 0 ? productColorSel[0].value : null;
-      const availableColors = Object.keys(requestedPreviewMockup);
-      const randColor = availableColors[Math.floor(Math.random() * availableColors.length)] || DEFAULT_COLOR;
-      const _color = requestedPreviewMockup[selectedColor] ? selectedColor : randColor;
+        const selectedColor = productColorSel.length > 0 ? productColorSel[0].value : null;
+        const availableColors = Object.keys(requestedPreviewMockup);
+        const randColor = availableColors[Math.floor(Math.random() * availableColors.length)] || DEFAULT_COLOR;
+        const currColor = _mock.parentNode.querySelector('.preview-image').getAttribute('data-preview-color')
+        const newColor = !changeColors && currColor || randColor;
+        const _color = requestedPreviewMockup[selectedColor] ? selectedColor : newColor;
 
-      _mock.src = requestedPreviewMockup[_color];
-      _mock.parentNode.querySelector('.preview-image').setAttribute('data-preview-format', reqProductType);
-      _mock.parentNode.querySelector('.preview-image').setAttribute('data-preview-color', _color);
+        _mock.src = requestedPreviewMockup[_color];
+        _mock.parentNode.querySelector('.preview-image').setAttribute('data-preview-format', reqProductType);
+        _mock.parentNode.querySelector('.preview-image').setAttribute('data-preview-color', _color);
     });
   
     document.querySelectorAll('.product_color_filter .product_radiobutton').forEach((rdbtn) => {
@@ -91,7 +93,7 @@ function bindHanlers() {
     productTypeRadio.addEventListener('change', (e) => {
         const reqProductType = e.target.value;
         
-        actualisePreviewMockups(reqProductType);
+        actualisePreviewMockups(reqProductType, true);
     });   
     productColorRadio.addEventListener('change', () => {
         actualisePreviewMockups();
@@ -165,12 +167,15 @@ function init() {
                             prompt: querySearch + prompt,
                             images: r.images
                         })
+
+                        
                     } else {
                         return waitImagesResult(r.id, true)
                     }
                 }))
             })).then(() => {
                 removeResultsBusyState();
+                actualisePreviewMockups(getSelectedProductType());
             }).catch(console.error);
             // const requestIds = Object.values(searchHistory[querySearch])
             //     .reduce((prev, curr) => prev.concat(curr), []);
@@ -271,10 +276,10 @@ function updateImagesPreviews (promptResult) {
                 if (slide) {
                     const redirectBtn = slide.querySelector('.js-get-product-redirect');
                     slide.querySelector('.preview-image').style.backgroundImage = `url(${img.generatedImg})`;
-                    
+                    img.handle ||= 'not ready';
                     redirectBtn.setAttribute('data-id', `${img.id}`)
-                    redirectBtn.setAttribute('data-handle', `${img.handle || ''}`);
-                    img.handle || redirectBtn.classList.add('loading');
+                    // redirectBtn.setAttribute('data-handle', `${img.handle || ''}`);
+                    // img.handle || redirectBtn.classList.add('loading');
                     slide.classList.add('customized');
                 } else {
                     appendItem(slider, `<div class="products-item customized">
@@ -286,12 +291,7 @@ function updateImagesPreviews (promptResult) {
                     </div>`);
                 }
 
-                if (!img.handle?.length) {
-                    console.warn('No product handle found');
-                    slide && setBusyBuyButtonState(slide.querySelector('.btn'), true);
-                } else {
-                    slide && setBusyBuyButtonState(slide.querySelector('.btn'), false);
-                }
+                slide && setBusyBuyButtonState(slide.querySelector('.btn'), false);
             });
 
             actualisePreviewMockups(reqProductType);
@@ -474,8 +474,8 @@ async function sendPromptRequest(prompt, isFullPrompt) {
     return Promise.all(response.map(r => waitImagesResult(r.id)))
 }
 
-async function createShopifyProduct(imageId, color) {
-    console.time('createShopifyProduct', color || getSelectedProductColor());
+async function createShopifyProduct(imageId, type, color) {
+    console.time('createShopifyProduct', color);
     const response = await fetch(`${LAMBDA_HOST}/shopify-product`, {
         method: 'POST',
         headers: {
@@ -483,8 +483,8 @@ async function createShopifyProduct(imageId, color) {
         },
         body: JSON.stringify({
             imageId,
-            type: getSelectedProductType(),
-            productVariant: color || getSelectedProductColor(),
+            type,
+            productVariant: color,
             prompt: querySearch
         })
     });
@@ -589,16 +589,19 @@ async function handleOpenProduct(event) {
     setBusyBuyButtonState(btnTarget, true);
     
     const colorElem = btnTarget.closest('.products-item').querySelector('[data-preview-color]');
-    const handle = btnTarget.getAttribute('data-handle');
+    // const handle = btnTarget.getAttribute('data-handle');
 
-    if (handle) {
-        if (handle.startsWith('not ready')) {
-            const json = await createShopifyProduct(btnTarget.getAttribute('data-id'), colorElem?.getAttribute('data-preview-color') || DEFAULT_COLOR);
-
-            btnTarget.setAttribute('data-handle', json.handle);
-        }
-        setBusyBuyButtonState(btnTarget, false);
-        window.open(`/products/${btnTarget.getAttribute('data-handle')}`, '_blank')
+    const params = {
+        imageId: btnTarget.getAttribute('data-id'),
+        type: getSelectedProductType(),
+        color: colorElem.getAttribute('data-preview-color') || getSelectedProductColor() || DEFAULT_COLOR
+    }
+    const json = await createShopifyProduct(params.imageId, params.type, params.color);
+    setBusyBuyButtonState(btnTarget, false)
+    const href = `/products/${json.handle}`;
+    const handle = window.open(href, Object.values(params).join('-'))
+    if (!handle) {
+        window.location.href = href;
     }
 }
 
