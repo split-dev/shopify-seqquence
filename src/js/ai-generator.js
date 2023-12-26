@@ -1,15 +1,18 @@
 // CONSTANTS
 // const S3_HOST = 'https://aipr.s3.amazonaws.com';
-const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
-// const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
+// const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
+const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
 const PUSHER_ID = '19daec24304eedd7aa8a';
 const GENERATION_COUNT = 3;
 const DEFAULT_QUERY_SEARCH = 'Panda jumping';
 
-const querySearch = new URL(document.location).searchParams.get('search') || DEFAULT_QUERY_SEARCH;
-const queryProductType = new URL(document.location).searchParams.get('productType') || 'UCTS';
-const preventAutoExtend = (new URL(document.location).searchParams.get('preventAutoExtend') === "on");
+const searchParams = new URL(document.location).searchParams;
+
+const querySearch = searchParams.get('search') || DEFAULT_QUERY_SEARCH;
+const queryProductType = searchParams.get('productType') || 'UCTS';
+const preventAutoExtend = (searchParams.get('preventAutoExtend') === "on");
 const DEFAULT_T_SHIRT = 'UCTS';
+const SKU_CASE = 'CASE';
 const DEFAULT_COLOR = 'White';
 
 const LS_SEARCH_KEY = 'ai-search';
@@ -22,6 +25,7 @@ const REQUESTS_LIMIT = 30;
 const WAIT_AI_FIRST_RETRY = 667;
 const WAIT_AI_RETRY_INCREASE = 1.08;
 
+console.time('init');
 // VARIABLES
 let searchHistory = JSON.parse(localStorage.getItem(LS_SEARCH_KEY) || '{}');
 
@@ -49,15 +53,26 @@ function actualisePreviewMockups(reqProductType, changeColors) {
 
     const requestedPreviewMockup = window.productImages[reqProductType] || window.productImages.UCTS;
     const productColorSel = document.querySelectorAll('.product_color_filter .product_radiobutton input:checked');
-  
+
     document.querySelectorAll('.preview-mockup').forEach((_mock) => {
         const selectedColor = productColorSel.length > 0 ? productColorSel[0].value : null;
         const availableColors = Object.keys(requestedPreviewMockup);
         const randColor = availableColors[Math.floor(Math.random() * availableColors.length)] || DEFAULT_COLOR;
-        const currColor = _mock.parentNode.querySelector('.preview-image').getAttribute('data-preview-color')
+        let currColor = _mock.parentNode.querySelector('.preview-image').getAttribute('data-preview-color')
+        if (!availableColors.includes(currColor)) {
+            currColor = null;
+        }
         const newColor = !changeColors && currColor || randColor;
         const _color = requestedPreviewMockup[selectedColor] ? selectedColor : newColor;
 
+        if (reqProductType === SKU_CASE) {
+            _mock.parentNode.classList.add('downscaled');
+            _mock.classList.add('case-frame')
+            // return;
+        } else {
+            _mock.parentNode.classList.remove('downscaled');
+            _mock.classList.remove('case-frame')
+        }
         _mock.src = requestedPreviewMockup[_color];
         _mock.parentNode.querySelector('.preview-image').setAttribute('data-preview-format', reqProductType);
         _mock.parentNode.querySelector('.preview-image').setAttribute('data-preview-color', _color);
@@ -73,6 +88,9 @@ function actualisePreviewMockups(reqProductType, changeColors) {
 
 // BIND HANDLERS
 function bindHanlers() {
+    window.onpopstate = function (event) {
+        console.warn(`location: ${document.location}, state: ${JSON.stringify(event.state)}`)
+    }
     document.querySelector('.search')?.addEventListener('click', handleOpenProduct);
     generateNewSearchPrompt?.addEventListener('click', handleGenerateNewStyle);
     searchViews?.forEach((searchView) => {
@@ -92,6 +110,9 @@ function bindHanlers() {
 
     productTypeRadio.addEventListener('change', (e) => {
         const reqProductType = e.target.value;
+        const url = new URL(window.location.href);
+        url.searchParams.set('productType', reqProductType);
+        history.replaceState && history.replaceState({ reqProductType }, null, url.href)
         
         actualisePreviewMockups(reqProductType, true);
     });   
@@ -127,9 +148,10 @@ function appendItem(parentElement, itemHtml) {
 
 function init() {
     if (!searchForm || !searchViews.length) return;
+    console.timeLog('init', 'init  start');
 
-    searchForm.querySelector('input[name="search"]').value = querySearch;
-    searchForm.querySelector('input[name="preventAutoExtend"]').checked = preventAutoExtend;
+    // searchForm.querySelector('input[name="search"]').value = querySearch;
+    // searchForm.querySelector('input[name="preventAutoExtend"]').checked = preventAutoExtend;
 
     if (queryProductType && queryProductType.length) {
         const selectedTypeCheckbox = searchForm.querySelector('input[name="productType"][value="'+queryProductType+'"]');
@@ -137,10 +159,12 @@ function init() {
         selectedTypeCheckbox.checked = true;
         productTypeLabel && (productTypeLabel.innerHTML = searchForm.querySelector('input[name="productType"][value="'+queryProductType+'"]').closest('LABEL').innerText);
     }
+    // actualisePreviewMockups(getSelectedProductType())
 
-    getAvailablePrompts()
+    Promise.resolve(getPromptComplitions())
         .then(json => {
             allAvailablePrompts = json;
+            console.log(json)
         })
         .catch(console.error)
 
@@ -167,6 +191,7 @@ function init() {
                             prompt: querySearch + prompt,
                             images: r.images
                         })
+                        console.timeLog('init', 'updateImagesPreviews');
 
                         
                     } else {
@@ -196,7 +221,7 @@ function init() {
                 .catch(console.error);
         }
     }
-
+    console.timeEnd('init')
     bindHanlers();
 }
 
@@ -300,7 +325,8 @@ function updateImagesPreviews (promptResult) {
 }
 
 function checkImagesFullLoaded (pendImagesResult, cacheRun) {
-    return pendImagesResult?.images?.length && pendImagesResult.images.every(image => {
+    const loaded = pendImagesResult?.images?.length;
+    return (cacheRun ? loaded === 3 : loaded) && pendImagesResult.images.every(image => {
         if (cacheRun) {
             image.handle ||= 'not ready';
         }
@@ -605,6 +631,7 @@ async function handleOpenProduct(event) {
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 async function getAvailablePrompts() {
     const availablePrompts = await fetch(`${LAMBDA_HOST}/available-prompts?prompt=${querySearch}`, {
         method: 'GET',
@@ -635,7 +662,8 @@ async function handleGenerateNewStyle() {
 
 
     if (!allAvailablePrompts) {
-        allAvailablePrompts = await getAvailablePrompts();
+        // allAvailablePrompts = await getAvailablePrompts();
+        allAvailablePrompts = getPromptComplitions();
     }
 
     let newUniquePrompt;
@@ -653,6 +681,8 @@ async function handleGenerateNewStyle() {
 
         newUniquePrompt = allAvailablePrompts[randomKey];
     }
+
+    console.log('newUniquePrompt', newUniquePrompt)
 
     const addedCarouselWrapper = addNewCarousel().closest('.search__wrapper');
 
@@ -712,4 +742,98 @@ function pusherInit() {
     pusher = new window.Pusher(PUSHER_ID, {
         cluster: 'mt1'
     });
+}
+
+// eslint-disable-next-line no-unused-vars
+function compressText(text) {
+    const nonWordRegex = /[^\w\d]+/g
+    const wordRegex = /[\w\d]+/g
+    let dictionary = {};
+
+    // save all worlds and their count
+    text.split(nonWordRegex).forEach(item => { dictionary[item] ||= 0; dictionary[item]++ });
+
+    // create DESC sorted worlds array
+    dictionary = Object
+        .entries(dictionary)
+        // .filter(kv => kv[1] > 1)
+        .sort((kv1, kv2) => kv2[1] - kv1[1])
+        .map(kv => kv[0])
+
+    const compressedText = text.replace(wordRegex, (word) => dictionary.indexOf(word).toString(8))
+
+    return {
+        dictionary,
+        compressedText
+    }
+}
+
+function decompressText({
+    dictionary,
+    compressedText
+}) {
+    const wordRegex = /[\w\d]+/g;
+    return compressedText.replace(wordRegex, (hash) => dictionary[parseInt(hash, 36)])
+}
+
+function getPromptComplitions(prompt = querySearch) {
+    const d = 'detailed,details,by,intricate,highly,vibrant,breathtaking,ultra,fine,good,proportions,colorful,art,painting,and,artstation,unreal,engine,style,cinematic,color,render,concept,Greg,4k,volumetric,octane,on,8k,sharp,digital,of,masterpiece,detail,illustration,lighting,centered,,Rutkowski,inspired,extreme,HQ,trending,pastel,anime,environment,rossdraws,greg,rutkowski,full,key,visual,panoramic,Carne,Griffiths,Conrad,Roset,Makoto,Shinkai,cosmicwonder,photography,high,24mm,realistic,fantasy,elegant,focus,Hyperrealism,totem,Ivan,5,60,Dustin,Nguyen,Akihiko,Yoshida,Tocchini,Cliff,Chiang,resolution,Dishonored,bravely,default,but,dreary,red,black,white,scheme,epic,long,shot,dark,mood,strong,backlighting,lights,smoke,volutes,renderer,8K,3d,ultradetailed,devianart,cgsociety,clean,ghibli,breath,the,wild,tim,okamura,victor,nizovtsev,noah,bradley,graffiti,paint,hyperrealistic,focused,Pixar,photorealistic,hdr,definition,symmetrical,face,photo,DSLR,quality,fps,not,cropped,painted,smooth,gaston,bussiere,alphonse,mucha,marble,jade,sculpture,fog,cyber,background,stunning,wide,angle,pen,ink,line,drawings,craig,mullins,ruan,jia,kentaro,miura,loundraw,aztek,greeble,tribal,fanart,ornate,heartstone,ankama,gta5,cover,official,behance,hd,Jesper,Ejsing,RHADS,Lois,van,baarle,ilya,kuvshinov,radiating,a,glowing,aura,matte,WLOP,Artgerm,Alphonse,Mucha,poster,hill,precise,lineart,Gustav,Klimt,Pablo,Picasso,Banksy,Arthur,Adams,Eileen,Agar,Yaacov,Agam,Jacques,Laurent,Agasse,Aivazovsky,David,Aja,Rafael,Albuquerque,Chiho,Aoshima,Hirohiko,Araki,Alexander,Archipenko,El,Anatsui,Karol,Bak,Christopher,Balaskas,Carl,Barks,Cicely,Mary,Barker,Jean,Michel,Basquiat,Romare,Bearden,Aubrey,Beardsley,Bilibin,Xu,Bing,Robert,Bissell,Anna,Bocek,Richard,Parkes,Bonington,Franklin,Booth,Susan,Seddon,Boulet,Frank,Bramley,Georges,Braque,Mark,Briscoe,Stasia,Burrington,Pascale,Campion,Camilla,dErrico,Michael,DeForge';
+    const compressedText = `[
+        "detailed,details,by,intricate,highly,vibrant,breathtaking,ultra,fine,good,proportions,colorful,art,painting,and,artstation,unreal,engine,style,cinematic,color,render,concept,Greg,4k,volumetric,octane,on,8k,sharp,digital,of,masterpiece,detail,illustration,lighting,centered,,Rutkowski,inspired,extreme,HQ,trending,pastel,anime,environment,rossdraws,greg,rutkowski,full,key,visual,panoramic,Carne,Griffiths,Conrad,Roset,Makoto,Shinkai,cosmicwonder,photography,high,24mm,realistic,fantasy,elegant,focus,Hyperrealism,totem,Ivan,5,60,Dustin,Nguyen,Akihiko,Yoshida,Tocchini,Cliff,Chiang,resolution,Dishonored,bravely,default,but,dreary,red,black,white,scheme,epic,long,shot,dark,mood,strong,backlighting,lights,smoke,volutes,renderer,8K,3d,ultradetailed,devianart,cgsociety,clean,ghibli,breath,the,wild,tim,okamura,victor,nizovtsev,noah,bradley,graffiti,paint,hyperrealistic,focused,Pixar,photorealistic,hdr,definition,symmetrical,face,photo,DSLR,quality,fps,not,cropped,painted,smooth,gaston,bussiere,alphonse,mucha,marble,jade,sculpture,fog,cyber,background,stunning,wide,angle,pen,ink,line,drawings,craig,mullins,ruan,jia,kentaro,miura,loundraw,aztek,greeble,tribal,fanart,ornate,heartstone,ankama,gta5,cover,official,behance,hd,Jesper,Ejsing,RHADS,Lois,van,baarle,ilya,kuvshinov,radiating,a,glowing,aura,matte,WLOP,Artgerm,Alphonse,Mucha,poster,hill,precise,lineart,Gustav,Klimt,Pablo,Picasso,Banksy,Arthur,Adams,Eileen,Agar,Yaacov,Agam,Jacques,Laurent,Agasse,Aivazovsky,David,Aja,Rafael,Albuquerque,Chiho,Aoshima,Hirohiko,Araki,Alexander,Archipenko,El,Anatsui,Karol,Bak,Christopher,Balaskas,Carl,Barks,Cicely,Mary,Barker,Jean,Michel,Basquiat,Romare,Bearden,Aubrey,Beardsley,Bilibin,Xu,Bing,Robert,Bissell,Anna,Bocek,Richard,Parkes,Bonington,Franklin,Booth,Susan,Seddon,Boulet,Frank,Bramley,Georges,Braque,Mark,Briscoe,Stasia,Burrington,Pascale,Campion,Camilla,dErrico,Michael,DeForge",
+        "4 0, 2 20 21, 22 23, n 24, n 12, 25 26, o 27, 28 13, 29 2a 13, 5 2b 2c 2d, 2e e 2f k 2g, 2h 14 2i 2j, 2k 2l e 2m 2n, p 2o, 2p 2q, f 15, g h, q 2r, 15, 2s",
+        "2t l, g h, 2u, 16 r f, 2v, 2w, m c, s, l",
+        "17, 18 i, 2x t u c, 19 m c, 2 1a, 2y, 2z v 30 31, 1b 1c",
+        "2 32 33, 34 35, 36 37, 16 r f, s, w, 38 39, 8 x, 1d v k, 3 x, y",
+        "0, 3, 1d v k, j z, 3a, 3b, 14 1, g h 1y, j, w",
+        "10 , 0, 18 i, 1e 1f ,3 x, 4 0, 6, 5, 1g, j, 1h 1i, 1j 1k, 1l 1m",
+        "3c i,o, s, g h, q l 3d 2 1n, 3e, 1o 2 1n, 1p 3f, 3g 3h, p z, 3i, q l, 1q, o, 1q, 3j, 1p 3k, 1z 3l, 7 1r",
+        "10, 3m 3n, 3o, 1s, 3, 1t, 4 0, u d, f, m c, 3p, t 1u, y, c 2 3q 3r e 3s 3t",
+        "4 0 3u e 3v 3w, p 3x, 1v, 6, 7 1r, g h, 7 0, 3y 3z, 1v, j z, 4 0, 6 , 1o, 40 19, 41-42",
+        "43 e 44, 3 45 46, 2 47 48, 49 4a, 4b 4c, 1b 1c, 4d",
+        "1w 4e 4f 4g i 4h 4i 1s 4j 4k 4l 4m i 4n 4o 4p f 2 4q 4r, 2 4s, 1l 1m e 4t 4u 4v, 4w 4x, 1a 1w k 17 5 4y 4z 50 51 3, 1t, t 1u, y, u d, m c, 52, c 2 53 e 54 e n 12 e 55 56, w",
+        "57, r 58, 10, 1e 1f, 3, 4 0, 6, 59 5a, 5, 1g, j, 1h 1i,1j 1k",
+        "d 2 5b 5c, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 5d 5e, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 5f, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 5g 5h, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 5i 5j, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 5k 5l, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 5m-5n 5o, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 1x 5p, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 5q 5r, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 5s 5t, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 5u 5v, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 5w 5x, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 5y 5z, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 60 61, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 62 63, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 64 65, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 66 67, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "d 2 68 69 6a, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 6b-6c 6d, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 6e 6f, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 6g 6h, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 1x 6i, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 6j 6k, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 6l 6m, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 6n 6o, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 6p 6q 6r, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 6s 6t, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 6u 6v 6w, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 6x 6y, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 6z 70, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 71 72, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 73 74, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 75 76, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 77 78, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0",
+        "c 2 79 7a, 3 1, 8 1, 9 a, 4 0, 6, 5, b, 7 0"
+    ]`;
+    const complitions = JSON.parse(decompressText({
+        dictionary: d.split(','),
+        compressedText
+    }));
+    
+    return complitions
+        .map(completion => `${prompt}, ${completion}`)
+        .sort(() => Math.random() - 0.5);
 }

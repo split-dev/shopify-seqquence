@@ -24,6 +24,39 @@
         });
     };
 
+    function tmpCSS() {
+        // img.preview-mockup
+        // css
+        {
+            object-fit: contain;
+            max-height: initial;
+            min-height: 100%;
+            max-width: 80%;
+            min-width: 100%;
+            z-index: 2;
+            position: relative;
+        }
+
+        .preview-container preview-image
+            background-position: 50% top;
+            background-size: cover;
+            display: block;
+            pointer-events: none;
+            left: 50%;
+            position: absolute;
+            top: 22%;
+            width: 38%;
+            aspect-ratio: 1/1.3;
+            height: auto;
+            transform: translate(-50%, 0%);
+            -webkit-transform: translate(-50%, 0%);
+            -moz-transform: translate(-50%, 0%);
+            -ms-transform: translate(-50%, 0%);
+            -o-transform: translate(-50%, 0%);
+            z-index: 2;
+        }
+    }
+
     const updateProductPreviewData = (imgData) => {
         imgData = imgData || imageData;
 

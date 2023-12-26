@@ -194,6 +194,10 @@
                 <input type="radio" name="productColor" value="Sport Grey">
                 <span>Sport Grey</span>
               </label>
+              {% comment %} <label class="product_radiobutton" data-val="iPhone 15">
+                <input type="radio" name="productColor" value="iPhone 15">
+                <span>iPhone 15</span>
+              </label> {% endcomment %}
             </radiogroup>
           </fieldset>
         </form>
@@ -379,20 +383,47 @@
         'Sport Grey': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/sweatshirt/sweatshirt_sportgrey_front.webp',
         White: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/sweatshirt/sweatshirt_white_front.webp',
       },
+      {% comment %} CASE: {
+        'iPhone 15': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/case/frame-iphone15.webp'
+      } {% endcomment %}
     };
-    var reqProductType = new URL(document.location).searchParams.get('productType') || 'UCTS';
-    var requestedPreviewMockup = productImages[reqProductType] || productImages.UCTS;
-    var previewMocks = document.querySelectorAll('.preview-mockup');
+    const searchParams = new URL(document.location).searchParams;
+    const querySearch = searchParams.get('search') || DEFAULT_QUERY_SEARCH
+    const reqProductType = searchParams.get('productType') || 'UCTS';
+    const preventAutoExtend = (searchParams.get('preventAutoExtend') === "on");
 
-    for (var i = 0; i < previewMocks.length; i++) {
-      var availableColors = Object.keys(requestedPreviewMockup);
-      var randColor = availableColors[Math.floor(Math.random() * availableColors.length)] || 'White';
-      var mock = previewMocks[i];
+    const requestedPreviewMockup = productImages[reqProductType] || productImages.UCTS;
+    const previewMocks = document.querySelectorAll('.preview-mockup');
+    
+    const searchForm = document.getElementById('aiSearch');
+    const productTypeLabel = document.querySelector('.product_type_label span');
+    if (reqProductType && reqProductType.length) {
+        const selectedTypeCheckbox = searchForm.querySelector('input[name="productType"][value="'+reqProductType+'"]');
+
+        selectedTypeCheckbox.checked = true;
+        productTypeLabel && (productTypeLabel.innerHTML = searchForm.querySelector('input[name="productType"][value="'+reqProductType+'"]').closest('LABEL').innerText);
+    }
+    searchForm.querySelector('input[name="search"]').value = querySearch;
+    searchForm.querySelector('input[name="preventAutoExtend"]').checked = preventAutoExtend;
+
+    for (let i = 0; i < previewMocks.length; i++) {
+      const availableColors = Object.keys(requestedPreviewMockup);
+      const randColor = availableColors[Math.floor(Math.random() * availableColors.length)] || 'White';
+      const mock = previewMocks[i];
 
       console.log(randColor, requestedPreviewMockup[randColor]);
       mock.src = requestedPreviewMockup[randColor];
 
-      var previewImage = mock.parentNode.querySelector('.preview-image');
+      if (reqProductType === 'CASE') {
+        mock.parentNode.classList.add('downscaled');
+        mock.classList.add('case-frame')
+        // return;
+      } else {
+        mock.parentNode.classList.remove('downscaled');
+        mock.classList.remove('case-frame')
+      }
+
+      const previewImage = mock.parentNode.querySelector('.preview-image');
       previewImage.setAttribute('data-preview-format', reqProductType);
     }
 

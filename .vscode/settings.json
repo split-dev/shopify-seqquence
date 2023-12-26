@@ -1,4 +1,4 @@
 {
     "liquid.format.enable": false,
-    "window.title": "${activeEditorShort}${separator}${rootName}${separator}${profileName}${separator}[Branch: product-types-edits-frontend]"
+    "window.title": "${activeEditorShort}${separator}${rootName}${separator}${profileName}${separator}[Branch: product-types-cases-mockups]"
 }
