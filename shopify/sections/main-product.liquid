@@ -403,7 +403,16 @@
                       {% render 'icon-caret-new' %}
                     </summary>
                     <div class="accordion__content color-grey text-16px-all" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
-                      {{ section.settings.materials }}
+                      {%- if product.type == 'Case' -%}
+                        {%- assign lines = section.settings.case_materials | split: '  ' -%}
+                        <ul style="margin-left: 1em;">
+                          {% for line in lines -%}
+                          <li>{{ line }}</li>
+                          {%- endfor %}
+                        </ul>
+                      {%- else -%}
+                        {{ section.settings.materials }}
+                      {%- endif -%}
                     </div>
                   </details>
                 </div>
@@ -420,7 +429,11 @@
                       {% render 'icon-caret-new' %}
                     </summary>
                     <div class="accordion__content color-grey text-16px-all" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
-                      {{ section.settings.care_instructions }}
+                      {%- if product.type == 'Case' -%}
+                        {{ section.settings.case_care_instructions }}
+                      {%- else -%}
+                        {{ section.settings.care_instructions }}
+                      {%- endif -%}
                     </div>
                   </details>
                 </div>
@@ -437,7 +450,11 @@
                       {% render 'icon-caret-new' %}
                     </summary>
                     <div class="accordion__content color-grey text-16px-all" id="ProductAccordion-{{ block.id }}-{{ section.id }}">
-                      {{ section.settings.dimensions }}
+                      {%- if product.type == 'Case' -%}
+                        {{ section.settings.case_dimensions }}
+                      {%- else -%}
+                        {{ section.settings.dimensions }}
+                      {%- endif -%}
                     </div>
                   </details>
                 </div>
@@ -536,7 +553,6 @@
               </share-button>
               <script src="{{ 'share.js' | asset_url }}" defer="defer"></script>
             {%- when 'variant_picker' -%}
-              {%- unless product.has_only_default_variant -%}
                 {%- if block.settings.picker_type == 'button' -%}
                   <variant-radios
                     class="no-js-hidden"
@@ -544,38 +560,57 @@
                     data-url="{{ product.url }}"
                     {{ block.shopify_attributes }}
                   >
-                    {%- for option in product.options_with_values -%}
-                      <fieldset class="js product-form__input">
-                        <legend class="form__label text-20px-all color-text-white font-weight-bold">{{ option.name }}</legend>
-                        {%- for value in option.values -%}
-                          <input
-                            type="radio"
-                            id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
-                            name="{{ option.name }}"
-                            value="{{ value | escape }}"
-                            form="{{ product_form_id }}"
-                            {% if option.selected_value == value %}
-                              checked
-                            {% endif %}
-                          >
-                          <label class="form__select" for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
-                            {{ value }}
-                          </label>
-                        {%- endfor -%}
-                      </fieldset>
-                    {%- endfor -%}
+                    {%- unless product.has_only_default_variant or product.type == 'Case' -%}
+                      {%- for option in product.options_with_values -%}
+                        <fieldset class="js product-form__input">
+                          <legend class="form__label text-20px-all color-text-white font-weight-bold">{{ option.name }}</legend>
+                          {%- for value in option.values -%}
+                            <input
+                              type="radio"
+                              id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                              name="{{ option.name }}"
+                              value="{{ value | escape }}"
+                              form="{{ product_form_id }}"
+                              {% if option.selected_value == value %}
+                                checked
+                              {% endif %}
+                            >
+                            <label class="form__select" for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
+                              {{ value }}
+                            </label>
+                          {%- endfor -%}
+                        </fieldset>
+                      {%- endfor -%}
+                    {%- endunless -%}
 
                     {% assign tags_string = product.tags | join: ' ' %}
 
-                    {% if tags_string contains "Children's Clothing" %}
+                    {% if tags_string contains "Mobile phone" %}
+                      {% assign sizes = 'iPhone 15 Pro Max,iPhone 15 Pro,iPhone 15 Plus,iPhone 15,Google Pixel 6 Pro,Google Pixel 7,Samsung Galaxy S23 Ultra,Samsung Galaxy S23 Plus,Samsung Galaxy S23,iPhone 14 Pro Max,iPhone 14 Plus,iPhone 14 Pro,iPhone 14,Samsung Galaxy S22 Ultra,Samsung Galaxy S22 Plus,Samsung Galaxy S22,Samsung Galaxy S21 FE,Samsung Galaxy S20 FE,Google Pixel 6,Google Pixel 5 5G,Samsung Galaxy S21 Ultra,Samsung Galaxy S21 Plus,Samsung Galaxy S21,iPhone 13 Pro Max,iPhone 13 Pro,iPhone 13 Mini,iPhone 13,iPhone 12 Pro Max,iPhone 12 Pro,iPhone 12,iPhone 12 Mini,Samsung Galaxy S20+,Samsung Galaxy S20 Ultra,Samsung Galaxy S20,iPhone 11 Pro Max,iPhone 11 Pro,iPhone 11,Samsung Galaxy S10,Samsung Galaxy S10 Plus,Samsung Galaxy S10E,iPhone XS MAX,iPhone XS,iPhone XR,iPhone X,iPhone 8 Plus,iPhone 8' | split: ',' %}
+                    {% elsif tags_string contains "Children's Clothing" %}
                       {% assign sizes = 'XS,S,M,L,XL' | split: ',' %}
                     {% else %}
                       {% assign sizes = 'S,M,L,XL,XXL' | split: ',' %}
                     {% endif %}
 
-                    {% unless product.options_by_name['size'] %} 
+                    {% unless product.options_by_name['size'] and product.type != 'Case' %} 
                       <fieldset class="js product-form__input">
-                        <legend class="form__label text-20px-all color-text-white font-weight-bold">Size</legend>
+                        {% if product.type == 'Case' %}
+                          <legend class="form__label text-20px-all color-text-white font-weight-bold">Model</legend>
+
+                          <div class="dropdown dropdown-toggle">
+                            <span class="dropdown-label">{{ sizes[0] }} / Glossy</span>
+                            <input type="hidden" name="properties[model]" form="{{ product_form_id }}" value="{{ sizes[0] }} / Glossy">
+                            {% render 'icon-caret' %}
+                          </div>
+                          <div class="dropdown--options dropdown-items" data-target=".dropdown">
+                            {%- for value in sizes -%}
+                              <div data-val="{{ value }} / Glossy">{{ value }} / Glossy</div>
+                              <div data-val="{{ value }} / Matte">{{ value }} / Matte</div>
+                            {%- endfor -%}
+                          </div>
+                        {% else %}
+                          <legend class="form__label text-20px-all color-text-white font-weight-bold">Size</legend>
 
                         {%- for value in sizes -%}
                           <input
@@ -590,12 +625,12 @@
                             {{ value }}
                           </label>
                         {%- endfor -%}
+                        {% endif %}
+                        
                       </fieldset>
+                    
                     {% endunless %}
 
-                    <script type="application/json">
-                      {{ product.variants | json }}
-                    </script>
                   </variant-radios>
                 {%- else -%}
                   <variant-selects
@@ -632,12 +667,8 @@
                       </div>
                     {%- endfor -%}
 
-                    <script type="application/json">
-                      {{ product.variants | json }}
-                    </script>
                   </variant-selects>
                 {%- endif -%}
-              {%- endunless -%}
 
               <noscript class="product-form__noscript-wrapper-{{ section.id }}">
                 <div class="product-form__input{% if product.has_only_default_variant %} hidden{% endif %}">
@@ -2019,6 +2050,24 @@
       "id": "dimensions",
       "label": "Dimensions text",
       "default": "Retail fit; \n\r Runs true to size"
+    },
+    {
+      "type": "text",
+      "id": "case_care_instructions",
+      "label": "Case Care Instructions text",
+      "default": "Clean with a soft damp cotton or microfiber cloth (add a drop of dish soap if needed)."
+    },
+    {
+      "type": "text",
+      "id": "case_materials",
+      "label": "Case Materials text",
+      "default": "Dual layer case for extra durability and protection  Clear, open ports for connectivity  Materials: 100% polycarbonate (shell), 100% TPU (lining)  Available with a glossy or matte finish  Blank product sourced from Korea"
+    },
+    {
+      "type": "text",
+      "id": "case_dimensions",
+      "label": "Case Dimensions text",
+      "default": "Mockup on this page is for visual purpose only. Real print will depend on your choice of smartphone brand and model."
     }
   ]
 }

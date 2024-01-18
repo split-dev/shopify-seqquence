@@ -136,7 +136,7 @@
                       <span data-val="KCTS">Kids Tee</span>
                       <span data-val="HOOD">Hoodie</span>
                       <span data-val="UHCS">Sweatshirt</span>
-                      {% comment %} <span data-val="CASE">Smartphone case</span> {% endcomment %}
+                      <span data-val="CASE">Smartphone case</span>
                     </div>
 
                     <button type="submit" class="btn btn--primary banner__button field__button" id="SearchSubmit">
@@ -166,6 +166,7 @@
     var inputBanner = document.querySelector('.hero input[name="search"]');
     var searchSubmit = document.querySelector('#SearchSubmit');
     var promptUpdateDelay = 2300;
+    var promptInputTime = 500;
     var prompts = [
       'family of pandas',
       'cool metal robot',
@@ -174,41 +175,50 @@
       'beautiful girl as pocahontas',
     ];
     var i = 0;
+    var promptActive = false;
 
     function updatePrompt() {
+      i >= prompts.length && (i = 0);
       var prompt = prompts[i];
       var currVal = inputBanner.value;
-      if (!prompt) return;
+      if (!prompt || promptActive) return;
+
+      promptActive = true;
+      updatePrompt.activeTimeout = setTimeout(function() {
+        promptActive = false;
+      }, promptUpdateDelay / 2);
 
       inputBanner.setAttribute('data-place-value', currVal.length ? currVal : prompt);
 
-      var characters = prompt.split('');
-      var delayPerChar = 500 / characters.length;
+      var delayPerChar = promptInputTime / prompt.length;
       var charIndex = 0;
 
-      i = i === prompts.length - 1 ? 0 : i + 1;
-      inputBanner.placeholder = '';
-
       function charTyper() {
-        inputBanner.placeholder += characters[charIndex++];
+        charIndex += 1;
+        inputBanner.placeholder = prompt.slice(0, charIndex);
 
-        if (charIndex === characters.length) return;
+        if (charIndex === prompt.length) {
+          updatePrompt.timeoutPrompt = setTimeout(updatePrompt, promptUpdateDelay - promptInputTime);
+          return;
+        };
 
         updatePrompt.timeoutType = setTimeout(charTyper, delayPerChar);
       }
 
+      inputBanner.placeholder = '';
       updatePrompt.timeoutType = setTimeout(charTyper, delayPerChar);
-      updatePrompt.timeoutPrompt = setTimeout(updatePrompt, promptUpdateDelay);
       updatePrompt.stop = function () {
         clearTimeout(updatePrompt.timeoutPrompt);
         clearTimeout(updatePrompt.timeoutType);
+        clearTimeout(updatePrompt.activeTimeout);
+        promptActive = false;
         i = 0;
       };
+      i += 1;
     }
 
     document.addEventListener('visibilitychange', function () {
       if (document.hidden) {
-        inputBanner.value = '';
         updatePrompt.stop();
       } else {
         updatePrompt();

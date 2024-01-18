@@ -278,3 +278,11 @@ progress {
 [aria-disabled='true'] {
   cursor: default;
 }
+
+
+.no-scroll {
+  overflow: hidden;
+  position:relative;
+  touch-action: none;
+  -ms-touch-action: none;
+}

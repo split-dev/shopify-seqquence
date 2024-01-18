@@ -21,9 +21,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const dropdownItems = document.querySelectorAll('.dropdown-items [data-val]');
 
   if (dropdowns?.length > 0) {
+    console.log('dropdowns :>> ', dropdowns);
     dropdowns.forEach((dr) => {
       dr.addEventListener('click', (e) => {
         e.currentTarget.classList.toggle('active');
+        if (window.innerWidth < 768) {
+          document.body.classList.add('no-scroll');
+          document.body.parentElement.classList.add('no-scroll');
+        }
       });
     });
   }
@@ -38,6 +43,9 @@ document.addEventListener('DOMContentLoaded', function () {
           it.classList.remove('active');
         });
         item.classList.add('active');
+
+        document.body.classList.remove('no-scroll');
+        document.body.parentElement.classList.remove('no-scroll');
 
         if (trgButtonSel) {
           const trgButton = document.querySelector(trgButtonSel);
@@ -60,7 +68,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
       activeDropdowns.forEach((dropdown) => {
         dropdown.classList.remove('active');
-      })
+      });
+      document.body.classList.remove('no-scroll');
+      document.body.parentElement.classList.remove('no-scroll');
     }
   })
 });
