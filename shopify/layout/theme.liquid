@@ -5,51 +5,55 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
+    {%- if template contains 'product' or current_page != 1 -%}
+      <meta name = "robots" content = "noindex, follow" />
+    {%- endif -%}
+    
     <link rel="canonical" href="{{ canonical_url }}">
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
     <script>
-        function redirect() {
-            window.location.href = "https://bigailist.com/";
-        }
-    
-        function detectAndRedirect() {
-            // Check if the result is already cached in localStorage
-            const cachedResult = localStorage.getItem('ipapiResult');
-            
-            if (cachedResult) {
-                const cachedData = JSON.parse(cachedResult);
-                const cachedCountry = cachedData.country;
-                
-                if (cachedCountry === 'IN') {
-                    // User is in India, redirect
-                    redirect();
-                    return; // Exit early, no need to fetch from the API
-                }
-            }
-    
-            // Fetch the user's IP information from the API
-            fetch('https://ipapi.co/json/')
-                .then(response => response.json())
-                .then(data => {
-                    const country = data.country;
-    
-                    // Cache the result in localStorage
-                    localStorage.setItem('ipapiResult', JSON.stringify(data));
-    
-                    if (country === 'IN') {
-                        // User is in India, redirect
-                        redirect();
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching IP information:', error);
-                });
-        }
-    
-        // Call the detectAndRedirect function when the page loads
-        window.onload = detectAndRedirect;
+      function redirect() {
+          window.location.href = "https://bigailist.com/";
+      }
+  
+      function detectAndRedirect() {
+          // Check if the result is already cached in localStorage
+          const cachedResult = localStorage.getItem('ipapiResult');
+          
+          if (cachedResult) {
+              const cachedData = JSON.parse(cachedResult);
+              const cachedCountry = cachedData.country;
+              
+              if (cachedCountry === 'IN') {
+                  // User is in India, redirect
+                  redirect();
+                  return; // Exit early, no need to fetch from the API
+              }
+          }
+  
+          // Fetch the user's IP information from the API
+          fetch('https://ipapi.co/json/')
+              .then(response => response.json())
+              .then(data => {
+                  const country = data.country;
+  
+                  // Cache the result in localStorage
+                  localStorage.setItem('ipapiResult', JSON.stringify(data));
+  
+                  if (country === 'IN') {
+                      // User is in India, redirect
+                      redirect();
+                  }
+              })
+              .catch(error => {
+                  console.error('Error fetching IP information:', error);
+              });
+      }
+  
+      // Call the detectAndRedirect function when the page loads
+      window.onload = detectAndRedirect;
     </script>
 
     {%- if settings.favicon != blank -%}

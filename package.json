@@ -18,6 +18,7 @@
     "shopify:dev": "cd shopify && shopify theme dev --store artificial-printer.myshopify.com",
     "shopify:dev3": "shopify theme dev -s artificial-printer --path shopify --theme-editor-sync",
     "shopify:pull": "cd shopify && shopify theme pull",
+    "shopify:pull3": "shopify theme pull --path shopify",
     "lint": "run-s -c lint:*",
     "lint:js": "eslint src/**/*.{js,vue} --config .config/.eslintrc.js",
     "lint:css": "stylelint src/**/*.{vue,css,sass,scss} --config .config/.stylelintrc.js",

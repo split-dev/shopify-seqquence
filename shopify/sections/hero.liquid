@@ -39,7 +39,9 @@
           loop: true,
           autoplay: true,
           playsinline: true,
+          webkit-playsinline: true,
           disableRemotePlayback: true,
+          x-webkit-airplay: 'allow',
           width: 1500,
           class: 'js-banner__video'
       }}
@@ -51,7 +53,9 @@
           loop: true,
           autoplay: true,
           playsinline: true,
+          webkit-playsinline: true,
           disableRemotePlayback: true,
+          x-webkit-airplay: 'allow',
           width: 600,
           class: 'js-banner__video-mobile'
       }}
@@ -121,21 +125,19 @@
                     >
                     <span class="banner__icon-search">{% render 'icon-search' %}</span>
 
-                    {% comment %}
-                      <div class="banner__select dropdown-toggle">
-                        <input type="hidden" name="productType" value="UCTS">
-                        <span class="dropdown-label">Unisex T-Shirt</span>
-                        {% render 'icon-caret' %}
-                      </div>
-                      <div class="banner__select--options dropdown-items" data-target=".banner__select">
-                        <span data-val="UCTS" class="active">Unisex T-Shirt</span>
-                        <span data-val="FCTS">Women Tee</span>
-                        <span data-val="KCTS">Kids Tee</span>
-                        <span data-val="HOOD">Hoodie</span>
-                        <span data-val="UHCS">Sweatshirt</span>
-                        <span data-val="CASE">Smartphone case</span>
-                      </div>
-                    {% endcomment %}
+                    <div class="banner__select dropdown-toggle">
+                      <input type="hidden" name="productType" value="UCTS">
+                      <span class="dropdown-label">Unisex T-Shirt</span>
+                      {% render 'icon-caret' %}
+                    </div>
+                    <div class="banner__select--options dropdown-items" data-target=".banner__select">
+                      <span data-val="UCTS" class="active">Unisex T-Shirt</span>
+                      <span data-val="FCTS">Women Tee</span>
+                      <span data-val="KCTS">Kids Tee</span>
+                      <span data-val="HOOD">Hoodie</span>
+                      <span data-val="UHCS">Sweatshirt</span>
+                      {% comment %} <span data-val="CASE">Smartphone case</span> {% endcomment %}
+                    </div>
 
                     <button type="submit" class="btn btn--primary banner__button field__button" id="SearchSubmit">
                       {% render 'icon-magic-wand' %}
@@ -204,8 +206,19 @@
       };
     }
 
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) {
+        inputBanner.value = '';
+        updatePrompt.stop();
+      } else {
+        updatePrompt();
+      }
+    });
+
     inputBanner.addEventListener('focus', function () {
-      inputBanner.value = '';
+      if (prompts.some((pr) => pr.indexOf(inputBanner.value) > -1)) {
+        inputBanner.value = '';
+      }
     });
 
     searchSubmit.addEventListener('mousedown', function () {

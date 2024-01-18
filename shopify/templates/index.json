@@ -6,11 +6,11 @@
         "template--17682282578225__486f2d66-fd75-49cb-bc18-b7410ffd7570-16745676437ec3fc6d-0": {
           "type": "heading",
           "settings": {
-            "heading": "Create your custom AI Art",
-            "accent_text": "T-shirt",
-            "tutorial_title": "",
-            "tutorial_first_word": "",
-            "tutorial_url": ""
+            "heading": "Try our AI T-Shirt",
+            "accent_text": "Generator",
+            "tutorial_title": "Do not put word \"t-shirt\" in your request. Images are automatically added to t-shirts.",
+            "tutorial_first_word": "Tip",
+            "tutorial_url": "shopify:\/\/blogs\/ai-fashion-news\/how-to-generate-text-with-ai-for-merch-and-clothes"
           }
         },
         "a08bebad-5ae5-4f09-afc1-cbc2f88be885": {

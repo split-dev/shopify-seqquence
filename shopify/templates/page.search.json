@@ -12,13 +12,12 @@
       "type": "search",
       "settings": {
         "preloader": "shopify:\/\/files\/videos\/AP_progress_animation (1).mp4",
-        "tutorial_title": "What is Artificial Printer and how it works",
+        "tutorial_title": "How to generate your custom text  easily",
         "tutorial_first_word": "Tutorial",
-        "tutorial_url": "https:\/\/artificialprinter.com\/blogs\/news\/tutorial-what-is-prompting-and-how-to-create-great-images",
-        "form_placeholder": "Panda jumping",
-        "tshirtplaceholder": "https:\/\/cdn.shopify.com\/s\/files\/1\/0694\/9752\/0433\/files\/t-shirt-mockup.png?v=1675951639",
+        "tutorial_url": "https:\/\/artificialprinter.com\/blogs\/news\/how-to-generate-text-with-ai-for-merch-and-clothes",
+        "form_placeholder": "\"Merry Xmas \" beautiful text, rudolf dear behind it",
         "button_text": "Create",
-        "search_title": "Brought you by  the prompt:",
+        "search_title": "",
         "search_description": "We are generating images, usually it takes around 10 seconds",
         "show_more": true,
         "button_more": "Create different styles"

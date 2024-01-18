@@ -15,8 +15,9 @@
         },
         "description": {
           "type": "description",
+          "disabled": true,
           "settings": {
-            "description_title": "Brought you by  the prompt:"
+            "description_title": ""
           }
         },
         "variant_picker": {
@@ -75,6 +76,9 @@
         "collapsible-row-1",
         "collapsible-row-0"
       ],
+      "custom_css": [
+        ".product--stacked .product__media-item:last-child {max-width: 100%!important;}"
+      ],
       "settings": {
         "enable_sticky_info": true,
         "media_position": "left",
@@ -82,7 +86,10 @@
         "mobile_thumbnails": "hide",
         "hide_variants": false,
         "enable_video_looping": false,
-        "media_bottom_text": "All images are 4 times sharper when printed"
+        "media_bottom_text": "We can add custom text on demand. Images are 4 times sharper when printed.",
+        "care_instructions": "Non-chlorine: bleach as needed; Tumble dry: low heat; Iron, steam or dry: medium heat; Machine wash: cold (max 30C or 90F); Do not dryclean.",
+        "materials": "100% Airlume combed and ringspun cotton",
+        "dimensions": "Retail fit;  Runs true to size"
       }
     },
     "product-recommendations": {
