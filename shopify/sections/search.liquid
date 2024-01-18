@@ -103,12 +103,11 @@
                 <input type="radio" name="productType" value="UHCS">
                 <span>Sweatshirt</span>
               </label>
-              {% comment %}
-                <label class="product_radiobutton" data-val="CASE">
-                  <input type="radio" name="productType" value="CASE">
-                  <span>Smartphone Case</span>
-                </label>
-              {% endcomment %}
+              <label class="product_radiobutton" data-val="CASE">
+                <input type="radio" name="productType" value="CASE">
+                <span>Smartphone Case</span>
+              </label>
+             
             </radiogroup>
           </fieldset>
 
@@ -194,10 +193,10 @@
                 <input type="radio" name="productColor" value="Sport Grey">
                 <span>Sport Grey</span>
               </label>
-              {% comment %} <label class="product_radiobutton" data-val="iPhone 15">
-                <input type="radio" name="productColor" value="iPhone 15">
-                <span>iPhone 15</span>
-              </label> {% endcomment %}
+              <label class="product_radiobutton" data-val="Universal Case">
+                <input type="radio" name="productColor" value="Universal Case">
+                <span>Universal Case</span>
+              </label>
             </radiogroup>
           </fieldset>
         </form>
@@ -303,89 +302,68 @@
 
 <script>
   (function () {
-    window.productColors = [
-      'White',
-      'Athletic Heather',
-      'Dark Heather',
-      'Black',
-      'Azalea',
-      'Charcoal',
-      'Irish Green',
-      'Light Blue',
-      'Light Pink',
-      'Daisy',
-      'Kelly',
-      'Orange',
-      'Navy',
-      'Pink',
-      'Red',
-      'Royal',
-      'True Royal',
-      'Sand',
-      'Sport Grey',
-    ];
     window.productImages = {
       UCTS: {
         'Athletic Heather':
-          'https://d26koaznr1os49.cloudfront.net/no_bg_webp/t_shirt/unisex_athleticheather_front.webp',
-        Black: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/t_shirt/unisex_black_front.webp',
-        'Dark Heather': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/t_shirt/unisex_darkheather_front.webp',
-        Kelly: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/t_shirt/unisex_kelly_front.webp',
-        Navy: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/t_shirt/unisex_navy_front.webp',
-        Orange: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/t_shirt/unisex_orange_front.webp',
-        Pink: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/t_shirt/unisex_pink_front.webp',
-        Red: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/t_shirt/unisex_red_front.webp',
-        'True Royal': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/t_shirt/unisex_trueroyal_front.webp',
-        White: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/t_shirt/unisex_white_front.webp',
+          'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/t_shirt/unisex_athleticheather_front.webp',
+        Black: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/t_shirt/unisex_black_front.webp',
+        {% comment %} 'Dark Heather': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/t_shirt/unisex_darkheather_front.webp', {% endcomment %}
+        Kelly: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/t_shirt/unisex_kelly_front.webp',
+        Navy: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/t_shirt/unisex_navy_front.webp',
+        Orange: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/t_shirt/unisex_orange_front.webp',
+        Pink: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/t_shirt/unisex_pink_front.webp',
+        Red: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/t_shirt/unisex_red_front.webp',
+        'True Royal': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/t_shirt/unisex_trueroyal_front.webp',
+        White: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/t_shirt/unisex_white_front.webp',
       },
       FCTS: {
-        Azalea: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_azalea_front.webp',
-        Black: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_black_front.webp',
-        Charcoal: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_charcoal_front.webp',
-        Daisy: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_daisy_front.webp',
-        'Irish Green': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_irishgreen_front.webp',
-        Navy: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_navy_front.webp',
-        Red: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_red_front.webp',
-        'Sport Grey': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_sportgrey_front.webp',
-        White: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_female/womens_white_front.webp',
+        Azalea: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_female/womens_azalea_front.webp',
+        Black: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_female/womens_black_front.webp',
+        {% comment %} Charcoal: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_female/womens_charcoal_front.webp', {% endcomment %}
+        {% comment %} Daisy: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_female/womens_daisy_front.webp', {% endcomment %}
+        'Irish Green': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_female/womens_irishgreen_front.webp',
+        Navy: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_female/womens_navy_front.webp',
+        Red: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_female/womens_red_front.webp',
+        'Sport Grey': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_female/womens_sportgrey_front.webp',
+        White: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_female/womens_white_front.webp',
       },
       KCTS: {
-        Black: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_kids/kids_black_front.webp',
-        'Irish Green': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_kids/kids_irishgreen_front.webp',
-        'Light Blue': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_kids/kids_lightblue_front.webp',
-        'Light Pink': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_kids/kids_lightpink_front.webp',
-        Navy: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_kids/kids_navy_front.webp',
-        Red: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_kids/kids_red_front.webp',
-        Royal: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_kids/kids_royal_front.webp',
-        White: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/tshirt_kids/kids_white_front.webp',
+        Black: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_kids/kids_black_front.webp',
+        'Irish Green': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_kids/kids_irishgreen_front.webp',
+        'Light Blue': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_kids/kids_lightblue_front.webp',
+        'Light Pink': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_kids/kids_lightpink_front.webp',
+        Navy: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_kids/kids_navy_front.webp',
+        Red: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_kids/kids_red_front.webp',
+        Royal: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_kids/kids_royal_front.webp',
+        White: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/tshirt_kids/kids_white_front.webp',
       },
       HOOD: {
-        Black: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/hoodie/hoodie_black_front.webp',
-        'Irish Green': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/hoodie/hoodie_irishgreen_front.webp',
-        'Light Blue': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/hoodie/hoodie_lightblue_front.webp',
-        'Light Pink': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/hoodie/hoodie_lightpink_front.webp',
-        Navy: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/hoodie/hoodie_navy_front.webp',
-        Red: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/hoodie/hoodie_red_front.webp',
-        Royal: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/hoodie/hoodie_royal_front.webp',
-        Sand: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/hoodie/hoodie_sand_front.webp',
-        'Sport Grey': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/hoodie/hoodie_sportgrey_front.webp',
-        White: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/hoodie/hoodie_white_front.webp',
+        Black: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/hoodie/hoodie_black_front.webp',
+        'Irish Green': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/hoodie/hoodie_irishgreen_front.webp',
+        'Light Blue': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/hoodie/hoodie_lightblue_front.webp',
+        'Light Pink': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/hoodie/hoodie_lightpink_front.webp',
+        Navy: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/hoodie/hoodie_navy_front.webp',
+        Red: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/hoodie/hoodie_red_front.webp',
+        Royal: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/hoodie/hoodie_royal_front.webp',
+        Sand: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/hoodie/hoodie_sand_front.webp',
+        'Sport Grey': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/hoodie/hoodie_sportgrey_front.webp',
+        White: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/hoodie/hoodie_white_front.webp',
       },
       UHCS: {
-        Black: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/sweatshirt/sweatshirt_black_front.webp',
-        'Irish Green': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/sweatshirt/sweatshirt_irishgreen_front.webp',
-        'Light Blue': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/sweatshirt/sweatshirt_lightblue_front.webp',
-        'Light Pink': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/sweatshirt/sweatshirt_lightpink_front.webp',
-        Navy: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/sweatshirt/sweatshirt_navy_front.webp',
-        Red: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/sweatshirt/sweatshirt_red_front.webp',
-        Royal: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/sweatshirt/sweatshirt_royal_front.webp',
-        Sand: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/sweatshirt/sweatshirt_sand_front.webp',
-        'Sport Grey': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/sweatshirt/sweatshirt_sportgrey_front.webp',
-        White: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/sweatshirt/sweatshirt_white_front.webp',
+        Black: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/sweatshirt/sweatshirt_black_front.webp',
+        'Irish Green': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/sweatshirt/sweatshirt_irishgreen_front.webp',
+        'Light Blue': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/sweatshirt/sweatshirt_lightblue_front.webp',
+        'Light Pink': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/sweatshirt/sweatshirt_lightpink_front.webp',
+        Navy: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/sweatshirt/sweatshirt_navy_front.webp',
+        Red: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/sweatshirt/sweatshirt_red_front.webp',
+        {% comment %} Royal: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/sweatshirt/sweatshirt_royal_front.webp', {% endcomment %}
+        Sand: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/sweatshirt/sweatshirt_sand_front.webp',
+        'Sport Grey': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/sweatshirt/sweatshirt_sportgrey_front.webp',
+        White: 'https://d26koaznr1os49.cloudfront.net/no_bg_webp2/sweatshirt/sweatshirt_white_front.webp',
       },
-      {% comment %} CASE: {
-        'iPhone 15': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/case/frame-iphone15.webp'
-      } {% endcomment %}
+      CASE: {
+        'Universal Case': 'https://d26koaznr1os49.cloudfront.net/no_bg_webp/case/frame-iphone15.webp'
+      }
     };
     const searchParams = new URL(document.location).searchParams;
     const querySearch = searchParams.get('search') || DEFAULT_QUERY_SEARCH

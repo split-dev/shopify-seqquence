@@ -1,0 +1,92 @@
+.dropdown {
+  cursor: pointer;
+  color: white;
+  font-size: 19px;
+  line-height: 1.2;
+  select {
+      color: white;
+      font-size: inherit;
+  }
+  svg {
+      width: 20px;
+      height: auto;
+      margin-left: 14px;
+  }
+
+  &--options {
+      display: none;
+      position: absolute;
+      top: 40px;
+      left: 0;
+      z-index: 10;
+      width: 320px;
+      padding: 15px 15px 15px 15px;
+      flex-direction: column;
+      flex-wrap: wrap;
+      font-size: 16px;
+      background-color: #382f41;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      text-align: left;
+      div {
+          margin-bottom: 16px;
+          line-height: 20px;
+          cursor: pointer;
+          &:hover,
+          &.active {
+              color: #CCEC06;
+          }
+      }
+  }
+  &.active {
+      & + .dropdown--options {
+          display: block;
+          height: 300px;
+          overflow: scroll;
+      }
+      svg {
+          transform: rotate(180deg);
+      }
+  }
+
+  @include media-breakpoint-down(md) {
+      margin-top: 23px;
+      margin-bottom: 26px;
+      position: static !important;
+      width: 100%;
+      justify-content: center;
+      transform: none;
+      &--options {
+          display: none;
+          position: fixed;
+          top: 50%;
+          transform: translateY(-50%);
+          bottom: auto ;
+          z-index: 6;
+          width: 100vw;
+          left: 0;
+          right: 0;
+          padding: 23px;
+          background-color: #1D1723;
+          .product_type {
+              border: 0;
+              input {
+              &:checked + div {
+                  background: transparent;
+                  color: #CCEC06;
+              }
+              }
+          }
+          div {
+              margin-bottom: 16px;
+              text-align: center;
+              line-height: 20px;
+              cursor: pointer;
+              &:hover,
+              &.active {
+                  color: #CCEC06;
+              }
+          }
+      }
+  }
+}

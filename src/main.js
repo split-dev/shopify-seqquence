@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const dropdownItems = document.querySelectorAll('.dropdown-items [data-val]');
 
   if (dropdowns?.length > 0) {
+    console.log('dropdowns :>> ', dropdowns);
     dropdowns.forEach((dr) => {
       dr.addEventListener('click', (e) => {
         e.currentTarget.classList.toggle('active');

@@ -164,7 +164,7 @@ function init() {
     Promise.resolve(getPromptComplitions())
         .then(json => {
             allAvailablePrompts = json;
-            console.log(json)
+            // console.log(json)
         })
         .catch(console.error)
 
@@ -186,7 +186,8 @@ function init() {
                 }
                 console.log('requestData :>> ', requestData);
                 return Promise.all(requestData.map(r => {
-                    if (r.images) {
+                    console.log('r :>> ', r);
+                    if (r.images?.length === 3) {
                         updateImagesPreviews({
                             prompt: querySearch + prompt,
                             images: r.images
@@ -326,13 +327,17 @@ function updateImagesPreviews (promptResult) {
 
 function checkImagesFullLoaded (pendImagesResult, cacheRun) {
     const loaded = pendImagesResult?.images?.length;
-    return (cacheRun ? loaded === 3 : loaded) && pendImagesResult.images.every(image => {
+    const isFullLoaded = (cacheRun ? loaded === 3 : loaded) && pendImagesResult.images.every(image => {
         if (cacheRun) {
             image.handle ||= 'not ready';
         }
         
         return image.handle;
     });
+
+    console.log('pendImagesResult :>> ', pendImagesResult, isFullLoaded);
+
+    return isFullLoaded;
 }
 
 const timeouts = {};

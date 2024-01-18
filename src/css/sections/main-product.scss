@@ -1,6 +1,8 @@
 // ==========================================================================
 // ## SHOPIFY STATIC SECTION: MAIN PRODUCT
 // ==========================================================================
+@import 'dropdown';
+
 .product-wrapper {
     @include media-breakpoint-down(md) {
         padding-left: 0;
@@ -168,6 +170,7 @@
 
     &-form__input {
         margin-bottom: 48px;
+        position: relative;
 
         @include media-breakpoint-down(md) {
             margin-bottom: 32px;
