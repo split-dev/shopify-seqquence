@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "run-p -sr shopify:dev webpack:watch",
-    "start-cli-3": "run-p -sr shopify:dev3 webpack:watch",
+    "start-cli-3": "run-p -sr webpack:watch shopify:dev3",
     "dev": "run-p -sr webpack:watch",
     "deploy": "run-s webpack:build && cd shopify && shopify theme push",
     "deploy3": "run-s webpack:build && shopify theme push -s artificial-printer --path shopify",

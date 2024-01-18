@@ -1,7 +1,7 @@
 // CONSTANTS
 // const S3_HOST = 'https://aipr.s3.amazonaws.com';
-// const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
-const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
+const LAMBDA_HOST = 'https://q65eekxnmbwkizo3masynrpea40rylba.lambda-url.us-east-1.on.aws'; // us-east-1 - prod
+// const LAMBDA_HOST = 'https://r4qlyqjkf4sankpkqcvzdqgm540sozvz.lambda-url.eu-central-1.on.aws'; // eu_central-1 - for testing
 const PUSHER_ID = '19daec24304eedd7aa8a';
 const GENERATION_COUNT = 3;
 const DEFAULT_QUERY_SEARCH = 'Panda jumping';
@@ -45,11 +45,9 @@ const generateNewSearchPrompt = document.querySelector('.js-get-new-prompt');
 const searchDomTemplate = document.querySelector('.js-search-dom-template');
 const errorMessagePopup = document.getElementById('error_message')
 
-// INIT PAGE LOAD PROCESSING - FIRST PROMPT
-init();
-
 function actualisePreviewMockups(reqProductType, changeColors) {
     reqProductType = reqProductType || getSelectedProductType();
+
 
     const requestedPreviewMockup = window.productImages[reqProductType] || window.productImages.UCTS;
     const productColorSel = document.querySelectorAll('.product_color_filter .product_radiobutton input:checked');
@@ -65,6 +63,7 @@ function actualisePreviewMockups(reqProductType, changeColors) {
         const newColor = !changeColors && currColor || randColor;
         const _color = requestedPreviewMockup[selectedColor] ? selectedColor : newColor;
 
+        _mock.parentNode.parentNode.classList.add('product-type' + reqProductType)
         if (reqProductType === SKU_CASE) {
             _mock.parentNode.classList.add('downscaled');
             _mock.classList.add('case-frame')
@@ -842,3 +841,5 @@ function getPromptComplitions(prompt = querySearch) {
         .map(completion => `${prompt}, ${completion}`)
         .sort(() => Math.random() - 0.5);
 }
+
+init();
