@@ -11,9 +11,9 @@
     "product-grid": {
       "type": "main-collection-product-grid",
       "settings": {
-        "products_per_page": 15,
-        "columns_desktop": 3,
-        "image_ratio": "adapt",
+        "products_per_page": 20,
+        "columns_desktop": 5,
+        "image_ratio": "portrait",
         "show_secondary_image": false,
         "show_vendor": false,
         "show_rating": false,
@@ -21,7 +21,7 @@
         "enable_filtering": false,
         "filter_type": "horizontal",
         "enable_sorting": false,
-        "columns_mobile": "1",
+        "columns_mobile": "2",
         "padding_top": 100,
         "padding_bottom": 0
       }

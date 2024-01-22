@@ -256,8 +256,8 @@
     </a> {% endcomment %}
 
     <a href="{{ routes.root_url }}" class="header__logo color-text-accent font-weight-bold"> 
-      {{ shop.name }}
-      {% render 'icon-logo-header' %}
+      {% comment %} {{ shop.name }} {% endcomment %}
+      {% render 'icon-logo-header-robo' %}
     </a>
 
     {%- if section.settings.menu != blank -%}
