@@ -13,7 +13,7 @@ module.exports = merge(common, {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/,
+        exclude: [/node_modules/, 'assets'],
         options: {
           presets: [ '@babel/preset-env' ],
           plugins: [ '@babel/plugin-transform-runtime' ]

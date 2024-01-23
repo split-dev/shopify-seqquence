@@ -2,3 +2,6 @@ src
 .vscode
 .config
 node_modules
+package.json
+jsconfig.json
+package-lock.json
