@@ -11,7 +11,7 @@ module.exports = {
     path.resolve(__dirname, '../../src/js/popup.js')
   ],
   output: {
-    path: path.resolve(__dirname, '../../shopify/assets/'),
+    path: path.resolve(__dirname, '../../assets/'),
     filename: 'bundle.js'
   },
   resolve: {
@@ -19,7 +19,6 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm-bundler.js',
       '@': path.resolve(__dirname, '../../src/'),
-      '@shopify-directory': path.resolve(__dirname, '../../shopify/')
     }
   },
   module: {

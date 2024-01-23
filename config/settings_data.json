@@ -104,6 +104,7 @@
     "badge_corner_radius": 40,
     "sale_badge_color_scheme": "accent-2",
     "sold_out_badge_color_scheme": "inverse",
+    "loader": "https:\/\/cdn.shopify.com\/s\/files\/1\/0694\/9752\/0433\/files\/loader_2024.eu.webp",
     "accent_icons": "text",
     "social_amazon": "http:\/\/www.amazon.com\/shops\/Artificial_Printer",
     "social_etsy_link": "https:\/\/www.etsy.com\/shop\/ArtificialPrinterCom",
@@ -119,7 +120,7 @@
     "predictive_search_enabled": true,
     "predictive_search_show_vendor": false,
     "predictive_search_show_price": false,
-    "favicon": "shopify:\/\/shop_images\/favicon-32x32.png",
+    "favicon": "shopify:\/\/shop_images\/ap_logo.jpg",
     "currency_code_enabled": true,
     "cart_type": "notification",
     "show_vendor": false,
@@ -200,7 +201,15 @@
     },
     "content_for_index": [
 
-    ]
+    ],
+    "blocks": {
+      "4015264832934714879": {
+        "type": "shopify:\/\/apps\/ecomsend-popups\/blocks\/app\/a5670cf8-5705-4b01-ad9e-447033feae26",
+        "disabled": false,
+        "settings": {
+        }
+      }
+    }
   },
   "presets": {
     "Default": {
@@ -407,7 +416,7 @@
   },
   "platform_customizations": {
     "custom_css": [
-      "a#cart-link[aria-label=\"Cart\"] SPAN, a#cart-link[aria-label=\"Cart\"] SVG {width: 32px !important; height: 32px !important;}"
+      "a#cart-link[aria-label=\"Cart\"] SPAN,a#cart-link[aria-label=\"Cart\"] SVG {width: 32px !important; height: 32px !important;}"
     ]
   }
 }

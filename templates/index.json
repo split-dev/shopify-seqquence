@@ -10,7 +10,7 @@
             "accent_text": "Generator",
             "tutorial_title": "Do not put word \"t-shirt\" in your request. Images are automatically added to t-shirts.",
             "tutorial_first_word": "Tip",
-            "tutorial_url": "shopify:\/\/blogs\/ai-fashion-news\/how-to-generate-text-with-ai-for-merch-and-clothes"
+            "tutorial_url": "shopify:\/\/blogs\/news\/how-to-generate-text-with-ai-for-merch-and-clothes"
           }
         },
         "a08bebad-5ae5-4f09-afc1-cbc2f88be885": {
@@ -34,9 +34,9 @@
         "38bad702-e83d-4a64-9100-be582b11d73d"
       ],
       "settings": {
-        "image": "shopify:\/\/shop_images\/master.00_00_39_06.Still001.png",
-        "video": "shopify:\/\/files\/videos\/master_FINAL_9.mp4",
-        "video_mob": "shopify:\/\/files\/videos\/master PHONE_5.mp4",
+        "image": "shopify:\/\/shop_images\/ap_wall_video_ver2_jpeg.jpg",
+        "video": "shopify:\/\/files\/videos\/ap_wall_video_ver2_f74f9d4a-e60b-4adf-994e-84395f5ebd0a.mp4",
+        "video_mob": "shopify:\/\/files\/videos\/ap_wall_video_ver2_mobile_2.mp4",
         "image_height": "medium",
         "adapt_height_first_image": true,
         "desktop_content_position": "middle-center",

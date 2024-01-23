@@ -1,8 +1,8 @@
 
-./shopify/assets/bundle.js
-./shopify/assets/bundle.css
-@shopify-directory/assets/bundle.js
-@shopify-directory/assets/bundle.css
+./assets/bundle.js
+./assets/bundle.css
+@shopify-assets/bundle.js
+@shopify-assets/bundle.css
 node_modules/
 .DS_Store
 .vscode

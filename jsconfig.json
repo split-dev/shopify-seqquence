@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@shopify-directory/*": ["./shopify/*"]
+      "@shopify-assets/*": ["./assets/*"]
     }
   }
 }
