@@ -125,7 +125,7 @@
     "cart_type": "notification",
     "show_vendor": false,
     "show_cart_note": false,
-    "checkout_logo_image": "shopify:\/\/shop_images\/Favicon.png",
+    "checkout_logo_image": "shopify:\/\/shop_images\/ap_logo.jpg",
     "checkout_body_background_color": "#16111b",
     "checkout_input_background_color_mode": "transparent",
     "checkout_sidebar_background_color": "#16111b",
