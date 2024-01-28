@@ -107,8 +107,8 @@
         "heading_nfxAxx": {
           "type": "heading",
           "settings": {
-            "heading": "<p>Average Rating For Similar Products is: ⭐⭐⭐⭐⭐<\/p>",
-            "heading_size": "h1"
+            "heading": "<p>Average Rating of Comparable Products:<\/p>",
+            "heading_size": "h2"
           }
         }
       },
@@ -154,7 +154,7 @@
         "desktop_content_position": "middle",
         "desktop_content_alignment": "center",
         "content_layout": "no-overlap",
-        "color_scheme": "accent-2",
+        "color_scheme": "background-1",
         "mobile_content_alignment": "center",
         "padding_top": 8,
         "padding_bottom": 8
@@ -226,7 +226,7 @@
         "desktop_content_position": "middle",
         "desktop_content_alignment": "center",
         "content_layout": "no-overlap",
-        "color_scheme": "accent-2",
+        "color_scheme": "background-1",
         "mobile_content_alignment": "center",
         "padding_top": 8,
         "padding_bottom": 8
