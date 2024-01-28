@@ -23,23 +23,11 @@
           "settings": {
             "text": "<p>Want to get in touch? We’d love to hear from you. If you don’t<br\/>here from us immediately, we must be coding some cool AI product… We will get back to you as soon as possible. That’s a Promise!<\/p>"
           }
-        },
-        "button_HUiUaG": {
-          "type": "button",
-          "settings": {
-            "button_label": "Button label",
-            "button_link": "",
-            "button_style_secondary": false,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
         }
       },
       "block_order": [
         "heading_YdPjm4",
-        "text_UBicNf",
-        "button_HUiUaG"
+        "text_UBicNf"
       ],
       "settings": {
         "desktop_content_position": "center",
