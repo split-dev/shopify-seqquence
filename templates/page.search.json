@@ -8,13 +8,43 @@
         "padding_bottom": 28
       }
     },
+    "rich_text_brf6qP": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_LhPgPe": {
+          "type": "heading",
+          "settings": {
+            "heading": "<h1><strong>AI T-SHIRT GENERATOR<\/strong><\/h1>",
+            "heading_size": "h2"
+          }
+        },
+        "text_3WqPM8": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Drop Your T-Shirt Idea into Our AI Tee Generator and push \"Generate\" button ⬇️<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_LhPgPe",
+        "text_3WqPM8"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 8,
+        "padding_bottom": 0
+      }
+    },
     "a7d2ba8d-8dd7-4199-98bf-66fddc8af4e7": {
       "type": "search",
       "settings": {
         "preloader": "shopify:\/\/files\/videos\/AP_progress_animation (1).mp4",
-        "tutorial_title": "How to generate your custom text  easily",
-        "tutorial_first_word": "Tutorial",
-        "tutorial_url": "https:\/\/artificialprinter.com\/blogs\/news\/how-to-generate-text-with-ai-for-merch-and-clothes",
+        "tutorial_title": "250+ Best Ideas for AI T-Shirt Design.",
+        "tutorial_first_word": "Check:",
+        "tutorial_url": "",
         "form_placeholder": "Panda jumping",
         "button_text": "Create",
         "search_title": "",
@@ -26,6 +56,7 @@
   },
   "order": [
     "main",
+    "rich_text_brf6qP",
     "a7d2ba8d-8dd7-4199-98bf-66fddc8af4e7"
   ]
 }
