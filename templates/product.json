@@ -101,6 +101,62 @@
         "case_dimensions": "Mockup on this page is for visual purpose only. Real print will depend on your choice of smartphone brand and model."
       }
     },
+    "multicolumn_BzmJzc": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_CYcwN7": {
+          "type": "column",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/2_eec5e60f-102f-4825-9383-8631868d51d4.png",
+            "title": "Taj Monroe, Boulder, Colorado",
+            "text": "<p>\"Just got an AI-designed tee and it's a game-changer! Definitely stands out in my wardrobe.\"<\/p>",
+            "link_label": "",
+            "link": "https:\/\/artificialprinter.com\/products\/zombie-eating-cheezies"
+          }
+        },
+        "column_kqUJQD": {
+          "type": "column",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/4.8_1_8aa28dfa-4f7a-450d-9e1e-899801e08c6a.jpg",
+            "title": "Nia Torres, Santa Fe, New Mexico",
+            "text": "<p>\"Obsessed with my new AI-created T-shirt! Super comfortable and durable.\"<\/p>",
+            "link_label": "",
+            "link": "https:\/\/artificialprinter.com\/products\/words-expensive-taste-with-a-girl-tongue-mone-4"
+          }
+        },
+        "column_4kpeWt": {
+          "type": "column",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/4_42a2b2f7-cad9-4a87-a174-9d6ce151a1f3.png",
+            "title": "Elara Jennings, Olympia, Washington",
+            "text": "<p>\"This AI T-shirt is incredible! The design is both unique and eye-catching. The quality is top-notch!\"<\/p>",
+            "link_label": "",
+            "link": "https:\/\/artificialprinter.com\/products\/retro-robots-holding-hands"
+          }
+        }
+      },
+      "block_order": [
+        "column_CYcwN7",
+        "column_kqUJQD",
+        "column_4kpeWt"
+      ],
+      "settings": {
+        "title": "Average Rating for Similar Products:",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "square",
+        "columns_desktop": 3,
+        "column_alignment": "center",
+        "background_style": "primary",
+        "button_label": "",
+        "button_link": "",
+        "color_scheme": "background-1",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "product-recommendations": {
       "type": "product-recommendations",
       "settings": {
@@ -117,67 +173,11 @@
         "padding_top": 8,
         "padding_bottom": 8
       }
-    },
-    "multicolumn_BzmJzc": {
-      "type": "multicolumn",
-      "blocks": {
-        "column_CYcwN7": {
-          "type": "column",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/2_eec5e60f-102f-4825-9383-8631868d51d4.png",
-            "title": "Taj Monroe, Boulder, Colorado",
-            "text": "<p>\"Just got an AI-designed tee and it's a game-changer! Definitely stands out in my wardrobe.\"<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column_kqUJQD": {
-          "type": "column",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/4.8_1_8aa28dfa-4f7a-450d-9e1e-899801e08c6a.jpg",
-            "title": "Nia Torres, Santa Fe, New Mexico",
-            "text": "<p>\"Obsessed with my new AI-created T-shirt! Super comfortable and durable.\"<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        },
-        "column_4kpeWt": {
-          "type": "column",
-          "settings": {
-            "image": "shopify:\/\/shop_images\/4_42a2b2f7-cad9-4a87-a174-9d6ce151a1f3.png",
-            "title": "Elara Jennings, Olympia, Washington",
-            "text": "<p>\"This AI T-shirt is incredible! The design is both unique and eye-catching. The quality is top-notch!\"<\/p>",
-            "link_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "column_CYcwN7",
-        "column_kqUJQD",
-        "column_4kpeWt"
-      ],
-      "settings": {
-        "title": "",
-        "heading_size": "h1",
-        "image_width": "full",
-        "image_ratio": "square",
-        "columns_desktop": 3,
-        "column_alignment": "center",
-        "background_style": "primary",
-        "button_label": "",
-        "button_link": "",
-        "color_scheme": "background-1",
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
     }
   },
   "order": [
     "main",
-    "product-recommendations",
-    "multicolumn_BzmJzc"
+    "multicolumn_BzmJzc",
+    "product-recommendations"
   ]
 }
