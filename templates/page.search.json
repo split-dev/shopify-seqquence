@@ -52,48 +52,11 @@
         "show_more": true,
         "button_more": "Generate different styles"
       }
-    },
-    "image_with_text_UFJnwr": {
-      "type": "image-with-text",
-      "blocks": {
-        "heading_LAB7gU": {
-          "type": "heading",
-          "settings": {
-            "heading": "Customers choose us! ⭐⭐⭐⭐⭐",
-            "heading_size": "h2"
-          }
-        },
-        "text_hfcN9J": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Our store stands out for innovative AI customization, ensuring unparalleled clothing quality and designs. Each AI T-Shirt, Hoodie or Smartphone case made by Artificial Printer is a unique expression of personal style!<\/p>",
-            "text_style": "body"
-          }
-        }
-      },
-      "block_order": [
-        "heading_LAB7gU",
-        "text_hfcN9J"
-      ],
-      "settings": {
-        "image": "shopify:\/\/shop_images\/thousands_of_happy_customers_0b481a37-8894-4829-8a38-90637c649ec8.jpg",
-        "height": "adapt",
-        "desktop_image_width": "medium",
-        "layout": "image_first",
-        "desktop_content_position": "middle",
-        "desktop_content_alignment": "center",
-        "content_layout": "no-overlap",
-        "color_scheme": "background-1",
-        "mobile_content_alignment": "center",
-        "padding_top": 12,
-        "padding_bottom": 84
-      }
     }
   },
   "order": [
     "main",
     "rich_text_brf6qP",
-    "a7d2ba8d-8dd7-4199-98bf-66fddc8af4e7",
-    "image_with_text_UFJnwr"
+    "a7d2ba8d-8dd7-4199-98bf-66fddc8af4e7"
   ]
 }
