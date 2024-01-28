@@ -154,7 +154,7 @@
         "desktop_content_position": "middle",
         "desktop_content_alignment": "center",
         "content_layout": "no-overlap",
-        "color_scheme": "background-1",
+        "color_scheme": "accent-2",
         "mobile_content_alignment": "center",
         "padding_top": 8,
         "padding_bottom": 8
@@ -202,7 +202,7 @@
         "heading_yVmJ7V": {
           "type": "heading",
           "settings": {
-            "heading": "Taj Monroe, Miami, Florida:",
+            "heading": "Taj Monroe, Miami, Florida",
             "heading_size": "h2"
           }
         },
@@ -226,7 +226,7 @@
         "desktop_content_position": "middle",
         "desktop_content_alignment": "center",
         "content_layout": "no-overlap",
-        "color_scheme": "background-1",
+        "color_scheme": "accent-2",
         "mobile_content_alignment": "center",
         "padding_top": 8,
         "padding_bottom": 8
