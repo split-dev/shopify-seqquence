@@ -47,60 +47,11 @@
         "padding_top": 36,
         "padding_bottom": 84
       }
-    },
-    "image_banner_BgMfk3": {
-      "type": "image-banner",
-      "blocks": {
-        "heading_39ykyj": {
-          "type": "heading",
-          "settings": {
-            "heading": "Become An Affiliate",
-            "heading_size": "h1"
-          }
-        },
-        "text_E4tBm8": {
-          "type": "text",
-          "settings": {
-            "text": "No Fluff, No Hype. Just Results.",
-            "text_style": "body"
-          }
-        },
-        "buttons_qCrjDc": {
-          "type": "buttons",
-          "settings": {
-            "button_label_1": "Sing Up Now",
-            "button_link_1": "https:\/\/artificial-printer.bixgrow.com\/register\/initial",
-            "button_style_secondary_1": false,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": true
-          }
-        }
-      },
-      "block_order": [
-        "heading_39ykyj",
-        "text_E4tBm8",
-        "buttons_qCrjDc"
-      ],
-      "settings": {
-        "image": "shopify:\/\/shop_images\/Artificial_Printer_X_2.png",
-        "image_overlay_opacity": 0,
-        "image_height": "small",
-        "adapt_height_first_image": true,
-        "desktop_content_position": "middle-center",
-        "show_text_box": false,
-        "desktop_content_alignment": "center",
-        "color_scheme": "background-1",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": true,
-        "show_text_below": false
-      }
     }
   },
   "order": [
     "main",
     "rich_text_QYEMdy",
-    "0f677e1f-4d02-4a81-9dc1-c98fd65f1b56",
-    "image_banner_BgMfk3"
+    "0f677e1f-4d02-4a81-9dc1-c98fd65f1b56"
   ]
 }
