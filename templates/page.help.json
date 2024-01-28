@@ -69,7 +69,7 @@
           "type": "buttons",
           "settings": {
             "button_label_1": "Sing Up Now",
-            "button_link_1": "",
+            "button_link_1": "https:\/\/artificial-printer.bixgrow.com\/register\/initial",
             "button_style_secondary_1": false,
             "button_label_2": "",
             "button_link_2": "",
