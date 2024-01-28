@@ -68,12 +68,12 @@
         "buttons_qCrjDc": {
           "type": "buttons",
           "settings": {
-            "button_label_1": "Button label",
+            "button_label_1": "Sing Up Now",
             "button_link_1": "",
             "button_style_secondary_1": false,
-            "button_label_2": "Button label",
+            "button_label_2": "",
             "button_link_2": "",
-            "button_style_secondary_2": false
+            "button_style_secondary_2": true
           }
         }
       },
@@ -83,9 +83,10 @@
         "buttons_qCrjDc"
       ],
       "settings": {
+        "image": "shopify:\/\/shop_images\/affilate_banner.jpg",
         "image_overlay_opacity": 0,
-        "image_height": "small",
-        "adapt_height_first_image": false,
+        "image_height": "medium",
+        "adapt_height_first_image": true,
         "desktop_content_position": "middle-center",
         "show_text_box": true,
         "desktop_content_alignment": "center",
