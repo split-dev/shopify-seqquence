@@ -101,6 +101,137 @@
         "case_dimensions": "Mockup on this page is for visual purpose only. Real print will depend on your choice of smartphone brand and model."
       }
     },
+    "rich_text_grnzzb": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_nfxAxx": {
+          "type": "heading",
+          "settings": {
+            "heading": "<p>Average Rating For Similar Products is: ⭐⭐⭐⭐⭐<\/p>",
+            "heading_size": "h1"
+          }
+        }
+      },
+      "block_order": [
+        "heading_nfxAxx"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-1",
+        "full_width": true,
+        "padding_top": 0,
+        "padding_bottom": 56
+      }
+    },
+    "image_with_text_BwDFyr": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_VWYEBF": {
+          "type": "heading",
+          "settings": {
+            "heading": "Alex Johnson, Austin, Texas",
+            "heading_size": "h2"
+          }
+        },
+        "text_kDYt7P": {
+          "type": "text",
+          "settings": {
+            "text": "<p>I'm loving my new AI T-shirt! It's got a unique design that stands out, and the quality is top-notch. The material feels great and has stayed vibrant after many washes. Highly recommend Artificial Printer!<\/p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_VWYEBF",
+        "text_kDYt7P"
+      ],
+      "settings": {
+        "image": "shopify:\/\/shop_images\/2_140e75cd-7cda-45d9-b215-46a54fac63eb.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "center",
+        "content_layout": "no-overlap",
+        "color_scheme": "background-1",
+        "mobile_content_alignment": "center",
+        "padding_top": 8,
+        "padding_bottom": 8
+      }
+    },
+    "image_with_text_pyQwFc": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_Y4fWXy": {
+          "type": "heading",
+          "settings": {
+            "heading": "Elara Jennings, Olympia, Washington",
+            "heading_size": "h2"
+          }
+        },
+        "text_K3Xg8N": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Absolutely in love with my new AI-crafted T-shirt! The design is a brilliant fusion of art and technology, striking a perfect balance between avant-garde and wearable. The fabric feels like a second skin. This store a compelling must-have for those who appreciate a touch of the extraordinary in their daily attire.<\/p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_Y4fWXy",
+        "text_K3Xg8N"
+      ],
+      "settings": {
+        "image": "shopify:\/\/shop_images\/4.8_1.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "center",
+        "content_layout": "no-overlap",
+        "color_scheme": "background-1",
+        "mobile_content_alignment": "center",
+        "padding_top": 8,
+        "padding_bottom": 8
+      }
+    },
+    "image_with_text_UrKbnw": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_yVmJ7V": {
+          "type": "heading",
+          "settings": {
+            "heading": "Taj Monroe, Miami, Florida:",
+            "heading_size": "h2"
+          }
+        },
+        "text_Xg7gqR": {
+          "type": "text",
+          "settings": {
+            "text": "<p>The AI-designed T-shirt I recently got from Artificial Printer is nothing short of a masterpiece. The design pulsates with the vibrant energy and colors The craftsmanship is impeccable, with the fabric maintaining its integrity and color saturation even after numerous encounters with the Floridian sun and sea spray. <\/p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_yVmJ7V",
+        "text_Xg7gqR"
+      ],
+      "settings": {
+        "image": "shopify:\/\/shop_images\/3.jpg",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "center",
+        "content_layout": "no-overlap",
+        "color_scheme": "background-1",
+        "mobile_content_alignment": "center",
+        "padding_top": 8,
+        "padding_bottom": 8
+      }
+    },
     "product-recommendations": {
       "type": "product-recommendations",
       "settings": {
@@ -117,47 +248,14 @@
         "padding_top": 8,
         "padding_bottom": 8
       }
-    },
-    "image_with_text_7L4VPW": {
-      "type": "image-with-text",
-      "blocks": {
-        "heading_EKXMDP": {
-          "type": "heading",
-          "settings": {
-            "heading": "Why Customers choose us?⭐⭐⭐⭐⭐",
-            "heading_size": "h1"
-          }
-        },
-        "text_mKQJtt": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Our store stands out for innovative AI customization, ensuring unparalleled clothing quality and designs. Each AI T-Shirt, Hoodie or Smartphone case made by Artificial Printer is a unique expression of personal style!<\/p>",
-            "text_style": "body"
-          }
-        }
-      },
-      "block_order": [
-        "heading_EKXMDP",
-        "text_mKQJtt"
-      ],
-      "settings": {
-        "image": "shopify:\/\/shop_images\/thousands_of_happy_customers.jpg",
-        "height": "adapt",
-        "desktop_image_width": "medium",
-        "layout": "image_first",
-        "desktop_content_position": "middle",
-        "desktop_content_alignment": "center",
-        "content_layout": "no-overlap",
-        "color_scheme": "background-1",
-        "mobile_content_alignment": "center",
-        "padding_top": 8,
-        "padding_bottom": 84
-      }
     }
   },
   "order": [
     "main",
-    "product-recommendations",
-    "image_with_text_7L4VPW"
+    "rich_text_grnzzb",
+    "image_with_text_BwDFyr",
+    "image_with_text_pyQwFc",
+    "image_with_text_UrKbnw",
+    "product-recommendations"
   ]
 }
